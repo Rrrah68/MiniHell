@@ -50,12 +50,15 @@ t_token	*handle_double_quote(t_token *quote_start)
 {
 	t_token	*current;
 
+	if (!quote_start)
+		return (NULL);
 	current = quote_start->next;
 	mark_quote_content(current);
 	while (current && !(current->c == '"' && current->type == SYMBOL))
 		current = current->next;
 	return (find_closing_double_quote(current));
 }
+
 
 /* gere l'expansion des variables numeriques ($0, $1, etc) */
 t_token	*handle_numeric_variable(t_token *dollar, t_token *next, t_data *data)

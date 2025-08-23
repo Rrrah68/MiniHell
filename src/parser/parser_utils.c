@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "minishell.h"
 
 void	*free_cmd_list(t_cmd *cmd)
 {
@@ -37,9 +38,10 @@ void	*free_cmd_list(t_cmd *cmd)
 
 t_cmd	*parser_error(t_cmd *cmds, const char *msg)
 {
+	(void)cmds;
 	if (msg)
 		ft_putstr_fd((char *)msg, 2);
-	free_cmd_list(cmds);
+	g_exit_status = 2;
 	return (NULL);
 }
 
@@ -60,30 +62,28 @@ int	handle_heredoc_parser(t_token **tok, t_cmd *cur)
 
 int	handle_redir(t_token **tok, t_cmd *cur)
 {
-	int		append;
-	t_token	*next;
+	t_token	*op;
+	t_token	*file;
 
-	append = ((*tok)->type == REDIRECT_APPEND);
-	next = (*tok)->next;
-	if (!next || next->type != WORD)
+	op = *tok;
+	if (!op)
 		return (0);
-	*tok = next;
-	if ((*tok)->type == REDIRECT_HEREDOC)
-	{
-		if (!handle_heredoc_parser(tok, cur))
-			return (0);
-	}
-	if (append || (*tok)->type == REDIRECT_OUT)
-	{
-		free(cur->outfile);
-		cur->outfile = ft_strdup(next->str);
-		cur->append = append;
-	}
-	else
-	{
-		free(cur->infile);
-		cur->infile = ft_strdup(next->str);
-	}
+	if (op->type != REDIRECT_IN && op->type != REDIRECT_OUT
+		&& op->type != REDIRECT_APPEND && op->type != HEREDOC)
+		return (0);
+	file = op->next;
+	while (file && file->type == WHITESPACE)
+		file = file->next;
+	if (!file || file->type != WORD || !file->str)
+		return (0);
+
+	/* Enregistre la redirection (remplace par ta fonction) */
+	if (!cmd_add_redir(cur, op->type, file->str))
+		return (0);
+
+	/* IMPORTANT : Consommer jusqu’au filename.
+	   La boucle extérieure fera ensuite tok = tok->next. */
+	*tok = file;
 	return (1);
 }
 

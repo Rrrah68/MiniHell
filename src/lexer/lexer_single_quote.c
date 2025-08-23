@@ -17,6 +17,8 @@ t_token	*handle_single_quote(t_token *quote_start)
 {
 	t_token	*current;
 
+	if (!quote_start)
+		return (NULL);
 	current = quote_start->next;
 	while (current && !(current->c == '\'' && current->type == SYMBOL))
 	{
@@ -29,13 +31,8 @@ t_token	*handle_single_quote(t_token *quote_start)
 		current->type = SINGLE_QUOTE;
 		if (current->next)
 			return (current->next);
-		else
-			return (current);
+		return (current);
 	}
-	else if (!current)
-	{
-		ft_putstr_fd("Error: Unclosed single quote\n", 2);
-		return (NULL);
-	}
-	return (current);
+	ft_putstr_fd("Error: Unclosed single quote\n", 2);
+	return (NULL);
 }

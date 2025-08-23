@@ -56,6 +56,7 @@ char	*get_type(t_token_type type)
 }
 
 volatile sig_atomic_t g_signal_status = 0;
+int		 g_exit_status = 0;
 
 int	main(int ac, char **av, char **envp)
 {

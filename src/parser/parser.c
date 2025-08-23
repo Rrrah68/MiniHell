@@ -70,7 +70,10 @@ t_cmd	*parse_token(t_token *lexer)
 	while (tok)
 	{
 		if (!process_token(&tok, &cmds, &cur))
+		{
+			free_cmd_list(cmds);
 			return (NULL);
+		}
 		tok = tok->next;
 	}
 	return (cmds);

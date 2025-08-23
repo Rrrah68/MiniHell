@@ -43,6 +43,7 @@ typedef enum e_token_type
 	REDIRECT_OUT,
 	REDIRECT_APPEND,
 	REDIRECT_HEREDOC,
+	HEREDOC,
 	OSEF,
 }								t_token_type;
 
@@ -101,6 +102,7 @@ typedef enum e_builtin
 }								t_builtin;
 
 extern volatile sig_atomic_t	g_signal_status;
+extern int						g_exit_status;
 
 void							free_tokens(t_token *head);
 void							get_prompt(t_data *data);

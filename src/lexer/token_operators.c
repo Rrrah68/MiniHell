@@ -49,6 +49,12 @@ void	handle_operators(t_data *data)
 	current = data->lexer;
 	while (current && current->next)
 	{
+		/* Ne jamais fusionner << / >> si l'un des deux est dans des quotes */
+		if (current->in_quotes == 1 || current->next->in_quotes == 1)
+		{
+			current = current->next;
+			continue ;
+		}
 		if (current->c == '>' && current->next->c == '>'
 			&& current->type == SYMBOL && current->next->type == SYMBOL)
 			handle_append_redirect(current);
@@ -60,17 +66,25 @@ void	handle_operators(t_data *data)
 	}
 }
 
-/* traite les operateurs simples (pipe, redirection) */
 void	handle_single_operators(t_data *data)
 {
-	t_token	*current;
+	t_token	*t;
 
 	if (!data || !data->lexer)
 		return ;
-	current = data->lexer;
-	while (current)
+	t = data->lexer;
+	while (t)
 	{
-		handle_single_operator_type(current);
-		current = current->next;
+		if (t->in_quotes == 0 && t->type == SYMBOL)
+		{
+			if (t->c == '<')
+				t->type = REDIRECT_IN;
+			else if (t->c == '>')
+				t->type = REDIRECT_OUT;
+			else if (t->c == '|')
+				t->type = PIPE;
+		}
+		t = t->next;
 	}
 }
+
