@@ -36,23 +36,25 @@ int	builtin_exit(char **args)
 {
 	int	status;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	/* aucun argument -> quitte 0 */
 	if (!args[1])
-	{
 		exit(0);
-	}
-	if (args[2])
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-		return (1);
-	}
+
+	/* si le 1er arg N'EST PAS numérique -> message exact + exit 2 */
 	if (!is_numeric(args[1]))
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(args[1], STDERR_FILENO);
-		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+		ft_putstr_fd(" numeric argument required\n", STDERR_FILENO);
 		exit(2);
 	}
+
+	/* ici le 1er arg est numérique ; s'il y a un 2e arg -> erreur bash */
+	if (args[2])
+	{
+		ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+
+	/* un seul arg numérique -> quitter avec (arg & 255) */
 	status = ft_atoi(args[1]);
 	exit(status & 255);
 }

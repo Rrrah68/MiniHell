@@ -20,17 +20,15 @@ static void	print_exported_vars(t_env *env_list)
 	while (current)
 	{
 		if (current->value)
-		{
 			ft_printf("declare -x %s=\"%s\"\n", current->key, current->value);
-		}
 		else
-		{
 			ft_printf("declare -x %s\n", current->key);
-		}
 		current = current->next;
 	}
 }
 
+/* Renvoie 1 si un '=' a ete trouve, sinon 0.
+** Modifie temporairement arg si '=' present (le restaure a l'appelant). */
 static int	parse_export_arg(char *arg, char **name, char **value)
 {
 	char	*equal_pos;
@@ -43,19 +41,16 @@ static int	parse_export_arg(char *arg, char **name, char **value)
 		*value = equal_pos + 1;
 		return (1);
 	}
-	else
-	{
-		*name = arg;
-		*value = NULL;
-		return (0);
-	}
+	*name = arg;
+	*value = NULL;
+	return (0);
 }
 
+/* Identifiant valide : [A-Za-z_][A-Za-z0-9_]* */
 static int	is_valid_identifier(char *name)
 {
 	int	i;
 
-	i = 0;
 	if (!name || !name[0])
 		return (0);
 	if (!ft_isalpha(name[0]) && name[0] != '_')
@@ -70,30 +65,36 @@ static int	is_valid_identifier(char *name)
 	return (1);
 }
 
+/* Traite un argument d'export ; renvoie 0 si ok, 1 si erreur.
+** Met data->exit_status = 1 en cas d'identifiant invalide. */
 static int	process_export_argument(char *arg, t_data *data)
 {
 	char	*name;
 	char	*value;
+	int		had_equal;
 
-	if (!parse_export_arg(arg, &name, &value))
-		return (0);
+	had_equal = parse_export_arg(arg, &name, &value);
+	/* Toujours valider le nom, meme s'il n'y a pas de '=' */
 	if (!is_valid_identifier(name))
 	{
-		ft_putstr_fd("export: `", STDERR_FILENO);
+		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 		ft_putstr_fd(name, STDERR_FILENO);
 		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-		if (value)
+		if (had_equal && value)
 			*(value - 1) = '=';
+		data->exit_status = 1;
 		return (1);
 	}
-	if (value)
+	/* Ajout / mise a jour de la variable */
+	if (had_equal && value)
 	{
-		add_env_var(&data->env, name, value);
+		add_env_var(&data->env, ft_strdup(name), ft_strdup(value));
 		*(value - 1) = '=';
 	}
 	else
 	{
-		add_env_var(&data->env, name, "");
+		/* export VAR : creer/mettre a jour VAR "" dans l'environnement */
+		add_env_var(&data->env, ft_strdup(name), ft_strdup(""));
 	}
 	return (0);
 }
@@ -102,21 +103,26 @@ int	builtin_export(char **args, t_data *data)
 {
 	int	i;
 	int	result;
+	int	err;
 
 	if (!args || !data)
 		return (1);
 	if (!args[1])
 	{
 		print_exported_vars(data->env);
+		data->exit_status = 0;
 		return (0);
 	}
 	i = 1;
 	result = 0;
 	while (args[i])
 	{
-		if (process_export_argument(args[i], data) == 1)
+		err = process_export_argument(args[i], data);
+		if (err == 1)
 			result = 1;
 		i++;
 	}
+	/* Bash retourne 1 s'il y a eu au moins une erreur d'identifiant */
+	data->exit_status = result;
 	return (result);
 }
