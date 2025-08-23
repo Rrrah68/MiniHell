@@ -1,0 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_helpers_2.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 17:10:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/08/22 18:07:34 by mobullad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	handle_quote_removal(t_token *word)
+{
+	char	*new_str;
+
+	new_str = ft_substr(word->str, 1, ft_strlen(word->str) - 2);
+	free(word->str);
+	word->str = new_str;
+}
+
+void	remove_double_dollars(t_token *word)
+{
+	int		i;
+	char	*new_str;
+
+	i = 0;
+	while (word->str[i])
+	{
+		if (word->str[i] == '$' && word->str[i + 1] && word->str[i + 1] == '$')
+		{
+			i += 2;
+			new_str = ft_substr(word->str, 0, i - 2);
+			new_str = ft_strjoin_f1(new_str, word->str + i);
+			free(word->str);
+			word->str = new_str;
+			i = 0;
+		}
+		else
+			i++;
+	}
+}

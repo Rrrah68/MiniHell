@@ -1,0 +1,2 @@
+export test="HELLOOOOOOOOO    WOOOOOOOORLD"
+$test
