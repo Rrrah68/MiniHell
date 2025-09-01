@@ -91,18 +91,32 @@ void	redirect_and_close(int old_fd, int new_fd)
 
 void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)
 {
-	char	*program_path;
-	char	**env_array;
-	t_env	*env;
+	char		*program_path;
+	char		**env_array;
+	t_env		*env;
+	t_builtin	bi;
+	int			ret;
+
+	/* Enfant : signaux par défaut, pour SIGPIPE & co */
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
 
 	redirect_and_close(in_fd, STDIN_FILENO);
 	redirect_and_close(out_fd, STDOUT_FILENO);
 	if (setup_redirections(cmd) == -1)
-		exit(1);
-	if (data)
-		env = data->env;
-	else
-		env = NULL;
+		_exit(1);
+
+	/* 🔹 Builtins dans un pipeline : exécution directe dans l'enfant */
+	bi = get_builtin(cmd->argv[0]);
+	if (bi != BI_NONE)
+	{
+		ret = exec_builtin(bi, cmd->argv, data);
+		_exit(ret);
+	}
+
+	/* 🔹 Sinon : programme externe */
+	env = data ? data->env : NULL;
 	program_path = find_program_path(cmd->argv[0], env);
 	if (!program_path)
 		program_path = ft_strdup(cmd->argv[0]);
@@ -111,5 +125,5 @@ void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)
 	perror("execve");
 	free(program_path);
 	ft_free_tab(env_array);
-	exit(127);
+	_exit(127);
 }

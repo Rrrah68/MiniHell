@@ -87,6 +87,12 @@ typedef struct s_cmd
 	int							heredoc_fd;
 	int							append;
 	struct s_cmd				*next;
+	int							in_precheck_failed;
+	int							in_precheck_errno;
+	char						*in_precheck_target;	
+	int							out_precheck_failed;
+	int							out_precheck_errno;
+	char						*out_precheck_target;
 }								t_cmd;
 
 typedef enum e_builtin

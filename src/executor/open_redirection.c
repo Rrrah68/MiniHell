@@ -17,11 +17,6 @@ int	open_infile(char *infile)
 	int	fd;
 
 	fd = open(infile, O_RDONLY);
-	if (fd == -1)
-	{
-		perror(infile);
-		return (-1);
-	}
 	return (fd);
 }
 

@@ -39,7 +39,6 @@ void	remove_quote_token(t_data *data)
 	}
 }
 
-/* traite les operateurs de redirection doubles */
 void	handle_operators(t_data *data)
 {
 	t_token	*current;
@@ -49,23 +48,22 @@ void	handle_operators(t_data *data)
 	current = data->lexer;
 	while (current && current->next)
 	{
-		/* Ne jamais fusionner << / >> si l'un des deux est dans des quotes */
-		if (current->in_quotes == 1 || current->next->in_quotes == 1)
+		/* Ne jamais fusionner << / >> si un des deux est entre guillemets
+		   OU si un des deux n'est pas un symbole isolé */
+		if (current->in_quotes == 1 || current->next->in_quotes == 1
+			|| current->type != SYMBOL || current->next->type != SYMBOL)
 		{
 			current = current->next;
 			continue ;
 		}
-		if (current->c == '>' && current->next->c == '>'
-			&& current->type == SYMBOL && current->next->type == SYMBOL)
+		if (current->c == '>' && current->next->c == '>')
 			handle_append_redirect(current);
-		else if (current->c == '<' && current->next->c == '<'
-			&& current->type == SYMBOL && current->next->type == SYMBOL)
+		else if (current->c == '<' && current->next->c == '<')
 			handle_heredoc_redirect(current);
 		else
 			current = current->next;
 	}
 }
-
 void	handle_single_operators(t_data *data)
 {
 	t_token	*t;
@@ -78,13 +76,21 @@ void	handle_single_operators(t_data *data)
 		if (t->in_quotes == 0 && t->type == SYMBOL)
 		{
 			if (t->c == '<')
+			{
 				t->type = REDIRECT_IN;
+				t->str = NULL; /* <-- important */
+			}
 			else if (t->c == '>')
+			{
 				t->type = REDIRECT_OUT;
+				t->str = NULL; /* <-- important */
+			}
 			else if (t->c == '|')
+			{
 				t->type = PIPE;
+				t->str = NULL; /* <-- important */
+			}
 		}
 		t = t->next;
 	}
 }
-

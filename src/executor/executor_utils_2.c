@@ -64,7 +64,13 @@ int	handle_builtin_child(t_builtin bi, char **argv, t_data *data)
 	backup_fds(&in_backup, &out_backup);
 	pid = fork_or_exit();
 	if (pid == 0)
-		exit(exec_builtin(bi, argv, data));
+	{
+		/* Enfant du builtin : restaurer le comportement par défaut des signaux */
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGPIPE, SIG_DFL);
+		_exit(exec_builtin(bi, argv, data));
+	}
 	waitpid(pid, &status, 0);
 	restore_fds(in_backup, out_backup);
 	return (WEXITSTATUS(status));
