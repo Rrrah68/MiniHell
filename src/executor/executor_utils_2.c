@@ -65,7 +65,6 @@ int	handle_builtin_child(t_builtin bi, char **argv, t_data *data)
 	pid = fork_or_exit();
 	if (pid == 0)
 	{
-		/* Enfant du builtin : restaurer le comportement par défaut des signaux */
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGPIPE, SIG_DFL);

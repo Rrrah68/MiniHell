@@ -53,6 +53,7 @@ SRC = main.c \
 	src/executor/executor_utils.c \
 	src/executor/executor_utils_2.c \
 	src/executor/executor_utils_3.c \
+	src/executor/exec_utils_4.c \
 	src/executor/handle_redirection.c \
 	src/executor/handle_heredoc.c \
 	src/executor/open_redirection.c \

@@ -38,6 +38,7 @@ void	remove_quote_token(t_data *data)
 		}
 	}
 }
+// J'ai change quelques bails ici et sur les handle_double_operator et single_operator 
 
 void	handle_operators(t_data *data)
 {

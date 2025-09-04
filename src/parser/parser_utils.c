@@ -11,14 +11,11 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "minishell.h"
-
 
 static void	ms_precheck_infile(t_cmd *cur, const char *path)
 {
 	int	fd;
 
-	/* si déjà une erreur mémorisée, ne rien faire (on veut la 1ère) */
 	if (cur->in_precheck_failed)
 		return ;
 	fd = open(path, O_RDONLY);
@@ -55,62 +52,66 @@ static void	ms_precheck_outfile(t_cmd *cur, const char *path, int do_append)
 	close(fd);
 }
 
-/* … ton cmd_add_redir existant, en ajoutant ceci pour les sorties … */
-static int	cmd_add_redir(t_cmd *cur, t_token_type type, char *str)
+static int	ms_replace_str(char **dst, const char *src)
 {
 	char	*dup;
 
+	dup = ft_strdup(src);
+	if (!dup)
+		return (0);
+	if (*dst)
+		free(*dst);
+	*dst = dup;
+	return (1);
+}
+
+static int	cmd_set_infile(t_cmd *cur, const char *str)
+{
+	ms_precheck_infile(cur, str);
+	if (!ms_replace_str(&cur->infile, str))
+		return (0);
+	if (cur->heredoc_limiter)
+	{
+		free(cur->heredoc_limiter);
+		cur->heredoc_limiter = NULL;
+	}
+	return (1);
+}
+
+static int	cmd_set_outfile(t_cmd *cur, const char *str, int append)
+{
+	ms_precheck_outfile(cur, str, append);
+	if (!ms_replace_str(&cur->outfile, str))
+		return (0);
+	if (append)
+		cur->append = 1;
+	else
+		cur->append = 0;
+	return (1);
+}
+
+static int	cmd_set_heredoc_limiter(t_cmd *cur, const char *str)
+{
+	if (!ms_replace_str(&cur->heredoc_limiter, str))
+		return (0);
+	if (cur->infile)
+	{
+		free(cur->infile);
+		cur->infile = NULL;
+	}
+	return (1);
+}
+
+static int	cmd_add_redir(t_cmd *cur, t_token_type type, char *str)
+{
 	if (!cur || !str)
 		return (0);
 	if (type == REDIRECT_IN)
-	{
-		/* (tu as déjà ms_precheck_infile dans mes patches précédents) */
-		ms_precheck_infile(cur, str);
-		dup = ft_strdup(str);
-		if (!dup)
-			return (0);
-		if (cur->infile)
-			free(cur->infile);
-		cur->infile = dup;
-		if (cur->heredoc_limiter)
-		{
-			free(cur->heredoc_limiter);
-			cur->heredoc_limiter = NULL;
-		}
-		return (1);
-	}
+		return (cmd_set_infile(cur, str));
 	if (type == REDIRECT_OUT || type == REDIRECT_APPEND)
-	{
-		/* NEW: effets de bord immédiats, comme Bash */
-		ms_precheck_outfile(cur, str, (type == REDIRECT_APPEND));
-
-		dup = ft_strdup(str);
-		if (!dup)
-			return (0);
-		if (cur->outfile)
-			free(cur->outfile);
-		cur->outfile = dup;
-		if (type == REDIRECT_APPEND)
-			cur->append = 1;
-		else
-			cur->append = 0;
-		return (1);
-	}
+		return (cmd_set_outfile(cur, str, (type == REDIRECT_APPEND)));
 	if (type == HEREDOC)
-	{
-		dup = ft_strdup(str);
-		if (!dup)
-			return (0);
-		if (cur->heredoc_limiter)
-			free(cur->heredoc_limiter);
-		cur->heredoc_limiter = dup;
-		if (cur->infile)
-		{
-			free(cur->infile);
-			cur->infile = NULL;
-		}
-		return (1);
-	}
+		return (cmd_set_heredoc_limiter(cur, str));
 	return (0);
 }
 
@@ -173,39 +174,29 @@ int	handle_redir(t_token **tok, t_cmd *cur)
 	op = *tok;
 	if (!op)
 		return (0);
-
-	/* ⛑ ne PAS traiter comme redirection si c’était dans des quotes
-	   ou si ce n’est pas un opérateur standalone (str doit être NULL) */
 	if (op->in_quotes == 1 || op->str != NULL)
 		return (0);
-
 	if (op->type != REDIRECT_IN && op->type != REDIRECT_OUT
 		&& op->type != REDIRECT_APPEND && op->type != HEREDOC)
 		return (0);
-
 	file = op->next;
 	while (file && file->type == WHITESPACE)
 		file = file->next;
 	if (!file || file->type != WORD || !file->str)
 		return (0);
-
 	if (!cmd_add_redir(cur, op->type, file->str))
 		return (0);
-
 	*tok = file;
 	return (1);
 }
 
 int	handle_pipe(t_cmd **cmds, t_cmd **cur, t_token *tok)
 {
-	/* tok pointe sur le token PIPE. On veut s'assurer qu'il y a quelque chose après */
 	if (!tok || !tok->next || tok->next->type == PIPE)
 		return (0);
-
 	*cur = create_cmd();
 	if (!*cur)
 		return (-1);
-
 	add_cmd(cmds, *cur);
 	return (1);
 }

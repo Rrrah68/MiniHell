@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char	*check_path_directories(char **paths, char *program)
+char	*check_path_directories(char **paths, char *program)
 {
 	char	*full_path;
 	char	*temp;
@@ -59,37 +59,18 @@ char	*find_program_path(char *program, t_env *env)
 	return (result);
 }
 
-int	setup_pipe_fd(t_cmd *cmd, int p[2], int *out_fd)
+static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd)
 {
-	if (cmd->next)
-	{
-		if (pipe(p) == -1)
-		{
-			perror("pipe");
-			return (-1);
-		}
-		*out_fd = p[1];
-	}
-	else
-	{
-		*out_fd = STDOUT_FILENO;
-	}
-	return (0);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
+	redirect_and_close(in_fd, STDIN_FILENO);
+	redirect_and_close(out_fd, STDOUT_FILENO);
+	if (setup_redirections(cmd) == -1)
+		_exit(1);
 }
 
-void	redirect_and_close(int old_fd, int new_fd)
-{
-	if (dup2(old_fd, new_fd) == -1)
-	{
-		exit(1);
-	}
-	if (old_fd != new_fd)
-	{
-		close(old_fd);
-	}
-}
-
-void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)
+static void	child_run_exec(t_data *data, t_cmd *cmd)
 {
 	char		*program_path;
 	char		**env_array;
@@ -97,26 +78,15 @@ void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)
 	t_builtin	bi;
 	int			ret;
 
-	/* Enfant : signaux par défaut, pour SIGPIPE & co */
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGPIPE, SIG_DFL);
-
-	redirect_and_close(in_fd, STDIN_FILENO);
-	redirect_and_close(out_fd, STDOUT_FILENO);
-	if (setup_redirections(cmd) == -1)
-		_exit(1);
-
-	/* 🔹 Builtins dans un pipeline : exécution directe dans l'enfant */
 	bi = get_builtin(cmd->argv[0]);
 	if (bi != BI_NONE)
 	{
 		ret = exec_builtin(bi, cmd->argv, data);
 		_exit(ret);
 	}
-
-	/* 🔹 Sinon : programme externe */
-	env = data ? data->env : NULL;
+	env = NULL;
+	if (data)
+		env = data->env;
 	program_path = find_program_path(cmd->argv[0], env);
 	if (!program_path)
 		program_path = ft_strdup(cmd->argv[0]);
@@ -126,4 +96,10 @@ void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)
 	free(program_path);
 	ft_free_tab(env_array);
 	_exit(127);
+}
+
+void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)
+{
+	child_setup_io_and_redirs(cmd, in_fd, out_fd);
+	child_run_exec(data, cmd);
 }

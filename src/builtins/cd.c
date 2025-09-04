@@ -37,61 +37,69 @@ char	*resolve_target(char **argv, t_data *data)
 	return (argv[1]);
 }
 
-static int	count_args(char **args)
+static int	cd_validate_and_prepare(char **args, t_data *data,
+				char oldcwd[PATH_MAX], int *argc)
 {
 	int	i;
 
+	if (!args || !data)
+		return (1);
 	i = 0;
 	while (args && args[i])
 		i++;
-	return (i);
-}
-
-int	builtin_cd(char **args, t_data *data)
-{
-	char	*target_dir;
-	char	oldcwd[PATH_MAX];
-	char	newcwd[PATH_MAX];
-	int		argc;
-
-	if (!args || !data)
-		return (1);
-	/* 1) Refuser >1 argument (après expansion) comme bash */
-	argc = count_args(args);
-	if (argc > 2)
+	*argc = i;
+	if (*argc > 2)
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		data->exit_status = 1;
 		return (1);
 	}
-	/* 2) Sauvegarder OLDPWD avant chdir */
 	if (get_oldcwd(oldcwd) != 0)
 	{
 		data->exit_status = 1;
 		return (1);
 	}
-	/* 3) Résoudre la cible (HOME, ~, chaîne vide, etc.) */
-	target_dir = resolve_target(args, data);
-	if (target_dir == NULL)
-	{
-		data->exit_status = 1;
-		return (1);
-	}
-	/* 4) Tenter le chdir ; message d'erreur au format bash-like */
+	return (0);
+}
+
+
+static int	cd_change_and_update_env(t_data *data, const char *target_dir,
+				const char oldcwd[PATH_MAX])
+{
+	char	newcwd[PATH_MAX];
+
 	if (chdir(target_dir) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(target_dir, 2);
+		ft_putstr_fd((char *)target_dir, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
 		data->exit_status = 1;
 		return (1);
 	}
-	/* 5) Mettre à jour OLDPWD et PWD après succès */
 	add_env_var(&data->env, ft_strdup("OLDPWD"), ft_strdup(oldcwd));
 	if (getcwd(newcwd, PATH_MAX) != NULL)
 		add_env_var(&data->env, ft_strdup("PWD"), ft_strdup(newcwd));
+	return (0);
+}
+
+int	builtin_cd(char **args, t_data *data)
+{
+	char	*target_dir;
+	char	oldcwd[PATH_MAX];
+	int		argc;
+
+	if (cd_validate_and_prepare(args, data, oldcwd, &argc))
+		return (1);
+	target_dir = resolve_target(args, data);
+	if (target_dir == NULL)
+	{
+		data->exit_status = 1;
+		return (1);
+	}
+	if (cd_change_and_update_env(data, target_dir, oldcwd))
+		return (1);
 	data->exit_status = 0;
 	return (0);
 }

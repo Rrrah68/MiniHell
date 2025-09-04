@@ -12,8 +12,15 @@
 
 #include "minishell.h"
 
-#include <errno.h>
-#include <string.h> /* strerror */
+static int	ms_print_file_error(const char *path, int err)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(err), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	return (-1);
+}
 
 int	handle_infile(char *infile)
 {
@@ -22,25 +29,12 @@ int	handle_infile(char *infile)
 
 	fd = open(infile, O_RDONLY);
 	if (fd < 0)
-	{
-		err = errno;
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(infile, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(strerror(err), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		return (-1);
-	}
+		return ms_print_file_error(infile, errno);
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		err = errno;
 		close(fd);
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(infile, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(strerror(err), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		return (-1);
+		return ms_print_file_error(infile, err);
 	}
 	close(fd);
 	return (0);
@@ -65,24 +59,11 @@ int	handle_outfile(char *outfile, int append)
 	return (0);
 }
 
-static int	ms_print_file_error(const char *path, int err)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd((char *)path, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd((char *)strerror(err), STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	return (-1);
-}
-
 int	setup_redirections(t_cmd *cmd)
 {
-	/* Entrées : si une erreur avait été vue plus tôt, stop */
 	if (cmd->in_precheck_failed && cmd->in_precheck_target)
 		return (ms_print_file_error(cmd->in_precheck_target,
 				cmd->in_precheck_errno));
-
-	/* SORTIE : idem, stoppe et renvoie -1 (exit 1 ensuite) */
 	if (cmd->out_precheck_failed && cmd->out_precheck_target)
 		return (ms_print_file_error(cmd->out_precheck_target,
 				cmd->out_precheck_errno));

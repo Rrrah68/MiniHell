@@ -267,6 +267,7 @@ void							exec_child(t_data *data, t_cmd *cmd, int in_fd,
 void							wait_children(void);
 void							backup_fds(int *in_backup, int *out_backup);
 void							restore_fds(int in_backup, int out_backup);
+char							*check_path_directories(char **paths, char *program);
 
 /************** BUILTINS **************/
 t_builtin						get_builtin(const char *cmd);

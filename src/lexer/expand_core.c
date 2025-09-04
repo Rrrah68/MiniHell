@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-/* fonction principale d'expansion des variables */
 void	expand_var(t_data *data)
 {
 	int	found_expansion;
@@ -27,7 +26,6 @@ void	expand_var(t_data *data)
 	merge_adjacent_words(data);
 }
 
-/* gere les changements d'etat des guillemets */
 static t_token	*handle_quote_tokens(t_token *current, int *in_single_quotes,
 		int *in_double_quotes)
 {

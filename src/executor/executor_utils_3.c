@@ -24,62 +24,64 @@ void	wait_children(void)
 	}
 }
 
+static int	setup_and_fork(t_cmd *cmd, int in_fd, int p[2],
+				int *out_fd, pid_t *pid, t_data *data)
+{
+	if (cmd->next)
+	{
+		if (setup_pipe_fd(cmd, p, out_fd) == -1)
+			return (-1);
+	}
+	else
+		*out_fd = STDOUT_FILENO;
+	*pid = fork_or_exit();
+	if (*pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGPIPE, SIG_DFL);
+		if (cmd->next)
+			close(p[0]);
+		exec_child(data, cmd, in_fd, *out_fd);
+	}
+	return (0);
+}
+
+static int	parent_finalize(t_cmd *cmd, int in_fd, int p[2],
+				pid_t pid, t_data *data)
+{
+	int	status;
+
+	if (in_fd != STDIN_FILENO)
+		close(in_fd);
+	if (cmd->next)
+	{
+		close(p[1]);
+		return (p[0]);
+	}
+	if (waitpid(pid, &status, 0) == -1)
+		data->exit_status = 1;
+	else if (WIFEXITED(status))
+		data->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		data->exit_status = 128 + WTERMSIG(status);
+	else
+		data->exit_status = 1;
+	return (STDIN_FILENO);
+}
+
 int	process_cmd(t_cmd *cmd, int in_fd, t_data *data)
 {
 	int		p[2];
 	int		out_fd;
 	pid_t	pid;
 
-	if (cmd->next)
-	{
-		if (setup_pipe_fd(cmd, p, &out_fd) == -1)
-			return (-1);
-	}
-	else
-		out_fd = STDOUT_FILENO;
-
-	pid = fork_or_exit();
-	if (pid == 0)
-	{
-		/* enfant : s'assurer que SIGPIPE est par défaut
-		   (sinon pas de "Broken pipe" dans d'autres cas) */
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGPIPE, SIG_DFL);
-
-		/* si on écrit vers un pipe, on ne garde pas l'extrémité lecture */
-		if (cmd->next)
-			close(p[0]);
-
-		exec_child(data, cmd, in_fd, out_fd);
-	}
-
-	/* parent */
-	if (in_fd != STDIN_FILENO)
-		close(in_fd);
-
-	if (cmd->next)
-	{
-		/* parent : ne garde pas l'extrémité écriture */
-		close(p[1]);
-		/* passe la lecture au prochain maillon */
-		return (p[0]);
-	}
-	else
-	{
-		/* DERNIER maillon : attendre ce pid et récupérer SON status */
-		int status;
-
-		if (waitpid(pid, &status, 0) == -1)
-			data->exit_status = 1;
-		else if (WIFEXITED(status))
-			data->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			data->exit_status = 128 + WTERMSIG(status);
-		else
-			data->exit_status = 1;
-
-		/* la boucle appelera ensuite wait_children() pour les autres */
-		return (STDIN_FILENO);
-	}
+	if (setup_and_fork(cmd, in_fd, p, &out_fd, &pid, data) == -1)
+		return (-1);
+	return (parent_finalize(cmd, in_fd, p, pid, data));
 }
+
+
+
+
+

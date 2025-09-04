@@ -52,9 +52,7 @@ int	builtin_unset(char **args, t_data *data)
 			result = 1;
 		}
 		else
-		{
 			remove_env_var(&data->env, args[i]);
-		}
 		i++;
 	}
 	return (result);
