@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:31:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/19 20:40:14 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:59:42 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ static int	simplecmd_setup_and_builtins(t_cmd *cmd, t_data *data,
 		if (data)
 			data->exit_status = 1;
 		*status = 1;
+		return (1);
+	}
+	if (!cmd->argv || !cmd->argv[0] || !cmd->argv[0][0])
+	{
+		*status = 0;
 		return (1);
 	}
 	bi = get_builtin(cmd->argv[0]);
@@ -59,10 +64,18 @@ int	execute_simple_cmd(t_cmd *cmd, t_data *data)
 	int	out_backup;
 	int	status;
 
+	if (!cmd || !cmd->argv || !cmd->argv[0] || !cmd->argv[0][0])
+	{
+		if (data)
+			data->exit_status = 0;
+		return (0);
+	}
 	if (simplecmd_setup_and_builtins(cmd, data, &in_backup, &out_backup, &status))
 		return (status);
 	status = simplecmd_spawn_and_wait(cmd, data);
 	restore_fds(in_backup, out_backup);
+	if (data)
+		data->exit_status = status;
 	return (status);
 }
 

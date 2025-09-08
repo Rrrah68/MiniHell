@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 18:45:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:29:04 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:59:42 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	builtin_exit(char **args)
 	if (args[2])
 	{
 		ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
-		return (1);
+		exit(1);
 	}
 	status = ft_atoi(args[1]);
 	exit(status & 255);

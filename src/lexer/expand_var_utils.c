@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 19:30:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/20 19:25:12 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:49:18 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ char	*get_variable_value(char *dollar_pos, int *var_len, t_data *data)
 	var_start = dollar_pos + 1;
 	if (var_start && (var_start[0] == '$' || var_start[0] == '"'))
 		return (*var_len = -1, NULL);
+	if (var_start[0] == '?')
+	{
+		*var_len = 1;
+		return (ft_itoa(data->exit_status));
+	}
 	if (ft_isdigit(var_start[0]))
 	{
 		*var_len = 1;

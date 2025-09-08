@@ -6,13 +6,13 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:57:09 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:28:23 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:01:27 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*create_env_node(char *key, char *value)
+t_env	*create_env_node(const char *key, const char *value)
 {
 	t_env	*new_node;
 

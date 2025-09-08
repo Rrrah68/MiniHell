@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:17:46 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:34:58 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:01:27 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ static int	cd_change_and_update_env(t_data *data, const char *target_dir,
 		data->exit_status = 1;
 		return (1);
 	}
-	add_env_var(&data->env, ft_strdup("OLDPWD"), ft_strdup(oldcwd));
+	add_env_var(&data->env, "OLDPWD", oldcwd);
 	if (getcwd(newcwd, PATH_MAX) != NULL)
-		add_env_var(&data->env, ft_strdup("PWD"), ft_strdup(newcwd));
+		add_env_var(&data->env, "PWD", newcwd);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:45:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 17:27:51 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:01:27 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ char	*get_env_value(t_env *env, char *key)
 }
 
 // Ajoute ou modifie une variable d'environnement
-void	add_env_var(t_env **env, char *key, char *value)
+void	add_env_var(t_env **env, const char *key, const char *value)
 {
 	t_env	*current;
 	t_env	*new_node;
 
-	if (!env || !key || !value)
+	if (!env || !key)
 		return ;
 	current = *env;
 	while (current)

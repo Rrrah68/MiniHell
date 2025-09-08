@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:30:37 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:32:57 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:59:42 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**append_to_argv(char **argv, char *word)
 
 	i = 0;
 	len = 0;
-	if (!word)
+	if (!word || !word[0])
 		return (argv);
 	while (argv && argv[len])
 		len++;

@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:52:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:22:59 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:01:27 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -132,14 +133,14 @@ t_env							*copy_environment(char **envp);
 void							free_environment(t_env *env);
 char							*get_env_value(t_env *env, char *key);
 char							*get_env(char **envp, const char *name);
-void							add_env_var(t_env **env, char *key,
-									char *value);
+void							add_env_var(t_env **env, const char *key,
+									const char *value);
 void							remove_env_var(t_env **env, char *key);
 char							**env_to_array(t_env *env);
 int								count_env_vars(t_env *env);
 char							*create_env_string(t_env *current);
 char							*find_program_path(char *program, t_env *env);
-t_env							*create_env_node(char *key, char *value);
+t_env							*create_env_node(const char *key, const char *value);
 void							replace_and_remove_next(t_token *current,
 									t_token *to_remove, char *new_value);
 t_token							*handle_dollar_expansion(t_token *dollar,
@@ -213,7 +214,6 @@ void							handle_char_token(t_token **current,
 									t_token **prev);
 void							signal_handler(int sig);
 void							update_exit_status(t_data *data);
-/*test*/
 char							*ft_strjoin_three(char *s1, char *s2, char *s3);
 t_token							*handle_numeric_variable(t_token *dollar,
 									t_token *next, t_data *data);

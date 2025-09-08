@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:30:34 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:39:09 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 19:47:38 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static int	cmd_add_redir(t_cmd *cur, t_token_type type, char *str)
 		return (cmd_set_infile(cur, str));
 	if (type == REDIRECT_OUT || type == REDIRECT_APPEND)
 		return (cmd_set_outfile(cur, str, (type == REDIRECT_APPEND)));
-	if (type == HEREDOC)
+	if (type == REDIRECT_HEREDOC)
 		return (cmd_set_heredoc_limiter(cur, str));
 	return (0);
 }
@@ -133,7 +133,6 @@ void	*free_cmd_list(t_cmd *cmd)
 		free(cmd->infile);
 		free(cmd->outfile);
 		free(cmd->heredoc_limiter);
-		/* NEW */
 		free(cmd->in_precheck_target);
 		free(cmd->out_precheck_target);
 		free(cmd);
@@ -174,10 +173,10 @@ int	handle_redir(t_token **tok, t_cmd *cur)
 	op = *tok;
 	if (!op)
 		return (0);
-	if (op->in_quotes == 1 || op->str != NULL)
+	if (op->in_quotes == 1)
 		return (0);
 	if (op->type != REDIRECT_IN && op->type != REDIRECT_OUT
-		&& op->type != REDIRECT_APPEND && op->type != HEREDOC)
+		&& op->type != REDIRECT_APPEND && op->type != REDIRECT_HEREDOC)
 		return (0);
 	file = op->next;
 	while (file && file->type == WHITESPACE)

@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:31:06 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:31:07 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:59:42 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ms_print_file_error(const char *path, int err)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putstr_fd((char *)path, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(strerror(err), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
@@ -64,9 +64,6 @@ int	setup_redirections(t_cmd *cmd)
 	if (cmd->in_precheck_failed && cmd->in_precheck_target)
 		return (ms_print_file_error(cmd->in_precheck_target,
 				cmd->in_precheck_errno));
-	if (cmd->out_precheck_failed && cmd->out_precheck_target)
-		return (ms_print_file_error(cmd->out_precheck_target,
-				cmd->out_precheck_errno));
 
 	if (setup_heredoc(cmd) == -1)
 		return (-1);

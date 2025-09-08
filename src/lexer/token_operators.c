@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:26:45 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:33:13 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 19:47:38 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	remove_quote_token(t_data *data)
 		}
 	}
 }
-// J'ai change quelques bails ici et sur les handle_double_operator et single_operator 
 
 void	handle_operators(t_data *data)
 {
