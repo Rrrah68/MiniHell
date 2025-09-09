@@ -67,7 +67,7 @@ static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd)
 	redirect_and_close(in_fd, STDIN_FILENO);
 	redirect_and_close(out_fd, STDOUT_FILENO);
 	if (setup_redirections(cmd) == -1)
-		_exit(1);
+		exit(1);
 }
 
 static void	cleanup_and_exit(char *program_path, char **env_array, int exit_code)
@@ -76,7 +76,7 @@ static void	cleanup_and_exit(char *program_path, char **env_array, int exit_code
 		free(program_path);
 	if (env_array)
 		ft_free_tab(env_array);
-	_exit(exit_code);
+	exit(exit_code);
 }
 
 static void	print_exec_error_and_exit(char *cmd_name, char *program_path, char **env_array, int error_type)
@@ -86,7 +86,6 @@ static void	print_exec_error_and_exit(char *cmd_name, char *program_path, char *
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd_name, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
-	
 	if (error_type == ENOENT)
 	{
 		ft_putstr_fd("command not found\n", STDERR_FILENO);
@@ -94,7 +93,6 @@ static void	print_exec_error_and_exit(char *cmd_name, char *program_path, char *
 	}
 	else if (error_type == EACCES)
 	{
-		/* Check if it's a directory for EACCES error */
 		if (program_path && stat(program_path, &st) == 0 && S_ISDIR(st.st_mode))
 		{
 			ft_putstr_fd("Is a directory\n", STDERR_FILENO);
@@ -106,12 +104,12 @@ static void	print_exec_error_and_exit(char *cmd_name, char *program_path, char *
 			cleanup_and_exit(program_path, env_array, 126);
 		}
 	}
-	else if (error_type == -1) /* Special case for directory check */
+	else if (error_type == -1)
 	{
 		ft_putstr_fd("Is a directory\n", STDERR_FILENO);
 		cleanup_and_exit(program_path, env_array, 126);
 	}
-	else if (error_type == -2) /* Special case for command not found */
+	else if (error_type == -2)
 	{
 		ft_putstr_fd("command not found\n", STDERR_FILENO);
 		cleanup_and_exit(program_path, env_array, 127);
@@ -134,34 +132,26 @@ static void	child_run_exec(t_data *data, t_cmd *cmd)
 	int			has_slash;
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])
-		_exit(127);
+		exit(127);
 	bi = get_builtin(cmd->argv[0]);
 	if (bi != BI_NONE)
 	{
 		ret = exec_builtin(bi, cmd->argv, data);
-		_exit(ret);
+		exit(ret);
 	}
 	env = NULL;
 	if (data)
 		env = data->env;
 	has_slash = (ft_strchr(cmd->argv[0], '/') != NULL);
 	program_path = find_program_path(cmd->argv[0], env);
-	
-	/* If no path found and command doesn't contain '/', it's not in PATH */
 	if (!program_path && !has_slash)
 		print_exec_error_and_exit(cmd->argv[0], NULL, NULL, -2);
-	
 	if (!program_path)
 		program_path = ft_strdup(cmd->argv[0]);
-	
-	/* Only check if it's a directory for commands with '/' */
 	if (has_slash && stat(program_path, &st) == 0 && S_ISDIR(st.st_mode))
 		print_exec_error_and_exit(cmd->argv[0], program_path, NULL, -1);
-	
 	env_array = env_to_array(env);
 	execve(program_path, cmd->argv, env_array);
-	
-	/* Handle execve errors */
 	print_exec_error_and_exit(cmd->argv[0], program_path, env_array, errno);
 }
 

@@ -35,7 +35,7 @@ static int	simplecmd_setup_and_builtins(t_cmd *cmd, t_data *data,
 	if (bi == BI_NONE)
 		return (0);
 	if (bi == BI_CD || bi == BI_EXPORT || bi == BI_UNSET || bi == BI_EXIT)
-		*status = handle_builtin_parent(bi, cmd->argv, data);
+		*status = handle_builtin_parent(cmd, bi, cmd->argv, data);
 	else
 		*status = handle_builtin_child(bi, cmd->argv, data);
 	restore_fds(*in_backup, *out_backup);
@@ -49,7 +49,11 @@ static int	simplecmd_spawn_and_wait(t_cmd *cmd, t_data *data)
 
 	pid = fork_or_exit();
 	if (pid == 0)
+	{
+		if(cmd->next)
+			close(p[0]);
 		exec_child(data, cmd, STDIN_FILENO, STDOUT_FILENO);
+	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

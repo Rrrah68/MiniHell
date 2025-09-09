@@ -42,17 +42,27 @@ void	restore_fds(int in_backup, int out_backup)
 	redirect_and_close(out_backup, STDOUT_FILENO);
 }
 
-int	handle_builtin_parent(t_builtin bi, char **argv, t_data *data)
+// executor_utils_2.c
+int	handle_builtin_parent(t_cmd *cmd, t_builtin bi, char **argv, t_data *data)
 {
 	int	ret;
 	int	in_backup;
 	int	out_backup;
 
 	backup_fds(&in_backup, &out_backup);
+
+	if (setup_redirections(cmd) == -1)
+	{
+		restore_fds(in_backup, out_backup);
+		return (1);
+	}
+
 	ret = exec_builtin(bi, argv, data);
+
 	restore_fds(in_backup, out_backup);
 	return (ret);
 }
+
 
 int	handle_builtin_child(t_builtin bi, char **argv, t_data *data)
 {
@@ -68,7 +78,7 @@ int	handle_builtin_child(t_builtin bi, char **argv, t_data *data)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGPIPE, SIG_DFL);
-		_exit(exec_builtin(bi, argv, data));
+		exit(exec_builtin(bi, argv, data));
 	}
 	waitpid(pid, &status, 0);
 	restore_fds(in_backup, out_backup);

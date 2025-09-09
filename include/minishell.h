@@ -255,8 +255,10 @@ int								open_infile(char *infile);
 int								get_outfile_flags(int append);
 int								open_outfile(char *outfile, int append);
 int								execute_simple_cmd(t_cmd *cmd, t_data *data);
-int								handle_builtin_parent(t_builtin bi, char **argv,
-									t_data *data);
+int								handle_builtin_parent(t_cmd *cmd, t_builtin bi, 
+								char **argv, t_data *data);
+
+
 int								handle_builtin_child(t_builtin bi, char **argv,
 									t_data *data);
 
