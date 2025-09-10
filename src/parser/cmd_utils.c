@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:30:37 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 18:59:42 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:58:19 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_cmd	*create_cmd(void)
 	cmd->argv = NULL;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
+	cmd->heredoc_fd = -1;
 	cmd->append = 0;
 	cmd->next = NULL;
 	return (cmd);

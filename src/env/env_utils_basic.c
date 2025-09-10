@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils_4.c                                      :+:      :+:    :+:   */
+/*   env_utils_basic.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 16:50:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 17:30:09 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/10 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/10 16:47:04 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,27 @@ char	*create_env_string(t_env *current)
 		}
 	}
 	return (ft_strdup(current->key));
+}
+
+char	**env_to_array(t_env *env)
+{
+	t_env	*current;
+	char	**array;
+	int		count;
+	int		i;
+
+	count = count_env_vars(env);
+	array = malloc(sizeof(char *) * (count + 1));
+	if (!array)
+		return (NULL);
+	array[count] = NULL;
+	current = env;
+	i = 0;
+	while (current && i < count)
+	{
+		array[i] = create_env_string(current);
+		current = current->next;
+		i++;
+	}
+	return (array);
 }

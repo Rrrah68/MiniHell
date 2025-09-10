@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:52:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 20:01:27 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:35:52 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void							remove_env_var(t_env **env, char *key);
 char							**env_to_array(t_env *env);
 int								count_env_vars(t_env *env);
 char							*create_env_string(t_env *current);
+void							print_exported_vars(t_env *env_list);
 char							*find_program_path(char *program, t_env *env);
 t_env							*create_env_node(const char *key, const char *value);
 void							replace_and_remove_next(t_token *current,
@@ -213,6 +214,7 @@ void							handle_space_token(t_token **current,
 void							handle_char_token(t_token **current,
 									t_token **prev);
 void							signal_handler(int sig);
+int								wait_child_with_signals(pid_t pid);
 void							update_exit_status(t_data *data);
 char							*ft_strjoin_three(char *s1, char *s2, char *s3);
 t_token							*handle_numeric_variable(t_token *dollar,

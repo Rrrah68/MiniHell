@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:31:13 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 18:11:38 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:28:25 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ static void	child_run_exec(t_data *data, t_cmd *cmd)
 	struct stat	st;
 	int			has_slash;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		_exit(127);
 	bi = get_builtin(cmd->argv[0]);

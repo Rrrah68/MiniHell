@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:30:34 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 19:47:38 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:58:19 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ void	*free_cmd_list(t_cmd *cmd)
 		free(cmd->infile);
 		free(cmd->outfile);
 		free(cmd->heredoc_limiter);
+		if (cmd->heredoc_fd > 0)
+			close(cmd->heredoc_fd);
 		free(cmd->in_precheck_target);
 		free(cmd->out_precheck_target);
 		free(cmd);

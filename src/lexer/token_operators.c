@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:26:45 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 19:47:38 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:32:16 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	handle_operators(t_data *data)
 			current = current->next;
 	}
 }
+
 void	handle_single_operators(t_data *data)
 {
 	t_token	*t;
@@ -78,17 +79,17 @@ void	handle_single_operators(t_data *data)
 			if (t->c == '<')
 			{
 				t->type = REDIRECT_IN;
-				t->str = NULL; /* <-- important */
+				t->str = NULL;
 			}
 			else if (t->c == '>')
 			{
 				t->type = REDIRECT_OUT;
-				t->str = NULL; /* <-- important */
+				t->str = NULL;
 			}
 			else if (t->c == '|')
 			{
 				t->type = PIPE;
-				t->str = NULL; /* <-- important */
+				t->str = NULL;
 			}
 		}
 		t = t->next;

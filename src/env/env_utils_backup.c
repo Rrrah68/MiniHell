@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:45:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/10 16:47:04 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:01:27 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*get_env_value(t_env *env, char *key)
 	return (NULL);
 }
 
+// Ajoute ou modifie une variable d'environnement
 void	add_env_var(t_env **env, const char *key, const char *value)
 {
 	t_env	*current;
@@ -97,4 +98,59 @@ void	remove_env_var(t_env **env, char *key)
 		prev = current;
 		current = current->next;
 	}
+}
+
+char	**env_to_array(t_env *env)
+{
+	t_env	*current;
+	char	**array;
+	int		count;
+	int		i;
+
+	count = count_env_vars(env);
+	array = ft_calloc(count + 1, sizeof(char *));
+	if (!array)
+		return (NULL);
+	current = env;
+	i = 0;
+	while (current && i < count)
+	{
+		array[i] = create_env_string(current);
+		current = current->next;
+		i++;
+	}
+	return (array);
+}
+
+int	count_env_vars(t_env *env)
+{
+	t_env	*current;
+	int		count;
+
+	count = 0;
+	current = env;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
+}
+
+char	*create_env_string(t_env *current)
+{
+	char	*temp;
+	char	*result;
+
+	if (current->value)
+	{
+		temp = ft_strjoin(current->key, "=");
+		if (temp)
+		{
+			result = ft_strjoin(temp, current->value);
+			free(temp);
+			return (result);
+		}
+	}
+	return (ft_strdup(current->key));
 }

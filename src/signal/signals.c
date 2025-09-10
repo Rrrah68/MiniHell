@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:30:18 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/16 18:57:43 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:35:19 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,29 @@ void	signal_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+}
+
+int	wait_child_with_signals(pid_t pid)
+{
+	int	status;
+
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+		else if (WTERMSIG(status) == SIGQUIT)
+			write(1, "Quit\n", 5);
+		return (128 + WTERMSIG(status));
+	}
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
 }
 
 void	update_exit_status(t_data *data)

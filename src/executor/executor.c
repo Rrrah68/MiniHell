@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:31:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 18:59:42 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:35:19 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,11 @@ static int	simplecmd_setup_and_builtins(t_cmd *cmd, t_data *data,
 static int	simplecmd_spawn_and_wait(t_cmd *cmd, t_data *data)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork_or_exit();
 	if (pid == 0)
 		exec_child(data, cmd, STDIN_FILENO, STDOUT_FILENO);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (1);
+	return (wait_child_with_signals(pid));
 }
 
 int	execute_simple_cmd(t_cmd *cmd, t_data *data)

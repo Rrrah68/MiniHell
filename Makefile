@@ -30,8 +30,8 @@ SRC = main.c \
 	src/lexer/token_quotes_utils_2.c \
 	src/utils/utils.c \
 	src/env/env_utils.c \
-	src/env/env_utils_3.c \
-	src/env/env_utils_4.c \
+	src/env/env_utils_basic.c \
+	src/env/env_export.c \
 	src/env/env_cpy.c \
 	src/lexer/expand.c \
 	src/lexer/expand_utils.c \

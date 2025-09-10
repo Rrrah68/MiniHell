@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 18:31:19 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:44:57 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:35:19 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	handle_builtin_child(t_builtin bi, char **argv, t_data *data)
 		signal(SIGPIPE, SIG_DFL);
 		_exit(exec_builtin(bi, argv, data));
 	}
-	waitpid(pid, &status, 0);
+	status = wait_child_with_signals(pid);
 	restore_fds(in_backup, out_backup);
-	return (WEXITSTATUS(status));
+	return (status);
 }

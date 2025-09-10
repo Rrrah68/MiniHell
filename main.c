@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:45:34 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/20 17:47:59 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:40:44 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,5 @@ int	main(int ac, char **av, char **envp)
 	}
 	free_environment(data.env);
 	free(data.prompt);
-	return (0);
+	return (data.exit_status);
 }
