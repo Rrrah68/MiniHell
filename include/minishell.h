@@ -85,7 +85,9 @@ typedef struct s_cmd
 	char						*infile;
 	char						*outfile;
 	char						*heredoc_limiter;
+	char						*heredoc_content;
 	int							heredoc_fd;
+	int							heredoc_quoted;
 	int							append;
 	struct s_cmd				*next;
 	int							in_precheck_failed;
@@ -141,7 +143,8 @@ int								count_env_vars(t_env *env);
 char							*create_env_string(t_env *current);
 void							print_exported_vars(t_env *env_list);
 char							*find_program_path(char *program, t_env *env);
-t_env							*create_env_node(const char *key, const char *value);
+t_env							*create_env_node(const char *key,
+									const char *value);
 void							replace_and_remove_next(t_token *current,
 									t_token *to_remove, char *new_value);
 t_token							*handle_dollar_expansion(t_token *dollar,
@@ -251,8 +254,8 @@ int								handle_infile(char *infile);
 int								handle_outfile(char *outfile, int append);
 int								process_cmd(t_cmd *cmd, int in_fd,
 									t_data *data);
-int								setup_redirections(t_cmd *cmd);
-int								setup_heredoc(t_cmd *cmd);
+int								setup_redirections(t_cmd *cmd, t_data *data);
+int								setup_heredoc(t_cmd *cmd, t_data *data);
 int								open_infile(char *infile);
 int								get_outfile_flags(int append);
 int								open_outfile(char *outfile, int append);
@@ -269,13 +272,22 @@ void							exec_child(t_data *data, t_cmd *cmd, int in_fd,
 void							wait_children(void);
 void							backup_fds(int *in_backup, int *out_backup);
 void							restore_fds(int in_backup, int out_backup);
-char							*check_path_directories(char **paths, char *program);
+char							*check_path_directories(char **paths,
+								char *program);
+void							print_exec_error_and_exit(char *cmd_name,
+								char *program_path, char **env_array,
+								int error_type);
+char							*prepare_program_path(t_cmd *cmd, t_env *env,
+								int *has_slash);
+void							child_run_exec(t_data *data, t_cmd *cmd);
+int								handle_builtin_execution(t_cmd *cmd,
+								t_data *data);
 
 /************** BUILTINS **************/
 t_builtin						get_builtin(const char *cmd);
 
 int								exec_builtin(t_builtin bi, char **argv,
-									t_data *data);
+								t_data *data);
 int								builtin_echo(char **args);
 int								builtin_cd(char **args, t_data *data);
 int								get_oldcwd(char *oldcwd);
@@ -285,5 +297,29 @@ int								builtin_export(char **args, t_data *data);
 int								builtin_unset(char **args, t_data *data);
 int								builtin_env(char **args, t_data *data);
 int								builtin_exit(char **args);
+
+/************** HEREDOC UTILS **************/
+int								is_delimiter(const char *line,
+								const char *delimiter);
+void							write_heredoc_line(int fd, const char *line);
+int								handle_heredoc_with_content(const char *content);
+char							*read_heredoc_line_input(void);
+void							handle_heredoc_eof_warning(
+								const char *delimiter);
+
+/************** PARSER REDIRECT UTILS **************/
+void							ms_precheck_infile(t_cmd *cur, const char *path);
+void							ms_precheck_outfile(t_cmd *cur, const char *path, 
+							int do_append);
+int								ms_replace_str(char **dst, const char *src);
+int								cmd_set_infile(t_cmd *cur, const char *str);
+int								cmd_set_outfile(t_cmd *cur, const char *str, 
+							int append);
+
+/************** PARSER CMD UTILS **************/
+int								cmd_set_heredoc_limiter(t_cmd *cur, 
+							const char *str);
+int								cmd_add_redir(t_cmd *cur, t_token_type type, 
+							char *str);
 
 #endif

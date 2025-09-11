@@ -1,18 +1,16 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expand_var_utils.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 19:30:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 17:49:18 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Collect variable name from tokens starting at given position */
 char	*collect_var_name(t_token *start)
 {
 	char	buffer[256];
@@ -39,7 +37,6 @@ char	*collect_var_name(t_token *start)
 	return (NULL);
 }
 
-/* Extract variable name from the beginning of a word string */
 char	*extract_var_from_word(char *str)
 {
 	int	i;
@@ -54,7 +51,6 @@ char	*extract_var_from_word(char *str)
 	return (ft_substr(str, 0, i));
 }
 
-/* Find the token that comes before the target token in the list */
 t_token	*find_previous_token(t_token *head, t_token *target)
 {
 	t_token	*current;
@@ -71,13 +67,8 @@ t_token	*find_previous_token(t_token *head, t_token *target)
 	return (NULL);
 }
 
-char	*get_variable_value(char *dollar_pos, int *var_len, t_data *data)
+static char	*handle_special_vars(char *var_start, int *var_len, t_data *data)
 {
-	char	*var_name;
-	char	*var_start;
-	char	*value;
-
-	var_start = dollar_pos + 1;
 	if (var_start && (var_start[0] == '$' || var_start[0] == '"'))
 		return (*var_len = -1, NULL);
 	if (var_start[0] == '?')
@@ -93,6 +84,20 @@ char	*get_variable_value(char *dollar_pos, int *var_len, t_data *data)
 		else
 			return (ft_strdup(""));
 	}
+	return (NULL);
+}
+
+char	*get_variable_value(char *dollar_pos, int *var_len, t_data *data)
+{
+	char	*var_name;
+	char	*var_start;
+	char	*value;
+	char	*special_val;
+
+	var_start = dollar_pos + 1;
+	special_val = handle_special_vars(var_start, var_len, data);
+	if (special_val || *var_len == -1)
+		return (special_val);
 	*var_len = find_valid_var_length(var_start, data);
 	if (*var_len == 0)
 		return (NULL);

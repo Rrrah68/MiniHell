@@ -1,16 +1,32 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor_utils_3.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:45:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 18:21:28 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+typedef struct s_fork_params
+{
+	t_cmd	*cmd;
+	int		in_fd;
+	int		*p;
+	int		*out_fd;
+	pid_t	*pid;
+}	t_fork_params;
+
+typedef struct s_finalize_params
+{
+	t_cmd	*cmd;
+	int		in_fd;
+	int		*p;
+	pid_t	pid;
+}	t_finalize_params;
 
 void	wait_children(void)
 {
@@ -24,42 +40,40 @@ void	wait_children(void)
 	}
 }
 
-static int	setup_and_fork(t_cmd *cmd, int in_fd, int p[2],
-				int *out_fd, pid_t *pid, t_data *data)
+static int	setup_and_fork(t_fork_params *params, t_data *data)
 {
-	if (cmd->next)
+	if (params->cmd->next)
 	{
-		if (setup_pipe_fd(cmd, p, out_fd) == -1)
+		if (setup_pipe_fd(params->cmd, params->p, params->out_fd) == -1)
 			return (-1);
 	}
 	else
-		*out_fd = STDOUT_FILENO;
-	*pid = fork_or_exit();
-	if (*pid == 0)
+		*params->out_fd = STDOUT_FILENO;
+	*params->pid = fork_or_exit();
+	if (*params->pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGPIPE, SIG_DFL);
-		if (cmd->next)
-			close(p[0]);
-		exec_child(data, cmd, in_fd, *out_fd);
+		if (params->cmd->next)
+			close(params->p[0]);
+		exec_child(data, params->cmd, params->in_fd, *params->out_fd);
 	}
 	return (0);
 }
 
-static int	parent_finalize(t_cmd *cmd, int in_fd, int p[2],
-				pid_t pid, t_data *data)
+static int	parent_finalize(t_finalize_params *params, t_data *data)
 {
 	int	status;
 
-	if (in_fd != STDIN_FILENO)
-		close(in_fd);
-	if (cmd->next)
+	if (params->in_fd != STDIN_FILENO)
+		close(params->in_fd);
+	if (params->cmd->next)
 	{
-		close(p[1]);
-		return (p[0]);
+		close(params->p[1]);
+		return (params->p[0]);
 	}
-	if (waitpid(pid, &status, 0) == -1)
+	if (waitpid(params->pid, &status, 0) == -1)
 		data->exit_status = 1;
 	else if (WIFEXITED(status))
 		data->exit_status = WEXITSTATUS(status);
@@ -72,16 +86,22 @@ static int	parent_finalize(t_cmd *cmd, int in_fd, int p[2],
 
 int	process_cmd(t_cmd *cmd, int in_fd, t_data *data)
 {
-	int		p[2];
-	int		out_fd;
-	pid_t	pid;
+	int					p[2];
+	int					out_fd;
+	pid_t				pid;
+	t_fork_params		fork_params;
+	t_finalize_params	final_params;
 
-	if (setup_and_fork(cmd, in_fd, p, &out_fd, &pid, data) == -1)
+	fork_params.cmd = cmd;
+	fork_params.in_fd = in_fd;
+	fork_params.p = p;
+	fork_params.out_fd = &out_fd;
+	fork_params.pid = &pid;
+	if (setup_and_fork(&fork_params, data) == -1)
 		return (-1);
-	return (parent_finalize(cmd, in_fd, p, pid, data));
+	final_params.cmd = cmd;
+	final_params.in_fd = in_fd;
+	final_params.p = p;
+	final_params.pid = pid;
+	return (parent_finalize(&final_params, data));
 }
-
-
-
-
-

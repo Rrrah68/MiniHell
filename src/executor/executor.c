@@ -1,13 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:31:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/10 15:35:19 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -18,7 +17,7 @@ static int	simplecmd_setup_and_builtins(t_cmd *cmd, t_data *data,
 	t_builtin	bi;
 
 	backup_fds(in_backup, out_backup);
-	if (setup_redirections(cmd) == -1)
+	if (setup_redirections(cmd, data) == -1)
 	{
 		restore_fds(*in_backup, *out_backup);
 		if (data)
@@ -82,7 +81,16 @@ void	execute_all(t_cmd *cmds, t_data *data)
 	{
 		in_fd = process_cmd(cmds, in_fd, data);
 		if (in_fd < 0)
-			return ;
+		{
+			if (cmds->next)
+			{
+				in_fd = STDIN_FILENO;
+				cmds = cmds->next;
+				continue;
+			}
+			else
+				return ;
+		}
 		cmds = cmds->next;
 	}
 	wait_children();

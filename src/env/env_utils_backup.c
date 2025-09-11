@@ -1,13 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/10 15:45:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 20:01:27 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -45,7 +44,7 @@ char	*get_env_value(t_env *env, char *key)
 	return (NULL);
 }
 
-// Ajoute ou modifie une variable d'environnement
+
 void	add_env_var(t_env **env, const char *key, const char *value)
 {
 	t_env	*current;

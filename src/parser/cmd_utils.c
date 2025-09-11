@@ -1,13 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cmd_utils.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:30:37 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/10 16:58:19 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -22,7 +21,9 @@ t_cmd	*create_cmd(void)
 	cmd->argv = NULL;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
+	cmd->heredoc_content = NULL;
 	cmd->heredoc_fd = -1;
+	cmd->heredoc_quoted = 0;
 	cmd->append = 0;
 	cmd->next = NULL;
 	return (cmd);

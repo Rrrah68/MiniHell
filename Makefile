@@ -48,14 +48,18 @@ SRC = main.c \
 	src/lexer/token_operators_utils.c \
 	src/parser/cmd_utils.c \
 	src/parser/parser_utils.c \
+	src/parser/parser_redirect_utils.c \
+	src/parser/parser_cmd_utils.c \
 	src/parser/parser.c  \
 	src/executor/executor.c	\
 	src/executor/executor_utils.c \
 	src/executor/executor_utils_2.c \
 	src/executor/executor_utils_3.c \
+	src/executor/executor_utils_4.c \
 	src/executor/exec_utils_4.c \
 	src/executor/handle_redirection.c \
 	src/executor/handle_heredoc.c \
+	src/executor/handle_heredoc_utils.c \
 	src/executor/open_redirection.c \
 	src/builtins/builtin_utils.c \
 	src/builtins/cd.c \

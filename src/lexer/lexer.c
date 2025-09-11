@@ -1,18 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 17:54:16 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 19:47:38 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* execute toutes les phases de traitement du lexer */
+
 static void	lexer_process(t_data *data)
 {
 	if (!process_tokens_quotes(data))
@@ -31,7 +30,7 @@ static void	lexer_process(t_data *data)
 	merge_adjacent_word_tokens(data);
 }
 
-/* tokenise l'input caractere par caractere */
+
 void	lexer(t_data *data, char *input)
 {
 	t_token	*new_token;
@@ -60,7 +59,7 @@ void	lexer(t_data *data, char *input)
 	lexer_process(data);
 }
 
-/* traite les guillemets et marque leur contenu */
+
 int	process_tokens_quotes(t_data *data)
 {
 	t_token	*current;

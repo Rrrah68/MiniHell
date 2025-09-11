@@ -1,18 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_operators.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 18:26:45 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/09 17:32:16 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* supprime les tokens de guillemets apres traitement */
+
 void	remove_quote_token(t_data *data)
 {
 	t_token	*current;
@@ -65,6 +64,25 @@ void	handle_operators(t_data *data)
 	}
 }
 
+static void	process_single_symbol(t_token *t)
+{
+	if (t->c == '<')
+	{
+		t->type = REDIRECT_IN;
+		t->str = NULL;
+	}
+	else if (t->c == '>')
+	{
+		t->type = REDIRECT_OUT;
+		t->str = NULL;
+	}
+	else if (t->c == '|')
+	{
+		t->type = PIPE;
+		t->str = NULL;
+	}
+}
+
 void	handle_single_operators(t_data *data)
 {
 	t_token	*t;
@@ -75,23 +93,7 @@ void	handle_single_operators(t_data *data)
 	while (t)
 	{
 		if (t->in_quotes == 0 && t->type == SYMBOL)
-		{
-			if (t->c == '<')
-			{
-				t->type = REDIRECT_IN;
-				t->str = NULL;
-			}
-			else if (t->c == '>')
-			{
-				t->type = REDIRECT_OUT;
-				t->str = NULL;
-			}
-			else if (t->c == '|')
-			{
-				t->type = PIPE;
-				t->str = NULL;
-			}
-		}
+			process_single_symbol(t);
 		t = t->next;
 	}
 }

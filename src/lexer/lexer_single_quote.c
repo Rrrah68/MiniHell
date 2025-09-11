@@ -1,18 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer_single_quote.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 17:41:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 17:41:00 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* gere le contenu entre guillemets simples */
+
 t_token	*handle_single_quote(t_token *quote_start)
 {
 	t_token	*current;

@@ -1,13 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   handle_redirection.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:31:06 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/08 18:59:42 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -59,13 +58,17 @@ int	handle_outfile(char *outfile, int append)
 	return (0);
 }
 
-int	setup_redirections(t_cmd *cmd)
+int	setup_redirections(t_cmd *cmd, t_data *data)
 {
+	if (cmd->out_precheck_failed && cmd->out_precheck_target)
+		return (ms_print_file_error(cmd->out_precheck_target,
+				cmd->out_precheck_errno));
+
 	if (cmd->in_precheck_failed && cmd->in_precheck_target)
 		return (ms_print_file_error(cmd->in_precheck_target,
 				cmd->in_precheck_errno));
 
-	if (setup_heredoc(cmd) == -1)
+	if (setup_heredoc(cmd, data) == -1)
 		return (-1);
 	if (cmd->infile != NULL && !cmd->heredoc_limiter)
 	{

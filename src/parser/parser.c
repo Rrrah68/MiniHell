@@ -1,13 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:30:24 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:30:25 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -43,7 +42,7 @@ int	process_token(t_token **tok, t_cmd **cmds, t_cmd **cur)
 	if ((*tok)->type == WORD)
 		(*cur)->argv = append_to_argv((*cur)->argv, (*tok)->str);
 	else if ((*tok)->type == REDIRECT_IN || (*tok)->type == REDIRECT_OUT
-		|| (*tok)->type == REDIRECT_APPEND)
+		|| (*tok)->type == REDIRECT_APPEND || (*tok)->type == REDIRECT_HEREDOC)
 	{
 		if (!process_redirect(tok, *cur, *cmds))
 			return (0);

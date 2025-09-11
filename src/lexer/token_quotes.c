@@ -1,18 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_quotes.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 17:59:16 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:33:13 by mobullad         ###   ########.fr       */
-/*                                                                            */
+
+
+
+
+
+
+
+
+
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* cree un token word a partir du contenu entre guillemets */
+
 static t_token	*handle_word_creation(t_token *start_quote, t_token *end_quote,
 		char *content)
 {
@@ -34,7 +33,7 @@ static t_token	*handle_word_creation(t_token *start_quote, t_token *end_quote,
 	return (end_quote->next);
 }
 
-/* traite une section entre guillemets doubles */
+
 static t_token	*process_quoted_section(t_token *start_quote)
 {
 	t_token	*end_quote;
@@ -51,7 +50,7 @@ static t_token	*process_quoted_section(t_token *start_quote)
 	return (handle_word_creation(start_quote, end_quote, content));
 }
 
-/* traite une section entre guillemets simples */
+
 static t_token	*process_single_quoted_section(t_token *start_quote)
 {
 	t_token	*end_quote;
