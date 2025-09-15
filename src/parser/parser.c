@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	process_redirect(t_token **tok, t_cmd *cur, t_cmd *cmds)

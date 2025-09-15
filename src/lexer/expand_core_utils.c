@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 t_token	*handle_dollar_not_found(t_token **dollar)

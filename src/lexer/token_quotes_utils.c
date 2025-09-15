@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 char	*build_quoted_content(t_token *start, t_token *end)

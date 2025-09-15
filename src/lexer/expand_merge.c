@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 static void	process_token_replacement(t_token **lexer, t_token *current,
 		t_token *prev, t_token *new_tokens)
@@ -28,7 +16,6 @@ static void	process_token_replacement(t_token **lexer, t_token *current,
 	free(current->str);
 	free(current);
 }
-
 
 static void	handle_word_with_spaces(t_data *data, t_token **current,
 		t_token **prev)
@@ -61,7 +48,6 @@ static void	process_word_splitting(t_data *data, t_token **current,
 		*current = (*current)->next;
 	}
 }
-
 
 void	merge_adjacent_words(t_data *data)
 {

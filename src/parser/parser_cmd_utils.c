@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	cmd_set_heredoc_limiter(t_cmd *cur, const char *str)
@@ -70,7 +59,7 @@ t_cmd	*parser_error(t_cmd *cmds, const char *msg)
 	(void)cmds;
 	if (msg)
 		ft_putstr_fd((char *)msg, 2);
-	g_exit_status = 2;
+	g_signal_status = 2;
 	return (NULL);
 }
 

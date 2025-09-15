@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 char	*check_path_directories(char **paths, char *program)
@@ -58,7 +47,7 @@ char	*find_program_path(char *program, t_env *env)
 	return (result);
 }
 
-static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd, 
+static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd,
 				t_data *data)
 {
 	signal(SIGINT, SIG_DFL);

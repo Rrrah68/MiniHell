@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 static int	ms_print_file_error(const char *path, int err)
@@ -28,12 +17,12 @@ int	handle_infile(char *infile)
 
 	fd = open(infile, O_RDONLY);
 	if (fd < 0)
-		return ms_print_file_error(infile, errno);
+		return (ms_print_file_error(infile, errno));
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		err = errno;
 		close(fd);
-		return ms_print_file_error(infile, err);
+		return (ms_print_file_error(infile, err));
 	}
 	close(fd);
 	return (0);
@@ -63,11 +52,9 @@ int	setup_redirections(t_cmd *cmd, t_data *data)
 	if (cmd->out_precheck_failed && cmd->out_precheck_target)
 		return (ms_print_file_error(cmd->out_precheck_target,
 				cmd->out_precheck_errno));
-
 	if (cmd->in_precheck_failed && cmd->in_precheck_target)
 		return (ms_print_file_error(cmd->in_precheck_target,
 				cmd->in_precheck_errno));
-
 	if (setup_heredoc(cmd, data) == -1)
 		return (-1);
 	if (cmd->infile != NULL && !cmd->heredoc_limiter)

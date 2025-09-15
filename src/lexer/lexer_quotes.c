@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 static void	mark_quote_content(t_token *current)
 {
@@ -24,7 +12,6 @@ static void	mark_quote_content(t_token *current)
 		current = current->next;
 	}
 }
-
 
 static t_token	*find_closing_double_quote(t_token *current)
 {
@@ -44,7 +31,6 @@ static t_token	*find_closing_double_quote(t_token *current)
 	return (current);
 }
 
-
 t_token	*handle_double_quote(t_token *quote_start)
 {
 	t_token	*current;
@@ -57,8 +43,6 @@ t_token	*handle_double_quote(t_token *quote_start)
 		current = current->next;
 	return (find_closing_double_quote(current));
 }
-
-
 
 t_token	*handle_numeric_variable(t_token *dollar, t_token *next, t_data *data)
 {

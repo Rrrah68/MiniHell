@@ -1,12 +1,13 @@
-
-
-
-
-
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_heredoc_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -52,7 +53,9 @@ int	handle_heredoc_with_content(const char *content)
 char	*read_heredoc_line_input(void)
 {
 	char	*line;
+	size_t	len;
 
+	len = 0;
 	if (isatty(STDIN_FILENO))
 		line = readline("> ");
 	else
@@ -60,7 +63,7 @@ char	*read_heredoc_line_input(void)
 		line = get_next_line(STDIN_FILENO);
 		if (line)
 		{
-			size_t len = ft_strlen(line);
+			len = ft_strlen(line);
 			if (len > 0 && line[len - 1] == '\n')
 				line[len - 1] = '\0';
 		}
@@ -70,7 +73,7 @@ char	*read_heredoc_line_input(void)
 
 void	handle_heredoc_eof_warning(const char *delimiter)
 {
-	ft_putstr_fd("minishell: warning: here-document delimited by ", 
+	ft_putstr_fd("minishell: warning: here-document delimited by ",
 		STDERR_FILENO);
 	ft_putstr_fd("end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd((char *)delimiter, STDERR_FILENO);

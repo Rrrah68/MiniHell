@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	signal_handler(int sig)
@@ -32,7 +21,6 @@ int	wait_child_with_signals(pid_t pid)
 	waitpid(pid, &status, 0);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	
 	if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)

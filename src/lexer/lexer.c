@@ -1,16 +1,16 @@
-
-
-
-
-
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static void	lexer_process(t_data *data)
 {
@@ -29,7 +29,6 @@ static void	lexer_process(t_data *data)
 	remove_quote_token(data);
 	merge_adjacent_word_tokens(data);
 }
-
 
 void	lexer(t_data *data, char *input)
 {
@@ -58,7 +57,6 @@ void	lexer(t_data *data, char *input)
 	}
 	lexer_process(data);
 }
-
 
 int	process_tokens_quotes(t_data *data)
 {

@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 t_token	*handle_single_quote(t_token *quote_start)
 {

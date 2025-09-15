@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	get_oldcwd(char *oldcwd)
@@ -60,7 +49,6 @@ static int	cd_validate_and_prepare(char **args, t_data *data,
 	}
 	return (0);
 }
-
 
 static int	cd_change_and_update_env(t_data *data, const char *target_dir,
 				const char oldcwd[PATH_MAX])

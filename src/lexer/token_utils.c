@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 t_token	*create_token(char c, t_token_type type)
 {
@@ -25,7 +13,6 @@ t_token	*create_token(char c, t_token_type type)
 	new_token->next = NULL;
 	return (new_token);
 }
-
 
 void	add_token(t_token **head, t_token *new_token)
 {
@@ -45,7 +32,6 @@ void	add_token(t_token **head, t_token *new_token)
 	current->next = new_token;
 	new_token->prev = current;
 }
-
 
 void	merge_char_tokens(t_token *lexer)
 {
@@ -70,7 +56,6 @@ void	merge_char_tokens(t_token *lexer)
 		}
 	}
 }
-
 
 void	free_tokens(t_token *head)
 {

@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 static char	*build_expanded_word(char *word_str, char *dollar_pos,

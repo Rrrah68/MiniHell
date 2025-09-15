@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 void	replace_variable_tokens(t_token *dollar, char *var_name,
 		char *new_content)
@@ -39,7 +27,6 @@ void	replace_variable_tokens(t_token *dollar, char *var_name,
 	dollar->type = WORD;
 	dollar->c = 0;
 }
-
 
 void	replace_variable_tokens_partial(t_token *dollar, char *var_name,
 		char *new_content)

@@ -1,12 +1,13 @@
-
-
-
-
-
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_var_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -67,37 +68,24 @@ t_token	*find_previous_token(t_token *head, t_token *target)
 	return (NULL);
 }
 
-static char	*handle_special_vars(char *var_start, int *var_len, t_data *data)
-{
-	if (var_start && (var_start[0] == '$' || var_start[0] == '"'))
-		return (*var_len = -1, NULL);
-	if (var_start[0] == '?')
-	{
-		*var_len = 1;
-		return (ft_itoa(data->exit_status));
-	}
-	if (ft_isdigit(var_start[0]))
-	{
-		*var_len = 1;
-		if (var_start[0] == '0')
-			return (ft_strdup("minishell"));
-		else
-			return (ft_strdup(""));
-	}
-	return (NULL);
-}
-
 char	*get_variable_value(char *dollar_pos, int *var_len, t_data *data)
 {
 	char	*var_name;
 	char	*var_start;
 	char	*value;
-	char	*special_val;
 
 	var_start = dollar_pos + 1;
-	special_val = handle_special_vars(var_start, var_len, data);
-	if (special_val || *var_len == -1)
-		return (special_val);
+	if (var_start && (var_start[0] == '$' || var_start[0] == '"'))
+		return (*var_len = -1, NULL);
+	if (var_start[0] == '?')
+		return (*var_len = 1, ft_itoa(data->exit_status));
+	if (ft_isdigit(var_start[0]))
+	{
+		*var_len = 1;
+		if (var_start[0] == '0')
+			return (ft_strdup("minishell"));
+		return (ft_strdup(""));
+	}
 	*var_len = find_valid_var_length(var_start, data);
 	if (*var_len == 0)
 		return (NULL);

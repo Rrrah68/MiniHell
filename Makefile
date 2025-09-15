@@ -56,10 +56,12 @@ SRC = main.c \
 	src/executor/executor_utils_2.c \
 	src/executor/executor_utils_3.c \
 	src/executor/executor_utils_4.c \
+	src/executor/executor_child.c \
 	src/executor/exec_utils_4.c \
 	src/executor/handle_redirection.c \
 	src/executor/handle_heredoc.c \
 	src/executor/handle_heredoc_utils.c \
+	src/executor/handle_heredoc_expand.c \
 	src/executor/open_redirection.c \
 	src/builtins/builtin_utils.c \
 	src/builtins/cd.c \

@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 static int	compare_keys(const char *s1, const char *s2)
@@ -74,7 +63,7 @@ static void	print_env_array(t_env **env_array, int count)
 	while (i < count)
 	{
 		if (env_array[i]->value)
-			ft_printf("declare -x %s=\"%s\"\n", 
+			ft_printf("declare -x %s=\"%s\"\n",
 				env_array[i]->key, env_array[i]->value);
 		else
 			ft_printf("declare -x %s\n", env_array[i]->key);

@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 static int	is_separator_between(t_token *current, t_token *next)
 {
@@ -25,7 +13,6 @@ static int	is_separator_between(t_token *current, t_token *next)
 	}
 	return (0);
 }
-
 
 static void	merge_two_tokens(t_token *current, t_token *next)
 {
@@ -42,7 +29,6 @@ static void	merge_two_tokens(t_token *current, t_token *next)
 	free(next->str);
 	free(next);
 }
-
 
 void	merge_adjacent_word_tokens(t_data *data)
 {

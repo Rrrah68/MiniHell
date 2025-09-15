@@ -1,12 +1,13 @@
-
-
-
-
-
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_utils_4.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -21,7 +22,7 @@ static int	get_exit_code(int error_type, char *program_path)
 		return (126);
 	else if (error_type == EACCES)
 	{
-		if (program_path && stat(program_path, &st) == 0 
+		if (program_path && stat(program_path, &st) == 0
 			&& S_ISDIR(st.st_mode))
 			return (126);
 		else
@@ -30,7 +31,8 @@ static int	get_exit_code(int error_type, char *program_path)
 	return (127);
 }
 
-static void	print_error_message(char *cmd_name, int error_type, char *program_path)
+static void	print_error_message(char *cmd_name, int error_type,
+		char *program_path)
 {
 	struct stat	st;
 
@@ -43,7 +45,7 @@ static void	print_error_message(char *cmd_name, int error_type, char *program_pa
 		ft_putstr_fd("Is a directory\n", STDERR_FILENO);
 	else if (error_type == EACCES)
 	{
-		if (program_path && stat(program_path, &st) == 0 
+		if (program_path && stat(program_path, &st) == 0
 			&& S_ISDIR(st.st_mode))
 			ft_putstr_fd("Is a directory\n", STDERR_FILENO);
 		else
@@ -53,7 +55,8 @@ static void	print_error_message(char *cmd_name, int error_type, char *program_pa
 		ft_putstr_fd("execve: error\n", STDERR_FILENO);
 }
 
-static void	cleanup_and_exit(char *program_path, char **env_array, int exit_code)
+static void	cleanup_and_exit(char *program_path, char **env_array,
+		int exit_code)
 {
 	if (program_path)
 		free(program_path);
@@ -86,39 +89,4 @@ char	*prepare_program_path(t_cmd *cmd, t_env *env, int *has_slash)
 	if (*has_slash && stat(program_path, &st) == 0 && S_ISDIR(st.st_mode))
 		print_exec_error_and_exit(cmd->argv[0], program_path, NULL, -1);
 	return (program_path);
-}
-
-int	handle_builtin_execution(t_cmd *cmd, t_data *data)
-{
-	t_builtin	bi;
-	int			ret;
-
-	if (!cmd || !cmd->argv || !cmd->argv[0])
-		_exit(127);
-	bi = get_builtin(cmd->argv[0]);
-	if (bi != BI_NONE)
-	{
-		ret = exec_builtin(bi, cmd->argv, data);
-		_exit(ret);
-	}
-	return (0);
-}
-
-void	child_run_exec(t_data *data, t_cmd *cmd)
-{
-	char		*program_path;
-	char		**env_array;
-	t_env		*env;
-	int			has_slash;
-
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	handle_builtin_execution(cmd, data);
-	env = NULL;
-	if (data)
-		env = data->env;
-	program_path = prepare_program_path(cmd, env, &has_slash);
-	env_array = env_to_array(env);
-	execve(program_path, cmd->argv, env_array);
-	print_exec_error_and_exit(cmd->argv[0], program_path, env_array, errno);
 }

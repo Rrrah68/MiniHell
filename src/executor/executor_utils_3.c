@@ -1,32 +1,16 @@
-
-
-
-
-
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_utils_3.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct s_fork_params
-{
-	t_cmd	*cmd;
-	int		in_fd;
-	int		*p;
-	int		*out_fd;
-	pid_t	*pid;
-}	t_fork_params;
-
-typedef struct s_finalize_params
-{
-	t_cmd	*cmd;
-	int		in_fd;
-	int		*p;
-	pid_t	pid;
-}	t_finalize_params;
 
 void	wait_children(void)
 {

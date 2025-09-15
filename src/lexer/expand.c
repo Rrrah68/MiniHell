@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 void	replace_with_expansion(t_token *dollar, t_token *word, char *value,
 		char *var_name)
@@ -35,7 +23,6 @@ void	replace_with_expansion(t_token *dollar, t_token *word, char *value,
 		free(word->str);
 	free(word);
 }
-
 
 void	replace_and_remove_next(t_token *current, t_token *to_remove,
 		char *new_value)

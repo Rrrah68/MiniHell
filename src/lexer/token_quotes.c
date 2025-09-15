@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 static t_token	*handle_word_creation(t_token *start_quote, t_token *end_quote,
 		char *content)
@@ -33,7 +21,6 @@ static t_token	*handle_word_creation(t_token *start_quote, t_token *end_quote,
 	return (end_quote->next);
 }
 
-
 static t_token	*process_quoted_section(t_token *start_quote)
 {
 	t_token	*end_quote;
@@ -49,7 +36,6 @@ static t_token	*process_quoted_section(t_token *start_quote)
 		return (NULL);
 	return (handle_word_creation(start_quote, end_quote, content));
 }
-
 
 static t_token	*process_single_quoted_section(t_token *start_quote)
 {

@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	free_environment(t_env *env)
@@ -43,7 +32,6 @@ char	*get_env_value(t_env *env, char *key)
 	}
 	return (NULL);
 }
-
 
 void	add_env_var(t_env **env, const char *key, const char *value)
 {
@@ -106,7 +94,10 @@ char	**env_to_array(t_env *env)
 	int		count;
 	int		i;
 
-	count = count_env_vars(env);
+	count = 0;
+	current = env;
+	while (current && ++count)
+		current = current->next;
 	array = ft_calloc(count + 1, sizeof(char *));
 	if (!array)
 		return (NULL);
@@ -114,42 +105,12 @@ char	**env_to_array(t_env *env)
 	i = 0;
 	while (current && i < count)
 	{
-		array[i] = create_env_string(current);
+		if (current->value)
+			array[i] = ft_strjoin_three(current->key, "=", current->value);
+		else
+			array[i] = ft_strdup(current->key);
 		current = current->next;
 		i++;
 	}
 	return (array);
-}
-
-int	count_env_vars(t_env *env)
-{
-	t_env	*current;
-	int		count;
-
-	count = 0;
-	current = env;
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
-}
-
-char	*create_env_string(t_env *current)
-{
-	char	*temp;
-	char	*result;
-
-	if (current->value)
-	{
-		temp = ft_strjoin(current->key, "=");
-		if (temp)
-		{
-			result = ft_strjoin(temp, current->value);
-			free(temp);
-			return (result);
-		}
-	}
-	return (ft_strdup(current->key));
 }

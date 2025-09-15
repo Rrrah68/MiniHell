@@ -1,16 +1,4 @@
-
-
-
-
-
-
-
-
-
-/* ************************************************************************** */
-
 #include "minishell.h"
-
 
 void	remove_quote_token(t_data *data)
 {
@@ -47,8 +35,6 @@ void	handle_operators(t_data *data)
 	current = data->lexer;
 	while (current && current->next)
 	{
-		/* Ne jamais fusionner << / >> si un des deux est entre guillemets
-		   OU si un des deux n'est pas un symbole isolé */
 		if (current->in_quotes == 1 || current->next->in_quotes == 1
 			|| current->type != SYMBOL || current->next->type != SYMBOL)
 		{

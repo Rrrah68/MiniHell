@@ -1,12 +1,13 @@
-
-
-
-
-
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -16,7 +17,6 @@ char	*expand_heredoc_line(const char *line, t_data *data)
 	char	*result;
 	char	*temp;
 	int		i;
-	int		j;
 
 	if (!line || !data)
 		return (ft_strdup(line));
@@ -26,40 +26,14 @@ char	*expand_heredoc_line(const char *line, t_data *data)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '$' && line[i + 1] 
-			&& (ft_isalnum(line[i + 1]) || line[i + 1] == '_'))
-		{
-			j = i + 1;
-			while (line[j] && (ft_isalnum(line[j]) || line[j] == '_'))
-				j++;
-			temp = ft_substr(line, i + 1, j - i - 1);
-			if (temp)
-			{
-				char *var_value = get_env_value(data->env, temp);
-				char *new_result = ft_strjoin(result, var_value ? var_value : "");
-				free(result);
-				free(temp);
-				result = new_result;
-				i = j;
-			}
-			else
-				i++;
-		}
-		else
-		{
-			temp = ft_substr(line, i, 1);
-			char *new_result = ft_strjoin(result, temp);
-			free(result);
-			free(temp);
-			result = new_result;
-			i++;
-		}
+		temp = process_character(line, &i, data);
+		result = append_to_result(result, temp);
 	}
 	return (result);
 }
 
-static void	process_heredoc_line(char *line, int quoted, t_data *data, 
-				int write_fd)
+static void	process_heredoc_line(char *line, int quoted, t_data *data,
+		int write_fd)
 {
 	char	*expanded;
 
@@ -87,9 +61,7 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 	{
 		line = read_heredoc_line_input();
 		if (!line)
-		{
 			break ;
-		}
 		if (is_delimiter(line, delimiter))
 		{
 			free(line);
@@ -102,19 +74,15 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 	return (pipefd[0]);
 }
 
-int setup_heredoc(t_cmd *cmd, t_data *data)
+int	setup_heredoc(t_cmd *cmd, t_data *data)
 {
 	if (!cmd->heredoc_limiter)
 		return (0);
 	if (cmd->heredoc_content)
-	{
 		cmd->heredoc_fd = handle_heredoc_with_content(cmd->heredoc_content);
-	}
 	else
-	{
-		cmd->heredoc_fd = handle_heredoc(cmd->heredoc_limiter, 
-			cmd->heredoc_quoted, data);
-	}
+		cmd->heredoc_fd = handle_heredoc(cmd->heredoc_limiter,
+				cmd->heredoc_quoted, data);
 	if (cmd->heredoc_fd == -1)
 		return (-1);
 	if (dup2(cmd->heredoc_fd, STDIN_FILENO) == -1)
