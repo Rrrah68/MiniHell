@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:45:34 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/10 15:40:44 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/16 19:49:21 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,24 @@ static void	process_and_execute(t_data *data)
 	if (data->lexer)
 	{
 		cmds = parse_token(data->lexer);
-		if (cmds)
-		{
-			if (cmds->next)
-				execute_all(cmds, data);
-			else
-				execute_simple_cmd(cmds, data);
-			free_cmd_list(cmds);
-		}
 		free_tokens(data->lexer);
+		data->lexer = NULL;
 	}
-	data->lexer = NULL;
-	free(data->input);
+	else
+		cmds = NULL;
+	if (data->input)
+	{
+		free(data->input);
+		data->input = NULL;
+	}
+	if (cmds)
+	{
+		if (cmds->next)
+			execute_all(cmds, data);
+		else
+			execute_simple_cmd(cmds, data);
+		free_cmd_list(cmds);
+	}
 }
 
 int	main(int ac, char **av, char **envp)
