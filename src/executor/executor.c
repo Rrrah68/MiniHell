@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                          :+:      :+:    :+:  */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:18:36 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ void	execute_all(t_cmd *cmds, t_data *data)
 			{
 				in_fd = STDIN_FILENO;
 				cmds = cmds->next;
-				continue ;
 			}
 			else
 				return ;
 		}
-		cmds = cmds->next;
+		else
+			cmds = cmds->next;
 	}
-	wait_children();
+	wait_children(data);
 }

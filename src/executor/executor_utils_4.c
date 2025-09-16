@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:25:12 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	cleanup_and_exit(char *program_path, char **env_array,
 		free(program_path);
 	if (env_array)
 		ft_free_tab(env_array);
-	_exit(exit_code);
+	exit(exit_code);
 }
 
 void	print_exec_error_and_exit(char *cmd_name, char *program_path,

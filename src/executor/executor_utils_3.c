@@ -6,22 +6,37 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:21:39 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wait_children(void)
+void	wait_children(t_data *data)
 {
 	int		status;
 	pid_t	pid;
 
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	pid = wait(&status);
 	while (pid > 0)
 	{
+		if (WIFSIGNALED(status) && data)
+		{
+			if (WTERMSIG(status) == SIGINT)
+				data->exit_status = 128 + SIGINT;
+			else if (WTERMSIG(status) == SIGQUIT)
+				data->exit_status = 128 + SIGQUIT;
+			else
+				data->exit_status = 128 + WTERMSIG(status);
+		}
+		else if (WIFEXITED(status) && data)
+			data->exit_status = WEXITSTATUS(status);
 		pid = wait(&status);
 	}
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 static int	setup_and_fork(t_fork_params *params, t_data *data)
@@ -36,12 +51,10 @@ static int	setup_and_fork(t_fork_params *params, t_data *data)
 	*params->pid = fork_or_exit();
 	if (*params->pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGPIPE, SIG_DFL);
 		if (params->cmd->next)
 			close(params->p[0]);
 		exec_child(data, params->cmd, params->in_fd, *params->out_fd);
+		exit(127);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:47 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:55:48 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:50:03 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,12 @@ static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd,
 	redirect_and_close(in_fd, STDIN_FILENO);
 	redirect_and_close(out_fd, STDOUT_FILENO);
 	if (setup_redirections(cmd, data) == -1)
-		_exit(1);
+		exit(1);
 }
 
 void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)
 {
 	child_setup_io_and_redirs(cmd, in_fd, out_fd, data);
 	child_run_exec(data, cmd);
+	exit(127);
 }

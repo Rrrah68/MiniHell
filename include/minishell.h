@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:52:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/10 16:35:52 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:07:35 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ void							execute_all(t_cmd *cmds, t_data *data);
 void							redirect_and_close(int old_fd, int new_fd);
 void							exec_child(t_data *data, t_cmd *cmd, int in_fd,
 									int out_fd);
-void							wait_children(void);
+void							wait_children(t_data *data);
 void							backup_fds(int *in_backup, int *out_backup);
 void							restore_fds(int in_backup, int out_backup);
 char							*check_path_directories(char **paths,
