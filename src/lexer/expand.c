@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 14:35:41 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:33:13 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:54:44 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:54:45 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* remplace un token par sa valeur expandue */
 void	replace_with_expansion(t_token *dollar, t_token *word, char *value,
 		char *var_name)
 {
@@ -37,7 +36,6 @@ void	replace_with_expansion(t_token *dollar, t_token *word, char *value,
 	free(word);
 }
 
-/* remplace le contenu d'un token et supprime le suivant */
 void	replace_and_remove_next(t_token *current, t_token *to_remove,
 		char *new_value)
 {

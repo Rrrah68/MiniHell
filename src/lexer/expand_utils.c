@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-/* Handle $? expansion (exit status of last command) */
 t_token	*handle_exit_status(t_token *dollar, t_token *next, t_data *data)
 {
 	char	*var_value;
@@ -23,14 +22,12 @@ t_token	*handle_exit_status(t_token *dollar, t_token *next, t_data *data)
 	return (dollar->next);
 }
 
-/* Handle $$ expansion (returns empty string for minishell42) */
 t_token	*handle_double_dollar(t_token *dollar, t_token *next)
 {
 	replace_and_remove_next(dollar, next, "");
 	return (dollar->next);
 }
 
-/* Handle partial variable expansion with fallback to empty string */
 void	handle_partial_expansion(t_token *dollar, t_token *next,
 		char *var_value, char *var_name)
 {

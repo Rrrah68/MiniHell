@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 18:26:45 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:33:13 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:56:07 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:56:08 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* supprime les tokens de guillemets apres traitement */
 void	remove_quote_token(t_data *data)
 {
 	t_token	*current;
@@ -38,7 +37,6 @@ void	remove_quote_token(t_data *data)
 		}
 	}
 }
-// J'ai change quelques bails ici et sur les handle_double_operator et single_operator 
 
 void	handle_operators(t_data *data)
 {
@@ -49,8 +47,6 @@ void	handle_operators(t_data *data)
 	current = data->lexer;
 	while (current && current->next)
 	{
-		/* Ne jamais fusionner << / >> si un des deux est entre guillemets
-		   OU si un des deux n'est pas un symbole isolé */
 		if (current->in_quotes == 1 || current->next->in_quotes == 1
 			|| current->type != SYMBOL || current->next->type != SYMBOL)
 		{
@@ -65,6 +61,26 @@ void	handle_operators(t_data *data)
 			current = current->next;
 	}
 }
+
+static void	process_single_symbol(t_token *t)
+{
+	if (t->c == '<')
+	{
+		t->type = REDIRECT_IN;
+		t->str = NULL;
+	}
+	else if (t->c == '>')
+	{
+		t->type = REDIRECT_OUT;
+		t->str = NULL;
+	}
+	else if (t->c == '|')
+	{
+		t->type = PIPE;
+		t->str = NULL;
+	}
+}
+
 void	handle_single_operators(t_data *data)
 {
 	t_token	*t;
@@ -75,23 +91,7 @@ void	handle_single_operators(t_data *data)
 	while (t)
 	{
 		if (t->in_quotes == 0 && t->type == SYMBOL)
-		{
-			if (t->c == '<')
-			{
-				t->type = REDIRECT_IN;
-				t->str = NULL; /* <-- important */
-			}
-			else if (t->c == '>')
-			{
-				t->type = REDIRECT_OUT;
-				t->str = NULL; /* <-- important */
-			}
-			else if (t->c == '|')
-			{
-				t->type = PIPE;
-				t->str = NULL; /* <-- important */
-			}
-		}
+			process_single_symbol(t);
 		t = t->next;
 	}
 }

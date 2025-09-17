@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 19:30:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/20 19:25:12 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Collect variable name from tokens starting at given position */
 char	*collect_var_name(t_token *start)
 {
 	char	buffer[256];
@@ -39,7 +38,6 @@ char	*collect_var_name(t_token *start)
 	return (NULL);
 }
 
-/* Extract variable name from the beginning of a word string */
 char	*extract_var_from_word(char *str)
 {
 	int	i;
@@ -54,7 +52,6 @@ char	*extract_var_from_word(char *str)
 	return (ft_substr(str, 0, i));
 }
 
-/* Find the token that comes before the target token in the list */
 t_token	*find_previous_token(t_token *head, t_token *target)
 {
 	t_token	*current;
@@ -80,13 +77,14 @@ char	*get_variable_value(char *dollar_pos, int *var_len, t_data *data)
 	var_start = dollar_pos + 1;
 	if (var_start && (var_start[0] == '$' || var_start[0] == '"'))
 		return (*var_len = -1, NULL);
+	if (var_start[0] == '?')
+		return (*var_len = 1, ft_itoa(data->exit_status));
 	if (ft_isdigit(var_start[0]))
 	{
 		*var_len = 1;
 		if (var_start[0] == '0')
 			return (ft_strdup("minishell"));
-		else
-			return (ft_strdup(""));
+		return (ft_strdup(""));
 	}
 	*var_len = find_valid_var_length(var_start, data);
 	if (*var_len == 0)

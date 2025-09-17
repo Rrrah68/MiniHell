@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:30:37 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:32:57 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:56:19 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/17 14:40:26 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ t_cmd	*create_cmd(void)
 	cmd->argv = NULL;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
+	cmd->heredoc_content = NULL;
+	cmd->heredoc_fd = -1;
+	cmd->heredoc_quoted = 0;
 	cmd->append = 0;
 	cmd->next = NULL;
 	return (cmd);
@@ -52,7 +55,7 @@ char	**append_to_argv(char **argv, char *word)
 
 	i = 0;
 	len = 0;
-	if (!word)
+	if (!word || !word[0])
 		return (argv);
 	while (argv && argv[len])
 		len++;
@@ -69,4 +72,13 @@ char	**append_to_argv(char **argv, char *word)
 	new_argv[i] = NULL;
 	free(argv);
 	return (new_argv);
+}
+
+t_cmd	*parser_error(t_cmd *cmds, const char *msg)
+{
+	(void)cmds;
+	if (msg)
+		ft_putstr_fd((char *)msg, 2);
+	g_signal_status = 2;
+	return (NULL);
 }

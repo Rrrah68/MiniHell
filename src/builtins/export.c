@@ -5,27 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/14 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/20 19:25:12 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:55:20 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:55:21 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	print_exported_vars(t_env *env_list)
-{
-	t_env	*current;
-
-	current = env_list;
-	while (current)
-	{
-		if (current->value)
-			ft_printf("declare -x %s=\"%s\"\n", current->key, current->value);
-		else
-			ft_printf("declare -x %s\n", current->key);
-		current = current->next;
-	}
-}
 
 static int	parse_export_arg(char *arg, char **name, char **value)
 {
@@ -62,6 +47,13 @@ static int	is_valid_identifier(char *name)
 	return (1);
 }
 
+static void	print_export_error(char *name)
+{
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(name, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+}
+
 static int	process_export_argument(char *arg, t_data *data)
 {
 	char	*name;
@@ -71,9 +63,7 @@ static int	process_export_argument(char *arg, t_data *data)
 	had_equal = parse_export_arg(arg, &name, &value);
 	if (!is_valid_identifier(name))
 	{
-		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-		ft_putstr_fd(name, STDERR_FILENO);
-		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+		print_export_error(name);
 		if (had_equal && value)
 			*(value - 1) = '=';
 		data->exit_status = 1;
@@ -81,11 +71,11 @@ static int	process_export_argument(char *arg, t_data *data)
 	}
 	if (had_equal && value)
 	{
-		add_env_var(&data->env, ft_strdup(name), ft_strdup(value));
+		add_env_var(&data->env, name, value);
 		*(value - 1) = '=';
 	}
 	else
-		add_env_var(&data->env, ft_strdup(name), ft_strdup(""));
+		add_env_var(&data->env, name, "");
 	return (0);
 }
 

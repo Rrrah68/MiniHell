@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:02:33 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:36:54 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:56:02 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:56:04 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Replace variable tokens with new content and remove consumed tokens */
 void	replace_variable_tokens(t_token *dollar, char *var_name,
 		char *new_content)
 {
@@ -41,7 +40,6 @@ void	replace_variable_tokens(t_token *dollar, char *var_name,
 	dollar->c = 0;
 }
 
-/* Partially replace variable in token, keeping remaining content */
 void	replace_variable_tokens_partial(t_token *dollar, char *var_name,
 		char *new_content)
 {

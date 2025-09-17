@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 14:57:09 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:28:23 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:55:31 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:55:32 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*create_env_node(char *key, char *value)
+t_env	*create_env_node(const char *key, const char *value)
 {
 	t_env	*new_node;
 

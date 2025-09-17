@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:03:31 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:33:13 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:55:58 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:55:59 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* remplace un token par une liste de nouveaux tokens */
 static void	process_token_replacement(t_token **lexer, t_token *current,
 		t_token *prev, t_token *new_tokens)
 {
@@ -30,7 +29,6 @@ static void	process_token_replacement(t_token **lexer, t_token *current,
 	free(current);
 }
 
-/* divise un mot avec espaces en plusieurs tokens */
 static void	handle_word_with_spaces(t_data *data, t_token **current,
 		t_token **prev)
 {
@@ -63,7 +61,6 @@ static void	process_word_splitting(t_data *data, t_token **current,
 	}
 }
 
-/* fusionne les mots adjacents et gere le word splitting */
 void	merge_adjacent_words(t_data *data)
 {
 	t_token	*current;

@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 17:53:31 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:33:13 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:56:16 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:56:17 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* cree un nouveau token avec un caractere et un type */
 t_token	*create_token(char c, t_token_type type)
 {
 	t_token	*new_token;
@@ -27,7 +26,6 @@ t_token	*create_token(char c, t_token_type type)
 	return (new_token);
 }
 
-/* ajoute un token a la fin de la liste chainee */
 void	add_token(t_token **head, t_token *new_token)
 {
 	t_token	*current;
@@ -47,7 +45,6 @@ void	add_token(t_token **head, t_token *new_token)
 	new_token->prev = current;
 }
 
-/* fusionne les tokens char consecutifs en mots */
 void	merge_char_tokens(t_token *lexer)
 {
 	t_token	*current;
@@ -72,7 +69,6 @@ void	merge_char_tokens(t_token *lexer)
 	}
 }
 
-/* libere la memoire de tous les tokens */
 void	free_tokens(t_token *head)
 {
 	t_token	*tmp;

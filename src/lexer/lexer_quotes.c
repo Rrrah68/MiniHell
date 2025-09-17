@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 17:40:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:33:13 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:56:05 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:56:06 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* marque le contenu entre guillemets doubles */
 static void	mark_quote_content(t_token *current)
 {
 	while (current && !(current->c == '"' && current->type == SYMBOL))
@@ -26,7 +25,6 @@ static void	mark_quote_content(t_token *current)
 	}
 }
 
-/* trouve et marque le guillemet de fermeture */
 static t_token	*find_closing_double_quote(t_token *current)
 {
 	if (current && current->c == '"')
@@ -45,7 +43,6 @@ static t_token	*find_closing_double_quote(t_token *current)
 	return (current);
 }
 
-/* gere le contenu entre guillemets doubles */
 t_token	*handle_double_quote(t_token *quote_start)
 {
 	t_token	*current;
@@ -59,8 +56,6 @@ t_token	*handle_double_quote(t_token *quote_start)
 	return (find_closing_double_quote(current));
 }
 
-
-/* gere l'expansion des variables numeriques ($0, $1, etc) */
 t_token	*handle_numeric_variable(t_token *dollar, t_token *next, t_data *data)
 {
 	char	*var_value;

@@ -5,25 +5,42 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 17:17:51 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:33:31 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	has_newline_option(char **argv)
+{
+	int	i;
+
+	i = 1;
+	while (argv[i] && argv[i][0] == '-' && argv[i][1] == 'n'
+		&& argv[i][2] == '\0')
+		i++;
+	return (i > 1);
+}
+
+static int	skip_options(char **argv)
+{
+	int	i;
+
+	i = 1;
+	while (argv[i] && argv[i][0] == '-' && argv[i][1] == 'n'
+		&& argv[i][2] == '\0')
+		i++;
+	return (i);
+}
 
 int	builtin_echo(char **argv)
 {
 	int	i;
 	int	newline;
 
-	i = 1;
-	newline = 1;
-	if (argv[1] && ft_strncmp(argv[1], "-n", 2) == 0 && argv[1][2] == '\0')
-	{
-		newline = 0;
-		i = 2;
-	}
+	newline = !has_newline_option(argv);
+	i = skip_options(argv);
 	while (argv[i])
 	{
 		write(STDOUT_FILENO, argv[i], ft_strlen(argv[i]));

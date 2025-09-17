@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_quotes_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 10:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:05:16 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:56:13 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/17 14:38:06 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_token	*create_word_token_with_content(char *content, t_token *end_quote)
 		return (NULL);
 	}
 	word_token->str = content;
+	word_token->in_quotes = 1;
 	word_token->next = end_quote;
 	return (word_token);
 }

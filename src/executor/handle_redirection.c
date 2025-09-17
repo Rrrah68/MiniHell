@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 18:31:06 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:31:07 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:55:51 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:55:52 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	ms_print_file_error(const char *path, int err)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putstr_fd((char *)path, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(strerror(err), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
@@ -29,12 +29,12 @@ int	handle_infile(char *infile)
 
 	fd = open(infile, O_RDONLY);
 	if (fd < 0)
-		return ms_print_file_error(infile, errno);
+		return (ms_print_file_error(infile, errno));
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		err = errno;
 		close(fd);
-		return ms_print_file_error(infile, err);
+		return (ms_print_file_error(infile, err));
 	}
 	close(fd);
 	return (0);
@@ -59,16 +59,15 @@ int	handle_outfile(char *outfile, int append)
 	return (0);
 }
 
-int	setup_redirections(t_cmd *cmd)
+int	setup_redirections(t_cmd *cmd, t_data *data)
 {
-	if (cmd->in_precheck_failed && cmd->in_precheck_target)
-		return (ms_print_file_error(cmd->in_precheck_target,
-				cmd->in_precheck_errno));
 	if (cmd->out_precheck_failed && cmd->out_precheck_target)
 		return (ms_print_file_error(cmd->out_precheck_target,
 				cmd->out_precheck_errno));
-
-	if (setup_heredoc(cmd) == -1)
+	if (cmd->in_precheck_failed && cmd->in_precheck_target)
+		return (ms_print_file_error(cmd->in_precheck_target,
+				cmd->in_precheck_errno));
+	if (setup_heredoc(cmd, data) == -1)
 		return (-1);
 	if (cmd->infile != NULL && !cmd->heredoc_limiter)
 	{

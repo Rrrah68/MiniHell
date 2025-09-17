@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 17:08:18 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/15 18:33:54 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/16 15:55:22 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/16 15:55:23 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ int	builtin_pwd(char **args, t_data *data)
 {
 	char	cwd[PATH_MAX];
 
-	(void)args;
 	(void)data;
+	if (args[1] != NULL)
+	{
+		write(STDERR_FILENO, "pwd: too many arguments\n", 24);
+		return (1);
+	}
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		write(STDOUT_FILENO, cwd, ft_strlen(cwd));

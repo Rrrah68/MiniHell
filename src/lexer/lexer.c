@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 17:54:16 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/22 18:44:16 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* execute toutes les phases de traitement du lexer */
 static void	lexer_process(t_data *data)
 {
 	if (!process_tokens_quotes(data))
@@ -31,7 +30,6 @@ static void	lexer_process(t_data *data)
 	merge_adjacent_word_tokens(data);
 }
 
-/* tokenise l'input caractere par caractere */
 void	lexer(t_data *data, char *input)
 {
 	t_token	*new_token;
@@ -60,7 +58,6 @@ void	lexer(t_data *data, char *input)
 	lexer_process(data);
 }
 
-/* traite les guillemets et marque leur contenu */
 int	process_tokens_quotes(t_data *data)
 {
 	t_token	*current;
@@ -88,23 +85,4 @@ int	process_tokens_quotes(t_data *data)
 			current = current->next;
 	}
 	return (1);
-}
-
-/* affiche tous les tokens du lexer pour le debug */
-void	print_lexer(t_token *lexer)
-{
-	t_token	*current;
-
-	current = lexer;
-	printf("=== LEXER TOKENS ===\n");
-	while (current)
-	{
-		if (current->str)
-			printf("Token: '%s', Type: %s\n", current->str,
-				get_type(current->type));
-		else
-			printf("Token: '%c', Type: %s\n", current->c,
-				get_type(current->type));
-		current = current->next;
-	}
 }
