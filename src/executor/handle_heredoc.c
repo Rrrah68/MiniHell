@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 14:18:55 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:54:13 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 	{
 		line = read_heredoc_line_input();
 		if (!line)
+		{
+			handle_heredoc_eof_warning(delimiter);
 			break ;
+		}
 		if (is_delimiter(line, delimiter))
 		{
 			free(line);

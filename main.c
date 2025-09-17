@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:45:34 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 19:49:21 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:26:19 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ volatile sig_atomic_t	g_signal_status = 0;
 static int	handle_input(t_data *data)
 {
 	data->input = readline(data->prompt);
+	update_exit_status(data);
 	if (!data->input)
 	{
 		write(1, "exit\n", 5);
 		return (0);
 	}
-	update_exit_status(data);
 	if (data->input[0])
 		add_history(data->input);
 	if (ft_strncmp(data->input, "exit", 5) == 0)

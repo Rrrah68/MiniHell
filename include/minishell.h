@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:52:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 14:38:04 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:04:21 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,24 @@ typedef enum e_builtin
 	BI_EXIT,
 	BI_NONE
 }								t_builtin;
+
+typedef struct s_exec_error_params
+{
+	char						*cmd_name;
+	char						*program_path;
+	char						**env_array;
+	t_data						*data;
+	t_cmd						*cmd;
+	int							error_type;
+}								t_exec_error_params;
+
+typedef struct s_cleanup_params
+{
+	char						*program_path;
+	char						**env_array;
+	t_data						*data;
+	t_cmd						*cmd;
+}								t_cleanup_params;
 
 extern volatile sig_atomic_t	g_signal_status;
 
@@ -313,11 +331,16 @@ void							backup_fds(int *in_backup, int *out_backup);
 void							restore_fds(int in_backup, int out_backup);
 char							*check_path_directories(char **paths,
 									char *program);
-void							print_exec_error_and_exit(char *cmd_name,
-									char *program_path, char **env_array,
-									int error_type);
 char							*prepare_program_path(t_cmd *cmd, t_env *env,
-									int *has_slash);
+									t_data *data, int *has_slash);
+void							print_exec_error_and_exit(
+									t_exec_error_params *params);
+
+int								handle_var_assignment_cmd(t_cmd *cmd,
+									t_data *data, int in_backup,
+									int out_backup);
+int								execute_cmd_final(t_cmd *cmd, t_data *data,
+									int in_backup, int out_backup);
 void							child_run_exec(t_data *data, t_cmd *cmd);
 int								handle_builtin_execution(t_cmd *cmd,
 									t_data *data);

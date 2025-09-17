@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 14:38:07 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:48:50 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,11 @@ static int	handle_redirection_and_check_args(t_cmd *cmd, t_data *data,
 	return (1);
 }
 
-static int	execute_builtin_with_fds(t_cmd *cmd, t_data *data,
-		int in_backup, int out_backup)
-{
-	t_builtin	bi;
-	int			status;
-
-	bi = get_builtin(cmd->argv[0]);
-	if (bi == BI_NONE)
-		return (-1);
-	if (bi == BI_CD || bi == BI_EXPORT || bi == BI_UNSET || bi == BI_EXIT)
-		status = handle_builtin_parent(bi, cmd->argv, data);
-	else
-		status = handle_builtin_child(bi, cmd->argv, data);
-	restore_fds(in_backup, out_backup);
-	return (status);
-}
-
-static int	simplecmd_spawn_and_wait(t_cmd *cmd, t_data *data)
-{
-	pid_t	pid;
-
-	pid = fork_or_exit();
-	if (pid == 0)
-		exec_child(data, cmd, STDIN_FILENO, STDOUT_FILENO);
-	return (wait_child_with_signals(pid));
-}
-
 int	execute_simple_cmd(t_cmd *cmd, t_data *data)
 {
 	int	in_backup;
 	int	out_backup;
 	int	redirect_result;
-	int	status;
 
 	if (!cmd)
 	{
@@ -80,21 +52,8 @@ int	execute_simple_cmd(t_cmd *cmd, t_data *data)
 		return (0);
 	}
 	if (cmd->argv && cmd->argv[0] && is_variable_assignment(cmd->argv[0]))
-	{
-		status = handle_variable_assignment(cmd->argv[0], data);
-		restore_fds(in_backup, out_backup);
-		if (data)
-			data->exit_status = status ? 0 : 1;
-		return (status ? 0 : 1);
-	}
-	status = execute_builtin_with_fds(cmd, data, in_backup, out_backup);
-	if (status != -1)
-		return (status);
-	status = simplecmd_spawn_and_wait(cmd, data);
-	restore_fds(in_backup, out_backup);
-	if (data)
-		data->exit_status = status;
-	return (status);
+		return (handle_var_assignment_cmd(cmd, data, in_backup, out_backup));
+	return (execute_cmd_final(cmd, data, in_backup, out_backup));
 }
 
 void	execute_all(t_cmd *cmds, t_data *data)

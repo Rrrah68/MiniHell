@@ -52,6 +52,7 @@ SRC = main.c \
 	src/parser/parser_cmd_utils.c \
 	src/parser/parser.c  \
 	src/executor/executor.c	\
+	src/executor/executor_helpers.c \
 	src/executor/executor_utils.c \
 	src/executor/executor_utils_2.c \
 	src/executor/executor_utils_3.c \

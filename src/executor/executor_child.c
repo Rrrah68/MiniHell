@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 19:49:21 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:04:21 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,14 @@ void	child_run_exec(t_data *data, t_cmd *cmd)
 	env = NULL;
 	if (data)
 		env = data->env;
-	program_path = prepare_program_path(cmd, env, &has_slash);
+	program_path = prepare_program_path(cmd, env, data, &has_slash);
 	env_array = env_to_array(env);
-	cleanup_child_data(data);
 	if (execve(program_path, cmd->argv, env_array) == -1)
 	{
-		if (program_path)
-			free(program_path);
-		if (env_array)
-			ft_free_tab(env_array);
-		exit(127);
+		t_exec_error_params params = {cmd->argv[0], program_path, env_array,
+			data, cmd, errno};
+		print_exec_error_and_exit(&params);
 	}
+	cleanup_child_data(data);
 	exit(127);
 }
