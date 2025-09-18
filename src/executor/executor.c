@@ -38,20 +38,9 @@ static int	handle_redirection_and_check_args(t_cmd *cmd, t_data *data,
 	return (1);
 }
 
-int	execute_simple_cmd(t_cmd *cmd, t_data *data)
+static int	handle_redirect_result(int redirect_result, t_data *data,
+		int in_backup, int out_backup)
 {
-	int	in_backup;
-	int	out_backup;
-	int	redirect_result;
-
-	if (!cmd)
-	{
-		if (data)
-			data->exit_status = 0;
-		return (0);
-	}
-	redirect_result = handle_redirection_and_check_args(cmd, data, &in_backup,
-			&out_backup);
 	if (redirect_result == -1)
 		return (1);
 	if (redirect_result == -2)
@@ -63,6 +52,28 @@ int	execute_simple_cmd(t_cmd *cmd, t_data *data)
 			data->exit_status = 0;
 		return (0);
 	}
+	return (-1);
+}
+
+int	execute_simple_cmd(t_cmd *cmd, t_data *data)
+{
+	int	in_backup;
+	int	out_backup;
+	int	redirect_result;
+	int	result;
+
+	if (!cmd)
+	{
+		if (data)
+			data->exit_status = 0;
+		return (0);
+	}
+	redirect_result = handle_redirection_and_check_args(cmd, data, &in_backup,
+			&out_backup);
+	result = handle_redirect_result(redirect_result, data, in_backup,
+			out_backup);
+	if (result != -1)
+		return (result);
 	if (cmd->argv && cmd->argv[0] && is_variable_assignment(cmd->argv[0]))
 		return (handle_var_assignment_cmd(cmd, data, in_backup, out_backup));
 	return (execute_cmd_final(cmd, data, in_backup, out_backup));

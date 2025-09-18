@@ -49,33 +49,30 @@ static int	check_overflow(char *str)
 	return (0);
 }
 
-int	builtin_exit(char **args)
+int	builtin_exit(char **args, t_data *data)
 {
 	int	status;
 
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!args[1])
 	{
-		g_signal_status = 0;
-		return (-2);
+		safe_as_fuck_malloc(0, 0, SAFE_MALLOC_FREE_ALL);
+		exit(0);
 	}
 	if (!is_numeric(args[1]) || check_overflow(args[1]))
 	{
-		ft_putstr_fd("minishell: exit:numeric argument required\n",
+		ft_putstr_fd("minishell: exit: numeric argument required\n",
 			STDERR_FILENO);
-		g_signal_status = 2;
-		return (-2);
+		safe_as_fuck_malloc(0, 0, SAFE_MALLOC_FREE_ALL);
+		exit(2);
 	}
 	if (args[2])
 	{
-		ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
-		g_signal_status = 1;
-		return (-2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+		data->exit_status = 1;
+		return (1);
 	}
 	status = ft_atoi(args[1]);
-	g_signal_status = status & 255;
-	return (-2);
+	safe_as_fuck_malloc(0, 0, SAFE_MALLOC_FREE_ALL);
+	exit((unsigned char)status);
 }
-
-//exit dans ton exit encule
-//return (unsigned char)status ;

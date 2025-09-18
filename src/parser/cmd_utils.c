@@ -82,3 +82,19 @@ t_cmd	*parser_error(t_cmd *cmds, const char *msg)
 	g_signal_status = 2;
 	return (NULL);
 }
+
+int	handle_heredoc_parser(t_token **tok, t_cmd *cur)
+{
+	t_token	*next;
+
+	next = (*tok)->next;
+	if (!next || next->type != WORD)
+		return (0);
+	if (cur->heredoc_limiter)
+		our_free(cur->heredoc_limiter);
+	cur->heredoc_limiter = ft_strdup(next->str);
+	if (!cur->heredoc_limiter)
+		return (0);
+	cur->heredoc_quoted = (next->in_quotes == 1);
+	return (1);
+}

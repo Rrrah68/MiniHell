@@ -32,63 +32,20 @@ char	*expand_heredoc_line(const char *line, t_data *data)
 	return (result);
 }
 
-static void	process_heredoc_line(char *line, int quoted, t_data *data,
-		int write_fd)
-{
-	char	*expanded;
-
-	if (!quoted)
-	{
-		expanded = expand_heredoc_line(line, data);
-		write_heredoc_line(write_fd, expanded);
-		our_free(expanded);
-	}
-	else
-		write_heredoc_line(write_fd, line);
-}
-
 int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 {
-	int					pipefd[2];
-	char				*line;
-	struct sigaction	old_action;
+	int						pipefd[2];
+	struct sigaction		old_action;
+	int						result;
+	t_heredoc_loop_params	loop_params;
 
-	if (pipe(pipefd) == -1)
-	{
-		perror("pipe");
+	if (setup_heredoc_pipe_and_signals(pipefd, &old_action) == -1)
 		return (-1);
-	}
-	if (setup_heredoc_signal_handler(&old_action) == -1)
-	{
-		close(pipefd[1]);
-		close(pipefd[0]);
+	loop_params = (t_heredoc_loop_params){delimiter, quoted, data, pipefd,
+		&old_action};
+	result = read_heredoc_loop(&loop_params);
+	if (result == -1)
 		return (-1);
-	}
-	while (1)
-	{
-		line = read_heredoc_line_input();
-		if (!line)
-		{
-			if (g_signal_status == SIGINT)
-			{
-				close(pipefd[1]);
-				close(pipefd[0]);
-				data->heredoc_interrupted = 1;
-				g_signal_status = 0;
-				restore_signal_handler(&old_action);
-				return (-1);
-			}
-			else
-				break ;
-		}
-		if (is_delimiter(line, delimiter))
-		{
-			our_free(line);
-			break ;
-		}
-		process_heredoc_line(line, quoted, data, pipefd[1]);
-		our_free(line);
-	}
 	close(pipefd[1]);
 	restore_signal_handler(&old_action);
 	return (pipefd[0]);

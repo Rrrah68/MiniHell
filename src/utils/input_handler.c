@@ -54,21 +54,18 @@ static int	process_incomplete_input(char **complete_input)
 
 	if (!*complete_input)
 		return (1);
-		
 	len = ft_strlen(*complete_input);
 	if (len == 0)
 		return (1);
-		
 	i = len - 1;
 	while (i >= 0 && (*complete_input)[i] == ' ')
 		i--;
-		
 	if (i >= 0 && (*complete_input)[i] == '|')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n",
+			STDERR_FILENO);
 		return (1);
 	}
-	
 	return (1);
 }
 

@@ -115,6 +115,24 @@ typedef struct s_finalize_params
 	pid_t						pid;
 }								t_finalize_params;
 
+typedef struct s_heredoc_params
+{
+	char						*line;
+	const char					*delimiter;
+	int							quoted;
+	t_data						*data;
+	int							write_fd;
+}								t_heredoc_params;
+
+typedef struct s_heredoc_loop_params
+{
+	const char					*delimiter;
+	int							quoted;
+	t_data						*data;
+	int							*pipefd;
+	struct sigaction			*old_action;
+}								t_heredoc_loop_params;
+
 typedef enum e_builtin
 {
 	BI_ECHO,
@@ -162,7 +180,8 @@ char							*get_type(t_token_type type);
 
 /************** INPUT HANDLER **************/
 int								handle_input(t_data *data);
-int								handle_continuation_input(char **complete_input);
+int								handle_continuation_input(
+									char **complete_input);
 
 /************** MAIN EXECUTION **************/
 int								process_and_execute(t_data *data);
@@ -345,6 +364,8 @@ void							redirect_and_close(int old_fd, int new_fd);
 void							exec_child(t_data *data, t_cmd *cmd, int in_fd,
 									int out_fd);
 void							wait_children(t_data *data);
+int								get_exit_status_from_signal(int status);
+int								process_child_status(int status);
 void							backup_fds(int *in_backup, int *out_backup);
 void							restore_fds(int in_backup, int out_backup);
 char							*check_path_directories(char **paths,
@@ -375,7 +396,7 @@ int								builtin_pwd(char **args, t_data *data);
 int								builtin_export(char **args, t_data *data);
 int								builtin_unset(char **args, t_data *data);
 int								builtin_env(char **args, t_data *data);
-int								builtin_exit(char **args);
+int								builtin_exit(char **args, t_data *data);
 
 /************** HEREDOC UTILS **************/
 int								is_delimiter(const char *line,
@@ -386,6 +407,22 @@ int								handle_heredoc_with_content(const char
 char							*read_heredoc_line_input(void);
 void							handle_heredoc_eof_warning(
 									const char *delimiter);
+char							*read_line_with_signal_check(void);
+int								handle_signal_interruption(char *line);
+int								handle_read_result(int bytes_read, int i,
+									char *line);
+int								process_char_input(char *line, int *i);
+int								handle_heredoc_interruption(int *pipefd,
+									t_data *data, struct sigaction *old_action);
+int								process_heredoc_input(t_heredoc_params *params);
+void							process_heredoc_line(char *line, int quoted,
+									t_data *data, int write_fd);
+char							*expand_heredoc_line(const char *line,
+									t_data *data);
+int								setup_heredoc_pipe_and_signals(int *pipefd,
+									struct sigaction *old_action);
+int								read_heredoc_loop(
+									t_heredoc_loop_params *params);
 char							*append_to_result(char *result, char *temp);
 char							*process_character(const char *line, int *i,
 									t_data *data);

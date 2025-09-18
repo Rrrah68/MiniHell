@@ -32,6 +32,21 @@ int	handle_builtin_execution(t_cmd *cmd, t_data *data)
 	return (0);
 }
 
+static void	setup_child_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+static void	prepare_exec_params(t_exec_error_params *params,
+		t_cmd *cmd, t_data *data)
+{
+	params->cmd_name = cmd->argv[0];
+	params->data = data;
+	params->cmd = cmd;
+	params->error_type = errno;
+}
+
 void	child_run_exec(t_data *data, t_cmd *cmd)
 {
 	char				*program_path;
@@ -40,8 +55,7 @@ void	child_run_exec(t_data *data, t_cmd *cmd)
 	int					has_slash;
 	t_exec_error_params	params;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	setup_child_signals();
 	handle_builtin_execution(cmd, data);
 	env = NULL;
 	if (data)
@@ -50,12 +64,9 @@ void	child_run_exec(t_data *data, t_cmd *cmd)
 	env_array = env_to_array(env);
 	if (execve(program_path, cmd->argv, env_array) == -1)
 	{
-		params.cmd_name = cmd->argv[0];
+		prepare_exec_params(&params, cmd, data);
 		params.program_path = program_path;
 		params.env_array = env_array;
-		params.data = data;
-		params.cmd = cmd;
-		params.error_type = errno;
 		print_exec_error_and_exit(&params);
 	}
 	cleanup_data(data);

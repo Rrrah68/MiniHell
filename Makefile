@@ -58,12 +58,16 @@ SRC = main.c \
 	src/executor/executor_utils.c \
 	src/executor/executor_utils_2.c \
 	src/executor/executor_utils_3.c \
+	src/executor/executor_wait_helpers.c \
 	src/executor/executor_utils_4.c \
 	src/executor/executor_child.c \
 	src/executor/exec_utils_4.c \
 	src/executor/handle_redirection.c \
 	src/executor/handle_heredoc.c \
 	src/executor/handle_heredoc_utils.c \
+	src/executor/handle_heredoc_input.c \
+	src/executor/handle_heredoc_helpers.c \
+	src/executor/handle_heredoc_utils2.c \
 	src/executor/handle_heredoc_expand.c \
 	src/executor/open_redirection.c \
 	src/builtins/builtin_utils.c \
@@ -74,7 +78,8 @@ SRC = main.c \
 	src/builtins/env.c \
 	src/builtins/exit.c \
 	src/builtins/echo.c \
-	src/signal/signals.c
+	src/signal/signals.c \
+	src/signal/signals2.c
 
 BUILD = build/
 

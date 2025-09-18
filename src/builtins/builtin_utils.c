@@ -48,6 +48,6 @@ int	exec_builtin(t_builtin bi, char **argv, t_data *data)
 	if (bi == BI_ENV)
 		return (builtin_env(argv, data));
 	if (bi == BI_EXIT)
-		return (builtin_exit(argv));
+		return (builtin_exit(argv, data));
 	return (1);
 }

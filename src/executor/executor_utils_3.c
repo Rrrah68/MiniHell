@@ -16,25 +16,19 @@ void	wait_children(t_data *data)
 {
 	int		status;
 	pid_t	pid;
+	int		last_exit_status;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	last_exit_status = 0;
 	pid = wait(&status);
 	while (pid > 0)
 	{
-		if (WIFSIGNALED(status) && data)
-		{
-			if (WTERMSIG(status) == SIGINT)
-				data->exit_status = 128 + SIGINT;
-			else if (WTERMSIG(status) == SIGQUIT)
-				data->exit_status = 128 + SIGQUIT;
-			else
-				data->exit_status = 128 + WTERMSIG(status);
-		}
-		else if (WIFEXITED(status) && data)
-			data->exit_status = WEXITSTATUS(status);
+		last_exit_status = process_child_status(status);
 		pid = wait(&status);
 	}
+	if (data)
+		data->exit_status = last_exit_status;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
