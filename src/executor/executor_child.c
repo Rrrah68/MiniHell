@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   executor_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 18:04:21 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:27:03 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	cleanup_child_data(t_data *data)
-{
-	if (!data)
-		return ;
-	if (data->prompt)
-	{
-		free(data->prompt);
-		data->prompt = NULL;
-	}
-	if (data->env)
-	{
-		free_environment(data->env);
-		data->env = NULL;
-	}
-}
+// static void	cleanup_child_data(t_data *data)
+// {
+// 	if (!data)
+// 		return ;
+// 	if (data->prompt)
+// 	{
+// 		free(data->prompt);
+// 		data->prompt = NULL;
+// 	}
+// 	if (data->env)
+// 	{
+// 		free_environment(data->env);
+// 		data->env = NULL;
+// 	}
+// }
 
 int	handle_builtin_execution(t_cmd *cmd, t_data *data)
 {
@@ -39,6 +39,7 @@ int	handle_builtin_execution(t_cmd *cmd, t_data *data)
 	if (bi != BI_NONE)
 	{
 		ret = exec_builtin(bi, cmd->argv, data);
+		cleanup_data(data);
 		exit(ret);
 	}
 	return (0);
@@ -65,6 +66,6 @@ void	child_run_exec(t_data *data, t_cmd *cmd)
 			data, cmd, errno};
 		print_exec_error_and_exit(&params);
 	}
-	cleanup_child_data(data);
+	cleanup_data(data);
 	exit(127);
 }

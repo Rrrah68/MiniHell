@@ -6,7 +6,7 @@
 /*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:23 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 14:40:14 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:23:31 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	cmd_add_redir(t_cmd *cur, t_token_type type, char *str, int quoted)
 	return (0);
 }
 
-void	*free_cmd_list(t_cmd *cmd)
+void	free_cmd_list(t_cmd *cmd)
 {
 	size_t	i;
 	t_cmd	*next;
@@ -89,7 +89,6 @@ void	*free_cmd_list(t_cmd *cmd)
 		free(cmd);
 		cmd = next;
 	}
-	return (NULL);
 }
 
 void	cleanup_data(t_data *data)
@@ -98,6 +97,11 @@ void	cleanup_data(t_data *data)
 	{
 		free(data->input);
 		data->input = NULL;
+	}
+	if (data->prompt)
+	{
+		free(data->prompt);
+		data->prompt = NULL;
 	}
 	if (data->lexer)
 	{
@@ -108,6 +112,11 @@ void	cleanup_data(t_data *data)
 	{
 		free_cmd_list(data->cmds);
 		data->cmds = NULL;
+	}
+	if (data->env)
+	{
+		free_environment(data->env);
+		data->env = NULL;
 	}
 }
 

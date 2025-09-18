@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:45:34 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 18:26:19 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:16:52 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,10 @@ static int	handle_input(t_data *data)
 	return (1);
 }
 
-static void	process_and_execute(t_data *data)
+static int	process_and_execute(t_data *data)
 {
 	t_cmd	*cmds;
+	int		exec_result;
 
 	data->cmds = NULL;
 	lexer(data, data->input);
@@ -168,10 +169,19 @@ static void	process_and_execute(t_data *data)
 		if (cmds->next)
 			execute_all(cmds, data);
 		else
-			execute_simple_cmd(cmds, data);
+		{
+			exec_result = execute_simple_cmd(cmds, data);
+			if (exec_result == -2)  // Signal d'exit
+			{
+				free_cmd_list(cmds);
+				data->cmds = NULL;
+				return (-2);  // Propager le signal d'exit
+			}
+		}
 		free_cmd_list(cmds);
 		data->cmds = NULL;  // Réinitialiser après libération
 	}
+	return (0);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -201,10 +211,10 @@ int	main(int ac, char **av, char **envp)
 			write(STDOUT_FILENO, data.prompt, ft_strlen(data.prompt));
 			continue ;  // Continuer la boucle
 		}
-		process_and_execute(&data);
+		result = process_and_execute(&data);
+		if (result == -2)  // Signal d'exit reçu
+			break ;  // Sortir du programme proprement
 	}
 	cleanup_data(&data);  // Nettoyer toutes les données restantes
-	free_environment(data.env);
-	free(data.prompt);
 	return (data.exit_status);
 }

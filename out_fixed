@@ -1,0 +1,465 @@
+==1889929== Memcheck, a memory error detector
+==1889929== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1889929== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1889929== Command: ./minishell
+==1889929== Parent PID: 1878468
+==1889929== 
+==1889978== 
+==1889978== HEAP SUMMARY:
+==1889978==     in use at exit: 214,941 bytes in 476 blocks
+==1889978==   total heap usage: 874 allocs, 398 frees, 244,859 bytes allocated
+==1889978== 
+==1889978== 2 bytes in 1 blocks are still reachable in loss record 1 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x403098: add_env_var (env_utils.c:62)
+==1889978==    by 0x402D00: init_data (utils.c:40)
+==1889978==    by 0x401565: main (main.c:195)
+==1889978== 
+==1889978== 5 bytes in 1 blocks are still reachable in loss record 2 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x405EEF: append_to_argv (cmd_utils.c:67)
+==1889978==    by 0x406A1E: process_token (parser.c:44)
+==1889978==    by 0x406B58: parse_token (parser.c:72)
+==1889978==    by 0x4017C3: process_and_execute (main.c:155)
+==1889978==    by 0x401605: main (main.c:214)
+==1889978== 
+==1889978== 6 bytes in 1 blocks are still reachable in loss record 3 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x405F29: append_to_argv (cmd_utils.c:71)
+==1889978==    by 0x406A1E: process_token (parser.c:44)
+==1889978==    by 0x406B58: parse_token (parser.c:72)
+==1889978==    by 0x4017C3: process_and_execute (main.c:155)
+==1889978==    by 0x401605: main (main.c:214)
+==1889978== 
+==1889978== 24 bytes in 1 blocks are still reachable in loss record 16 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x405EAF: append_to_argv (cmd_utils.c:62)
+==1889978==    by 0x406A1E: process_token (parser.c:44)
+==1889978==    by 0x406B58: parse_token (parser.c:72)
+==1889978==    by 0x4017C3: process_and_execute (main.c:155)
+==1889978==    by 0x401605: main (main.c:214)
+==1889978== 
+==1889978== 35 bytes in 1 blocks are still reachable in loss record 18 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40B6EA: ft_strjoin (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x40137E: get_prompt (main.c:27)
+==1889978==    by 0x4015B0: main (main.c:204)
+==1889978== 
+==1889978== 96 bytes in 1 blocks are still reachable in loss record 28 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x405CF6: create_cmd (cmd_utils.c:19)
+==1889978==    by 0x406B10: parse_token (parser.c:65)
+==1889978==    by 0x4017C3: process_and_execute (main.c:155)
+==1889978==    by 0x401605: main (main.c:214)
+==1889978== 
+==1889978== 1,152 bytes in 82 blocks are still reachable in loss record 44 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x403773: create_env_node (env_cpy.c:22)
+==1889978==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1889978==    by 0x403886: copy_environment (env_cpy.c:98)
+==1889978==    by 0x402C77: init_data (utils.c:31)
+==1889978==    by 0x401565: main (main.c:195)
+==1889978== 
+==1889978== 1,968 bytes in 82 blocks are still reachable in loss record 47 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x40374E: create_env_node (env_cpy.c:19)
+==1889978==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1889978==    by 0x403886: copy_environment (env_cpy.c:98)
+==1889978==    by 0x402C77: init_data (utils.c:31)
+==1889978==    by 0x401565: main (main.c:195)
+==1889978== 
+==1889978== 3,379 bytes in 81 blocks are still reachable in loss record 50 of 75
+==1889978==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1889978==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1889978==    by 0x4037B5: create_env_node (env_cpy.c:29)
+==1889978==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1889978==    by 0x403886: copy_environment (env_cpy.c:98)
+==1889978==    by 0x402C77: init_data (utils.c:31)
+==1889978==    by 0x401565: main (main.c:195)
+==1889978== 
+==1889978== LEAK SUMMARY:
+==1889978==    definitely lost: 0 bytes in 0 blocks
+==1889978==    indirectly lost: 0 bytes in 0 blocks
+==1889978==      possibly lost: 0 bytes in 0 blocks
+==1889978==    still reachable: 6,667 bytes in 251 blocks
+==1889978==         suppressed: 208,274 bytes in 225 blocks
+==1889978== 
+==1889978== For lists of detected and suppressed errors, rerun with: -s
+==1889978== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1890552== 
+==1890552== HEAP SUMMARY:
+==1890552==     in use at exit: 214,984 bytes in 479 blocks
+==1890552==   total heap usage: 907 allocs, 428 frees, 249,753 bytes allocated
+==1890552== 
+==1890552== 2 bytes in 1 blocks are still reachable in loss record 1 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x403098: add_env_var (env_utils.c:62)
+==1890552==    by 0x402D00: init_data (utils.c:40)
+==1890552==    by 0x401565: main (main.c:195)
+==1890552== 
+==1890552== 4 bytes in 1 blocks are still reachable in loss record 2 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x405F29: append_to_argv (cmd_utils.c:71)
+==1890552==    by 0x406A1E: process_token (parser.c:44)
+==1890552==    by 0x406B58: parse_token (parser.c:72)
+==1890552==    by 0x4017C3: process_and_execute (main.c:155)
+==1890552==    by 0x401605: main (main.c:214)
+==1890552== 
+==1890552== 5 bytes in 1 blocks are still reachable in loss record 3 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x405EEF: append_to_argv (cmd_utils.c:67)
+==1890552==    by 0x406A1E: process_token (parser.c:44)
+==1890552==    by 0x406B58: parse_token (parser.c:72)
+==1890552==    by 0x4017C3: process_and_execute (main.c:155)
+==1890552==    by 0x401605: main (main.c:214)
+==1890552== 
+==1890552== 24 bytes in 1 blocks are still reachable in loss record 14 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x405EAF: append_to_argv (cmd_utils.c:62)
+==1890552==    by 0x406A1E: process_token (parser.c:44)
+==1890552==    by 0x406B58: parse_token (parser.c:72)
+==1890552==    by 0x4017C3: process_and_execute (main.c:155)
+==1890552==    by 0x401605: main (main.c:214)
+==1890552== 
+==1890552== 35 bytes in 1 blocks are still reachable in loss record 17 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40B6EA: ft_strjoin (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x40137E: get_prompt (main.c:27)
+==1890552==    by 0x4015B0: main (main.c:204)
+==1890552== 
+==1890552== 96 bytes in 1 blocks are still reachable in loss record 28 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x405CF6: create_cmd (cmd_utils.c:19)
+==1890552==    by 0x406B10: parse_token (parser.c:65)
+==1890552==    by 0x4017C3: process_and_execute (main.c:155)
+==1890552==    by 0x401605: main (main.c:214)
+==1890552== 
+==1890552== 1,152 bytes in 82 blocks are still reachable in loss record 44 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x403773: create_env_node (env_cpy.c:22)
+==1890552==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890552==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890552==    by 0x402C77: init_data (utils.c:31)
+==1890552==    by 0x401565: main (main.c:195)
+==1890552== 
+==1890552== 1,968 bytes in 82 blocks are still reachable in loss record 47 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x40374E: create_env_node (env_cpy.c:19)
+==1890552==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890552==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890552==    by 0x402C77: init_data (utils.c:31)
+==1890552==    by 0x401565: main (main.c:195)
+==1890552== 
+==1890552== 3,379 bytes in 81 blocks are still reachable in loss record 50 of 75
+==1890552==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890552==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890552==    by 0x4037B5: create_env_node (env_cpy.c:29)
+==1890552==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890552==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890552==    by 0x402C77: init_data (utils.c:31)
+==1890552==    by 0x401565: main (main.c:195)
+==1890552== 
+==1890552== LEAK SUMMARY:
+==1890552==    definitely lost: 0 bytes in 0 blocks
+==1890552==    indirectly lost: 0 bytes in 0 blocks
+==1890552==      possibly lost: 0 bytes in 0 blocks
+==1890552==    still reachable: 6,665 bytes in 251 blocks
+==1890552==         suppressed: 208,319 bytes in 228 blocks
+==1890552== 
+==1890552== For lists of detected and suppressed errors, rerun with: -s
+==1890552== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1890648== 
+==1890648== HEAP SUMMARY:
+==1890648==     in use at exit: 215,057 bytes in 485 blocks
+==1890648==   total heap usage: 966 allocs, 481 frees, 255,096 bytes allocated
+==1890648== 
+==1890648== 2 bytes in 1 blocks are still reachable in loss record 3 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x403098: add_env_var (env_utils.c:62)
+==1890648==    by 0x402D00: init_data (utils.c:40)
+==1890648==    by 0x401565: main (main.c:195)
+==1890648== 
+==1890648== 4 bytes in 1 blocks are still reachable in loss record 4 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x405F29: append_to_argv (cmd_utils.c:71)
+==1890648==    by 0x406A1E: process_token (parser.c:44)
+==1890648==    by 0x406B58: parse_token (parser.c:72)
+==1890648==    by 0x4017C3: process_and_execute (main.c:155)
+==1890648==    by 0x401605: main (main.c:214)
+==1890648== 
+==1890648== 8 bytes in 2 blocks are still reachable in loss record 7 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x405EEF: append_to_argv (cmd_utils.c:67)
+==1890648==    by 0x406A1E: process_token (parser.c:44)
+==1890648==    by 0x406B58: parse_token (parser.c:72)
+==1890648==    by 0x4017C3: process_and_execute (main.c:155)
+==1890648==    by 0x401605: main (main.c:214)
+==1890648== 
+==1890648== 32 bytes in 1 blocks are still reachable in loss record 21 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x405EAF: append_to_argv (cmd_utils.c:62)
+==1890648==    by 0x406A1E: process_token (parser.c:44)
+==1890648==    by 0x406B58: parse_token (parser.c:72)
+==1890648==    by 0x4017C3: process_and_execute (main.c:155)
+==1890648==    by 0x401605: main (main.c:214)
+==1890648== 
+==1890648== 35 bytes in 1 blocks are still reachable in loss record 22 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40B6EA: ft_strjoin (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x40137E: get_prompt (main.c:27)
+==1890648==    by 0x4015B0: main (main.c:204)
+==1890648== 
+==1890648== 96 bytes in 1 blocks are still reachable in loss record 33 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x405CF6: create_cmd (cmd_utils.c:19)
+==1890648==    by 0x406B10: parse_token (parser.c:65)
+==1890648==    by 0x4017C3: process_and_execute (main.c:155)
+==1890648==    by 0x401605: main (main.c:214)
+==1890648== 
+==1890648== 1,152 bytes in 82 blocks are still reachable in loss record 49 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x403773: create_env_node (env_cpy.c:22)
+==1890648==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890648==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890648==    by 0x402C77: init_data (utils.c:31)
+==1890648==    by 0x401565: main (main.c:195)
+==1890648== 
+==1890648== 1,968 bytes in 82 blocks are still reachable in loss record 52 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x40374E: create_env_node (env_cpy.c:19)
+==1890648==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890648==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890648==    by 0x402C77: init_data (utils.c:31)
+==1890648==    by 0x401565: main (main.c:195)
+==1890648== 
+==1890648== 3,379 bytes in 81 blocks are still reachable in loss record 55 of 80
+==1890648==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890648==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890648==    by 0x4037B5: create_env_node (env_cpy.c:29)
+==1890648==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890648==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890648==    by 0x402C77: init_data (utils.c:31)
+==1890648==    by 0x401565: main (main.c:195)
+==1890648== 
+==1890648== LEAK SUMMARY:
+==1890648==    definitely lost: 0 bytes in 0 blocks
+==1890648==    indirectly lost: 0 bytes in 0 blocks
+==1890648==      possibly lost: 0 bytes in 0 blocks
+==1890648==    still reachable: 6,676 bytes in 252 blocks
+==1890648==         suppressed: 208,381 bytes in 233 blocks
+==1890648== 
+==1890648== For lists of detected and suppressed errors, rerun with: -s
+==1890648== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1890709== 
+==1890709== HEAP SUMMARY:
+==1890709==     in use at exit: 215,108 bytes in 489 blocks
+==1890709==   total heap usage: 1,025 allocs, 536 frees, 260,484 bytes allocated
+==1890709== 
+==1890709== 2 bytes in 1 blocks are still reachable in loss record 2 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x403098: add_env_var (env_utils.c:62)
+==1890709==    by 0x402D00: init_data (utils.c:40)
+==1890709==    by 0x401565: main (main.c:195)
+==1890709== 
+==1890709== 4 bytes in 1 blocks are still reachable in loss record 4 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x405F29: append_to_argv (cmd_utils.c:71)
+==1890709==    by 0x406A1E: process_token (parser.c:44)
+==1890709==    by 0x406B58: parse_token (parser.c:72)
+==1890709==    by 0x4017C3: process_and_execute (main.c:155)
+==1890709==    by 0x401605: main (main.c:214)
+==1890709== 
+==1890709== 11 bytes in 3 blocks are still reachable in loss record 7 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x405EEF: append_to_argv (cmd_utils.c:67)
+==1890709==    by 0x406A1E: process_token (parser.c:44)
+==1890709==    by 0x406B58: parse_token (parser.c:72)
+==1890709==    by 0x4017C3: process_and_execute (main.c:155)
+==1890709==    by 0x401605: main (main.c:214)
+==1890709== 
+==1890709== 35 bytes in 1 blocks are still reachable in loss record 20 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40B6EA: ft_strjoin (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x40137E: get_prompt (main.c:27)
+==1890709==    by 0x4015B0: main (main.c:204)
+==1890709== 
+==1890709== 40 bytes in 1 blocks are still reachable in loss record 23 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x405EAF: append_to_argv (cmd_utils.c:62)
+==1890709==    by 0x406A1E: process_token (parser.c:44)
+==1890709==    by 0x406B58: parse_token (parser.c:72)
+==1890709==    by 0x4017C3: process_and_execute (main.c:155)
+==1890709==    by 0x401605: main (main.c:214)
+==1890709== 
+==1890709== 96 bytes in 1 blocks are still reachable in loss record 33 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x405CF6: create_cmd (cmd_utils.c:19)
+==1890709==    by 0x406B10: parse_token (parser.c:65)
+==1890709==    by 0x4017C3: process_and_execute (main.c:155)
+==1890709==    by 0x401605: main (main.c:214)
+==1890709== 
+==1890709== 1,152 bytes in 82 blocks are still reachable in loss record 49 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x403773: create_env_node (env_cpy.c:22)
+==1890709==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890709==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890709==    by 0x402C77: init_data (utils.c:31)
+==1890709==    by 0x401565: main (main.c:195)
+==1890709== 
+==1890709== 1,968 bytes in 82 blocks are still reachable in loss record 52 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x40374E: create_env_node (env_cpy.c:19)
+==1890709==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890709==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890709==    by 0x402C77: init_data (utils.c:31)
+==1890709==    by 0x401565: main (main.c:195)
+==1890709== 
+==1890709== 3,379 bytes in 81 blocks are still reachable in loss record 55 of 80
+==1890709==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1890709==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1890709==    by 0x4037B5: create_env_node (env_cpy.c:29)
+==1890709==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1890709==    by 0x403886: copy_environment (env_cpy.c:98)
+==1890709==    by 0x402C77: init_data (utils.c:31)
+==1890709==    by 0x401565: main (main.c:195)
+==1890709== 
+==1890709== LEAK SUMMARY:
+==1890709==    definitely lost: 0 bytes in 0 blocks
+==1890709==    indirectly lost: 0 bytes in 0 blocks
+==1890709==      possibly lost: 0 bytes in 0 blocks
+==1890709==    still reachable: 6,687 bytes in 253 blocks
+==1890709==         suppressed: 208,421 bytes in 236 blocks
+==1890709== 
+==1890709== For lists of detected and suppressed errors, rerun with: -s
+==1890709== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1891312== 
+==1891312== HEAP SUMMARY:
+==1891312==     in use at exit: 215,158 bytes in 491 blocks
+==1891312==   total heap usage: 1,114 allocs, 623 frees, 267,021 bytes allocated
+==1891312== 
+==1891312== 2 bytes in 1 blocks are still reachable in loss record 2 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x403098: add_env_var (env_utils.c:62)
+==1891312==    by 0x402D00: init_data (utils.c:40)
+==1891312==    by 0x401565: main (main.c:195)
+==1891312== 
+==1891312== 2 bytes in 1 blocks are still reachable in loss record 3 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x405F29: append_to_argv (cmd_utils.c:71)
+==1891312==    by 0x406A1E: process_token (parser.c:44)
+==1891312==    by 0x406B58: parse_token (parser.c:72)
+==1891312==    by 0x4017C3: process_and_execute (main.c:155)
+==1891312==    by 0x401605: main (main.c:214)
+==1891312== 
+==1891312== 29 bytes in 2 blocks are still reachable in loss record 18 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x405EEF: append_to_argv (cmd_utils.c:67)
+==1891312==    by 0x406A1E: process_token (parser.c:44)
+==1891312==    by 0x406B58: parse_token (parser.c:72)
+==1891312==    by 0x4017C3: process_and_execute (main.c:155)
+==1891312==    by 0x401605: main (main.c:214)
+==1891312== 
+==1891312== 32 bytes in 1 blocks are still reachable in loss record 19 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x405EAF: append_to_argv (cmd_utils.c:62)
+==1891312==    by 0x406A1E: process_token (parser.c:44)
+==1891312==    by 0x406B58: parse_token (parser.c:72)
+==1891312==    by 0x4017C3: process_and_execute (main.c:155)
+==1891312==    by 0x401605: main (main.c:214)
+==1891312== 
+==1891312== 35 bytes in 1 blocks are still reachable in loss record 20 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40B6EA: ft_strjoin (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x40137E: get_prompt (main.c:27)
+==1891312==    by 0x4015B0: main (main.c:204)
+==1891312== 
+==1891312== 96 bytes in 1 blocks are still reachable in loss record 33 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x405CF6: create_cmd (cmd_utils.c:19)
+==1891312==    by 0x406B10: parse_token (parser.c:65)
+==1891312==    by 0x4017C3: process_and_execute (main.c:155)
+==1891312==    by 0x401605: main (main.c:214)
+==1891312== 
+==1891312== 1,152 bytes in 82 blocks are still reachable in loss record 49 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x403773: create_env_node (env_cpy.c:22)
+==1891312==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1891312==    by 0x403886: copy_environment (env_cpy.c:98)
+==1891312==    by 0x402C77: init_data (utils.c:31)
+==1891312==    by 0x401565: main (main.c:195)
+==1891312== 
+==1891312== 1,968 bytes in 82 blocks are still reachable in loss record 52 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40C040: ft_calloc (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x40374E: create_env_node (env_cpy.c:19)
+==1891312==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1891312==    by 0x403886: copy_environment (env_cpy.c:98)
+==1891312==    by 0x402C77: init_data (utils.c:31)
+==1891312==    by 0x401565: main (main.c:195)
+==1891312== 
+==1891312== 3,379 bytes in 81 blocks are still reachable in loss record 55 of 80
+==1891312==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1891312==    by 0x40B4D8: ft_strdup (in /home/radahman/Desktop/MiniEnfer/minishell)
+==1891312==    by 0x4037B5: create_env_node (env_cpy.c:29)
+==1891312==    by 0x403911: process_env_entry (env_cpy.c:79)
+==1891312==    by 0x403886: copy_environment (env_cpy.c:98)
+==1891312==    by 0x402C77: init_data (utils.c:31)
+==1891312==    by 0x401565: main (main.c:195)
+==1891312== 
+==1891312== LEAK SUMMARY:
+==1891312==    definitely lost: 0 bytes in 0 blocks
+==1891312==    indirectly lost: 0 bytes in 0 blocks
+==1891312==      possibly lost: 0 bytes in 0 blocks
+==1891312==    still reachable: 6,695 bytes in 252 blocks
+==1891312==         suppressed: 208,463 bytes in 239 blocks
+==1891312== 
+==1891312== For lists of detected and suppressed errors, rerun with: -s
+==1891312== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1889929== 
+==1889929== HEAP SUMMARY:
+==1889929==     in use at exit: 208,438 bytes in 237 blocks
+==1889929==   total heap usage: 1,134 allocs, 897 frees, 275,575 bytes allocated
+==1889929== 
+==1889929== LEAK SUMMARY:
+==1889929==    definitely lost: 0 bytes in 0 blocks
+==1889929==    indirectly lost: 0 bytes in 0 blocks
+==1889929==      possibly lost: 0 bytes in 0 blocks
+==1889929==    still reachable: 0 bytes in 0 blocks
+==1889929==         suppressed: 208,438 bytes in 237 blocks
+==1889929== 
+==1889929== For lists of detected and suppressed errors, rerun with: -s
+==1889929== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

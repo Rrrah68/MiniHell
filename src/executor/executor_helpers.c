@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_helpers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 17:48:50 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:16:55 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ int	execute_cmd_final(t_cmd *cmd, t_data *data, int in_backup,
 	int	status;
 
 	status = execute_builtin_with_fds(cmd, data, in_backup, out_backup);
+	if (status == -2)  // Signal d'exit
+	{
+		restore_fds(in_backup, out_backup);
+		return (-2);  // Propager le signal d'exit
+	}
 	if (status != -1)
 		return (status);
 	status = simplecmd_spawn_and_wait(cmd, data);

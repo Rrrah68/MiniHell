@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:52:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 18:04:21 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:23:33 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,7 @@ t_cmd							*parser_error(t_cmd *cmds, const char *msg);
 t_cmd							*parse_token(t_token *lexer);
 
 void							add_cmd(t_cmd **list, t_cmd *new_cmd);
-void							*free_cmd_list(t_cmd *cmd);
+void							free_cmd_list(t_cmd *cmd);
 void							cleanup_data(t_data *data);
 
 char							**append_to_argv(char **argv, char *word);

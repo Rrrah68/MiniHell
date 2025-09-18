@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:37 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:55:38 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:12:46 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*get_env_value(t_env *env, char *key)
 	}
 	return (NULL);
 }
+
 
 void	add_env_var(t_env **env, const char *key, const char *value)
 {
