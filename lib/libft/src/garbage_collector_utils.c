@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   garbage_collector_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 14:57:25 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 18:04:11 by mobullad         ###   ########.fr       */
+/*   Created: 2025/09/18 18:29:07 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/18 18:29:32 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	*our_malloc(size_t bytes)
 {
-	char	*tab;
-	int		i;
-	int		k;
+	void	*ret;
 
-	if (!s1 || !s2)
-		return (NULL);
-	i = 0;
-	k = 0;
-	tab = (char *)our_malloc((ft_strlen(s1) + ft_strlen(s2) + 1)
-			* sizeof(char));
-	if (!tab)
-		return (NULL);
-	while (s1[i] != '\0')
-		tab[k++] = s1[i++];
-	i = 0;
-	while (s2[i] != '\0')
-		tab[k++] = s2[i++];
-	tab[k] = '\0';
-	return (tab);
+	ret = safe_as_fuck_malloc(bytes, NULL, SAFE_MALLOC_ALLOC);
+	return (ret);
+}
+
+void	our_free(void *address)
+{
+	if (address == NULL)
+		return ;
+	safe_as_fuck_malloc(0, address, SAFE_MALLOC_FREE);
+}
+
+char	*unionize_str(char *theirs)
+{
+	char	*ours;
+
+	ours = ft_strdup(theirs);
+	free(theirs);
+	return (ours);
 }

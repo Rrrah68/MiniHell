@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/mobullad/Desktop/MiniHellfdddddddddddp",
-      "program": "/home/mobullad/Desktop/MiniHellfdddddddddddp/build/Debug/outDebug",
+      "cwd": "/home/mobullad/Desktop/MiniHellsalefdp",
+      "program": "/home/mobullad/Desktop/MiniHellsalefdp/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

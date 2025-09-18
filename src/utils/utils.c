@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:31 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:36:16 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ void	init_data(t_data *data, char **envp)
 		shlvl_value = 1;
 	new_shlvl_str = ft_itoa(shlvl_value);
 	add_env_var(&data->env, "SHLVL", new_shlvl_str);
+	if (!get_env_value(data->env, "PWD"))
+		add_env_var(&data->env, "PWD", getcwd(NULL, 0));
+	if (!get_env_value(data->env, "OLDPWD"))
+		add_env_var(&data->env, "OLDPWD", NULL);
 	our_free(new_shlvl_str);
 }
 
@@ -56,13 +60,9 @@ int	is_incomplete_input(const char *input)
 	len = ft_strlen(input);
 	if (len == 0)
 		return (0);
-	
-	// Chercher le dernier caractère non-espace
 	i = len - 1;
 	while (i >= 0 && ft_isspace(input[i]))
 		i--;
-	
-	// Vérifier si la ligne se termine par un pipe
 	if (i >= 0 && input[i] == '|')
 		return (1);
 	return (0);
@@ -81,4 +81,31 @@ char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 	result = ft_strjoin(temp, s3);
 	our_free(temp);
 	return (result);
+}
+
+char	*get_type(t_token_type type)
+{
+	if (type == CHAR)
+		return ("CHAR");
+	else if (type == SYMBOL)
+		return ("SYMBOL");
+	else if (type == WHITESPACE)
+		return ("WHITESPACE");
+	else if (type == SINGLE_QUOTE)
+		return ("SIMPLE_QUOTE");
+	else if (type == DOUBLE_QUOTE)
+		return ("DOUBLE_QUOTE");
+	else if (type == WORD)
+		return ("WORD");
+	else if (type == PIPE)
+		return ("PIPE");
+	else if (type == REDIRECT_IN)
+		return ("REDIRECT_IN");
+	else if (type == REDIRECT_OUT)
+		return ("REDIRECT_OUT");
+	else if (type == REDIRECT_APPEND)
+		return ("REDIRECT_APPEND");
+	else if (type == REDIRECT_HEREDOC)
+		return ("REDIRECT_HEREDOC");
+	return ("UNKNOWN");
 }

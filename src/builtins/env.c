@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:17 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:55:18 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:38:41 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,8 @@ int	builtin_env(char **args, t_data *data)
 			ft_putstr_fd(current->key, STDOUT_FILENO);
 			ft_putstr_fd("=", STDOUT_FILENO);
 			ft_putstr_fd(current->value, STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
-		else
-		{
-			ft_putstr_fd(current->key, STDOUT_FILENO);
-		}
-		ft_putstr_fd("\n", STDOUT_FILENO);
 		current = current->next;
 	}
 	return (0);

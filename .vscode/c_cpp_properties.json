@@ -3,14 +3,21 @@
     {
       "name": "linux-gcc-x64",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/include",
+        "${workspaceFolder}/lib/libft/include",
+        "/usr/include",
+        "/usr/local/include"
       ],
       "compilerPath": "/usr/bin/gcc",
-      "cStandard": "${default}",
+      "cStandard": "c99",
       "cppStandard": "${default}",
       "intelliSenseMode": "linux-gcc-x64",
       "compilerArgs": [
-        ""
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-D_DEFAULT_SOURCE"
       ]
     }
   ],

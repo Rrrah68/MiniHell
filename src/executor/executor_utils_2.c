@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:48 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 17:29:00 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 22:07:22 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ pid_t	fork_or_exit(void)
 	if (pid < 0)
 	{
 		perror("fork");
-		safe_as_fuck_malloc(0,0,-1);
+		safe_as_fuck_malloc(0, 0, -1);
 		exit(1);
 	}
 	return (pid);

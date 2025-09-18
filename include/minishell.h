@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 16:52:11 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 16:23:33 by radahman         ###   ########.fr       */
+/*   Created: 2025/09/18 18:27:41 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/18 22:22:56 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_cmd
 	struct s_cmd				*next;
 	int							in_precheck_failed;
 	int							in_precheck_errno;
-	char						*in_precheck_target;	
+	char						*in_precheck_target;
 	int							out_precheck_failed;
 	int							out_precheck_errno;
 	char						*out_precheck_target;
@@ -105,7 +105,7 @@ typedef struct s_fork_params
 	int							*p;
 	int							*out_fd;
 	pid_t						*pid;
-}	t_fork_params;
+}								t_fork_params;
 
 typedef struct s_finalize_params
 {
@@ -113,7 +113,7 @@ typedef struct s_finalize_params
 	int							in_fd;
 	int							*p;
 	pid_t						pid;
-}	t_finalize_params;
+}								t_finalize_params;
 
 typedef enum e_builtin
 {
@@ -159,6 +159,14 @@ t_token							*create_token(char c, t_token_type type);
 void							add_token(t_token **lexer, t_token *new_token);
 void							free_tokens(t_token *head);
 char							*get_type(t_token_type type);
+
+/************** INPUT HANDLER **************/
+int								handle_input(t_data *data);
+int								handle_continuation_input(char **complete_input);
+
+/************** MAIN EXECUTION **************/
+int								process_and_execute(t_data *data);
+int								main_loop(t_data *data);
 
 /************** TOKEN MANAGEMENT **************/
 void							remove_next_token(t_token *current);
@@ -274,8 +282,10 @@ void							print_exported_vars(t_env *env_list);
 void							signal_handler(int sig);
 void							continuation_signal_handler(int sig);
 void							heredoc_signal_handler(int sig);
-int								setup_heredoc_signal_handler(struct sigaction *old_action);
-int								restore_signal_handler(struct sigaction *old_action);
+int								setup_heredoc_signal_handler(struct sigaction
+									*old_action);
+int								restore_signal_handler(struct sigaction
+									*old_action);
 int								wait_child_with_signals(pid_t pid);
 void							update_exit_status(t_data *data);
 
@@ -323,7 +333,8 @@ int								get_outfile_flags(int append);
 int								open_outfile(char *outfile, int append);
 int								execute_simple_cmd(t_cmd *cmd, t_data *data);
 int								is_variable_assignment(char *str);
-int								handle_variable_assignment(char *assignment, t_data *data);
+int								handle_variable_assignment(char *assignment,
+									t_data *data);
 int								handle_builtin_parent(t_builtin bi, char **argv,
 									t_data *data);
 int								handle_builtin_child(t_builtin bi, char **argv,
@@ -342,7 +353,6 @@ char							*prepare_program_path(t_cmd *cmd, t_env *env,
 									t_data *data, int *has_slash);
 void							print_exec_error_and_exit(
 									t_exec_error_params *params);
-
 int								handle_var_assignment_cmd(t_cmd *cmd,
 									t_data *data, int in_backup,
 									int out_backup);
@@ -371,8 +381,8 @@ int								builtin_exit(char **args);
 int								is_delimiter(const char *line,
 									const char *delimiter);
 void							write_heredoc_line(int fd, const char *line);
-int								handle_heredoc_with_content(
-									const char *content);
+int								handle_heredoc_with_content(const char
+									*content);
 char							*read_heredoc_line_input(void);
 void							handle_heredoc_eof_warning(
 									const char *delimiter);

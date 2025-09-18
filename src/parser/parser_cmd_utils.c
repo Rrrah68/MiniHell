@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:23 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 17:08:23 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:03:28 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void	free_cmd_list(t_cmd *cmd)
 void	cleanup_data(t_data *data)
 {
 	safe_as_fuck_malloc(0, 0, SAFE_MALLOC_FREE_ALL);
-	if (data != NULL) {
+	if (data != NULL)
+	{
 		data->input = NULL;
 		data->prompt = NULL;
 		data->lexer = NULL;

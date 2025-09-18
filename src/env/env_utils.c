@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:37 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:18:53 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	*get_env_value(t_env *env, char *key)
 	return (NULL);
 }
 
-
 void	add_env_var(t_env **env, const char *key, const char *value)
 {
 	t_env	*current;
@@ -60,7 +59,10 @@ void	add_env_var(t_env **env, const char *key, const char *value)
 			&& ft_strlen(current->key) == ft_strlen(key))
 		{
 			our_free(current->value);
-			current->value = ft_strdup(value);
+			if (value)
+				current->value = ft_strdup(value);
+			else
+				current->value = NULL;
 			return ;
 		}
 		current = current->next;

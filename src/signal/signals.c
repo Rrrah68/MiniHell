@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:29 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:30 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:13:12 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	heredoc_signal_handler(int sig)
 	{
 		g_signal_status = sig;
 		write(STDOUT_FILENO, "\n", 1);
-		// Signal reçu, la boucle de lecture va s'arrêter
 	}
 }
 
@@ -51,7 +50,6 @@ int	setup_heredoc_signal_handler(struct sigaction *old_action)
 	sigemptyset(&new_action.sa_mask);
 	new_action.sa_handler = heredoc_signal_handler;
 	new_action.sa_flags = 0;
-	
 	if (sigaction(SIGINT, &new_action, old_action) == -1)
 		return (-1);
 	return (0);

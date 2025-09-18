@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:47 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 17:02:23 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:06:37 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*find_program_path(char *program, t_env *env)
 }
 
 static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd,
-				t_data *data)
+		t_data *data)
 {
 	int	result;
 
@@ -70,11 +70,12 @@ static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd,
 	redirect_and_close(in_fd, STDIN_FILENO);
 	redirect_and_close(out_fd, STDOUT_FILENO);
 	result = setup_redirections(cmd, data);
-	if (result == -1) {
+	if (result == -1)
+	{
 		cleanup_data(data);
 		exit(1);
 	}
-	if (result == -2)  // Heredoc interrompu par signal
+	if (result == -2)
 	{
 		cleanup_data(data);
 		exit(130);

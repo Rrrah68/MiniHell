@@ -29,6 +29,8 @@ SRC = main.c \
 	src/lexer/token_quotes_utils.c \
 	src/lexer/token_quotes_utils_2.c \
 	src/utils/utils.c \
+	src/utils/input_handler.c \
+	src/utils/main_execution.c \
 	src/env/env_utils.c \
 	src/env/env_utils_basic.c \
 	src/env/env_export.c \

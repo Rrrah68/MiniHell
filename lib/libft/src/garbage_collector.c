@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   garbage_collector.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/18 18:10:03 by mobullad          #+#    #+#             */
+/*   Updated: 2025/09/18 18:34:06 by mobullad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 void	mem_manager_add_front(t_mem_mng **head_, t_mem_mng *node)
@@ -48,8 +60,9 @@ void	mem_manager_del_node(t_mem_mng **root, void *address)
 		*root = (*root)->next;
 	if (node != NULL)
 		free(node->addr);
-    else {
-        free(address); // Not double free safe
+	else
+	{
+		free(address);
 	}
 	free(node);
 }
@@ -72,19 +85,6 @@ void	mem_manager_del_list(t_mem_mng **root)
 	*root = NULL;
 }
 
-
-
-/*
-exit(1) if any malloc fails
-Safe against double free
-
-action >=  1 -> SAFE_MALLOC_ALLOC
-action  =  0 -> SAFE_MALLOC_FREE
-action <= -1 -> SAFE_MALLOC_FREE_ALL
-
-Not thread safe, If we ever use threads add a mutex here,
-it would be a Giga bottleneck tho
-*/
 void	*safe_as_fuck_malloc(size_t bytes, void *address, int action)
 {
 	static t_mem_mng	*all_mallocs = NULL;
@@ -112,32 +112,4 @@ void	*safe_as_fuck_malloc(size_t bytes, void *address, int action)
 		return (NULL);
 	}
 	return (new_node->addr);
-}
-
-void	*our_malloc(size_t bytes)
-{
-	void	*ret;
-
-	ret = safe_as_fuck_malloc(bytes, NULL, SAFE_MALLOC_ALLOC);
-	return (ret);
-}
-
-void	our_free(void *address)
-{
-	if (address == NULL)
-		return ;
-	safe_as_fuck_malloc(0, address, SAFE_MALLOC_FREE);
-}
-
-/*
-	Duplicate a string and free the original
-	It allows us to use our memory to track the new string
-*/
-char	*unionize_str(char *theirs)
-{
-	char	*ours;
-
-	ours = ft_strdup(theirs);
-	free(theirs);
-	return (ours);
 }

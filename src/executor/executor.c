@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 17:48:50 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:05:11 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static int	handle_redirection_and_check_args(t_cmd *cmd, t_data *data,
 			data->exit_status = 1;
 		return (-1);
 	}
-	if (result == -2)  // Heredoc interrompu par signal
+	if (result == -2)
 	{
 		restore_fds(*in_backup, *out_backup);
 		if (data)
-			data->exit_status = 130;  // Code de sortie standard pour interruption par SIGINT
+			data->exit_status = 130;
 		return (-2);
 	}
 	if (!cmd->argv || !cmd->argv[0] || !cmd->argv[0][0])
@@ -50,11 +50,11 @@ int	execute_simple_cmd(t_cmd *cmd, t_data *data)
 			data->exit_status = 0;
 		return (0);
 	}
-	redirect_result = handle_redirection_and_check_args(cmd, data,
-			&in_backup, &out_backup);
+	redirect_result = handle_redirection_and_check_args(cmd, data, &in_backup,
+			&out_backup);
 	if (redirect_result == -1)
 		return (1);
-	if (redirect_result == -2)  // Heredoc interrompu par signal
+	if (redirect_result == -2)
 		return (130);
 	if (redirect_result == 0)
 	{

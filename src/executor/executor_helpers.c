@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   executor_helpers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 17:11:58 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:06:47 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	execute_builtin_with_fds(t_cmd *cmd, t_data *data,
-		int in_backup, int out_backup)
+static int	execute_builtin_with_fds(t_cmd *cmd, t_data *data, int in_backup,
+		int out_backup)
 {
 	t_builtin	bi;
 	int			status;
@@ -39,8 +39,8 @@ static int	simplecmd_spawn_and_wait(t_cmd *cmd, t_data *data)
 	return (wait_child_with_signals(pid));
 }
 
-int	handle_var_assignment_cmd(t_cmd *cmd, t_data *data,
-		int in_backup, int out_backup)
+int	handle_var_assignment_cmd(t_cmd *cmd, t_data *data, int in_backup,
+		int out_backup)
 {
 	int	status;
 
@@ -59,16 +59,15 @@ int	handle_var_assignment_cmd(t_cmd *cmd, t_data *data,
 		return (1);
 }
 
-int	execute_cmd_final(t_cmd *cmd, t_data *data, int in_backup,
-		int out_backup)
+int	execute_cmd_final(t_cmd *cmd, t_data *data, int in_backup, int out_backup)
 {
 	int	status;
 
 	status = execute_builtin_with_fds(cmd, data, in_backup, out_backup);
-	if (status == -2)  // Signal d'exit
+	if (status == -2)
 	{
 		restore_fds(in_backup, out_backup);
-		return (-2);  // Propager le signal d'exit
+		return (-2);
 	}
 	if (status != -1)
 		return (status);

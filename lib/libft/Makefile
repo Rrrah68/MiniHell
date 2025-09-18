@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: radahman <radahman@student.42.fr>          +#+  +:+       +#+         #
+#    By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 21:21:25 by mobullad          #+#    #+#              #
-#    Updated: 2025/09/18 17:16:08 by radahman         ###   ########.fr        #
+#    Updated: 2025/09/18 18:30:38 by mobullad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,8 @@ MEMORY =	src/memory/ft_memset.c \
 			src/memory/ft_memchr.c \
 			src/memory/ft_memcmp.c \
 			src/memory/ft_calloc.c \
-			src/garbage_collector.c
+			src/garbage_collector.c \
+			src/garbage_collector_utils.c \
 
 FREE =		src/free/ft_free_tab.c
 

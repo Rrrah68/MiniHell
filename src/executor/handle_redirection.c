@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:51 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 18:17:02 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:06:30 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	setup_redirections(t_cmd *cmd, t_data *data)
 	heredoc_result = setup_heredoc(cmd, data);
 	if (heredoc_result == -1)
 		return (-1);
-	if (heredoc_result == -2)  // Heredoc interrompu par signal
+	if (heredoc_result == -2)
 		return (-2);
 	if (cmd->infile != NULL && !cmd->heredoc_limiter)
 	{

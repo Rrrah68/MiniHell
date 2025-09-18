@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:21 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:22 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:13:51 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int	process_pipe(t_token *tok, t_cmd **cmds, t_cmd **cur)
 	if (status <= 0)
 	{
 		if (status == 0)
-			parser_error(*cmds, "minishell: syntax error near pipe\n");
+		{
+			return (0);
+		}
 		else
 			parser_error(*cmds, "minishell: malloc error\n");
 		return (0);

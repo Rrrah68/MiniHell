@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:08:39 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static void	process_heredoc_line(char *line, int quoted, t_data *data,
 
 int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 {
-	int				pipefd[2];
-	char			*line;
+	int					pipefd[2];
+	char				*line;
 	struct sigaction	old_action;
 
 	if (pipe(pipefd) == -1)
@@ -58,7 +58,6 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 		perror("pipe");
 		return (-1);
 	}
-	// Installer le gestionnaire de signal spécifique pour heredoc
 	if (setup_heredoc_signal_handler(&old_action) == -1)
 	{
 		close(pipefd[1]);
@@ -70,22 +69,17 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 		line = read_heredoc_line_input();
 		if (!line)
 		{
-			// Afficher le warning uniquement si ce n'est PAS une interruption par signal
 			if (g_signal_status == SIGINT)
 			{
 				close(pipefd[1]);
 				close(pipefd[0]);
 				data->heredoc_interrupted = 1;
-				g_signal_status = 0;  // Réinitialiser le signal après traitement
-				restore_signal_handler(&old_action);  // Restaurer l'ancien gestionnaire
+				g_signal_status = 0;
+				restore_signal_handler(&old_action);
 				return (-1);
 			}
 			else
-			{
-				// Ne pas afficher le warning en mode interactif
-				// Le warning n'apparaît que lors d'EOF inattendu dans des scripts
 				break ;
-			}
 		}
 		if (is_delimiter(line, delimiter))
 		{
@@ -96,7 +90,7 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 		our_free(line);
 	}
 	close(pipefd[1]);
-	restore_signal_handler(&old_action);  // Restaurer l'ancien gestionnaire
+	restore_signal_handler(&old_action);
 	return (pipefd[0]);
 }
 
@@ -111,7 +105,6 @@ int	setup_heredoc(t_cmd *cmd, t_data *data)
 				cmd->heredoc_quoted, data);
 	if (cmd->heredoc_fd == -1)
 	{
-		// Si le heredoc a été interrompu par un signal, on retourne une erreur spécifique
 		if (data->heredoc_interrupted)
 			return (-2);
 		return (-1);

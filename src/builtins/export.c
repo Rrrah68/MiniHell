@@ -6,7 +6,7 @@
 /*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:20 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:55:21 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:18:22 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,14 @@ static int	process_export_argument(char *arg, t_data *data)
 		data->exit_status = 1;
 		return (1);
 	}
-	if (had_equal && value)
+	if (had_equal)
 	{
 		add_env_var(&data->env, name, value);
-		*(value - 1) = '=';
+		if (value)
+			*(value - 1) = '=';
 	}
 	else
-		add_env_var(&data->env, name, "");
+		add_env_var(&data->env, name, NULL);
 	return (0);
 }
 

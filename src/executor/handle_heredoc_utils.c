@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:06:18 by mobullad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,37 +62,30 @@ static char	*read_line_with_signal_check(void)
 		return (NULL);
 	i = 0;
 	write(STDOUT_FILENO, "> ", 2);
-	
 	while (i < 1023)
 	{
-		// Vérifier le signal avant chaque lecture
 		if (g_signal_status == SIGINT)
 		{
 			our_free(line);
 			return (NULL);
 		}
-		
 		bytes_read = read(STDIN_FILENO, buffer, 1);
-		
-		// Vérifier le signal immédiatement après la lecture
 		if (g_signal_status == SIGINT)
 		{
 			our_free(line);
 			return (NULL);
 		}
-		
 		if (bytes_read <= 0)
 		{
-			// EOF détecté - retourner la ligne vide si on n'a rien lu
 			if (i == 0)
 			{
 				our_free(line);
 				return (NULL);
 			}
-			break;
+			break ;
 		}
 		if (buffer[0] == '\n')
-			break;
+			break ;
 		line[i] = buffer[0];
 		i++;
 	}
@@ -108,10 +101,7 @@ char	*read_heredoc_line_input(void)
 	len = 0;
 	if (isatty(STDIN_FILENO))
 	{
-		// Pour les heredocs, on utilise une lecture caractère par caractère
-		// pour pouvoir vérifier les signaux entre chaque caractère
 		line = read_line_with_signal_check();
-		// Vérifier si un signal SIGINT a été reçu
 		if (g_signal_status == SIGINT)
 		{
 			if (line)
