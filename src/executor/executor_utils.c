@@ -6,7 +6,7 @@
 /*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:47 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 14:38:05 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:02:23 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ char	*check_path_directories(char **paths, char *program)
 		if (!temp)
 			break ;
 		full_path = ft_strjoin(temp, program);
-		free(temp);
+		our_free(temp);
 		if (full_path && access(full_path, X_OK) == 0)
 		{
 			ft_free_tab(paths);
 			return (full_path);
 		}
-		free(full_path);
+		our_free(full_path);
 		i++;
 	}
 	return (NULL);
@@ -70,16 +70,22 @@ static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd,
 	redirect_and_close(in_fd, STDIN_FILENO);
 	redirect_and_close(out_fd, STDOUT_FILENO);
 	result = setup_redirections(cmd, data);
-	if (result == -1)
+	if (result == -1) {
+		cleanup_data(data);
 		exit(1);
+	}
 	if (result == -2)  // Heredoc interrompu par signal
+	{
+		cleanup_data(data);
 		exit(130);
+	}
 }
 
 void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)
 {
 	child_setup_io_and_redirs(cmd, in_fd, out_fd, data);
 	child_run_exec(data, cmd);
+	cleanup_data(data);
 	exit(127);
 }
 

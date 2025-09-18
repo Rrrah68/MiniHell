@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_operators_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:08 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:09 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	remove_next_token(t_token *current)
 	to_remove = current->next;
 	current->next = to_remove->next;
 	if (to_remove && to_remove->str)
-		free(to_remove->str);
-	free(to_remove);
+		our_free(to_remove->str);
+	our_free(to_remove);
 }
 
 void	remove_quote_from_list(t_data *data, t_token *to_remove,
@@ -33,8 +33,8 @@ void	remove_quote_from_list(t_data *data, t_token *to_remove,
 	else
 		data->lexer = to_remove->next;
 	if (to_remove->str)
-		free(to_remove->str);
-	free(to_remove);
+		our_free(to_remove->str);
+	our_free(to_remove);
 }
 
 void	handle_append_redirect(t_token *current)

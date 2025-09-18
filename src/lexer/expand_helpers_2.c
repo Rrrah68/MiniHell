@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helpers_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:57 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:55:58 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_quote_removal(t_token *word)
 	char	*new_str;
 
 	new_str = ft_substr(word->str, 1, ft_strlen(word->str) - 2);
-	free(word->str);
+	our_free(word->str);
 	word->str = new_str;
 }
 
@@ -34,7 +34,7 @@ void	remove_double_dollars(t_token *word)
 			i += 2;
 			new_str = ft_substr(word->str, 0, i - 2);
 			new_str = ft_strjoin_f1(new_str, word->str + i);
-			free(word->str);
+			our_free(word->str);
 			word->str = new_str;
 			i = 0;
 		}

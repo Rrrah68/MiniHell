@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*read_line_with_signal_check(void)
 	int		bytes_read;
 	int		i;
 
-	line = malloc(1024);
+	line = our_malloc(1024);
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -68,7 +68,7 @@ static char	*read_line_with_signal_check(void)
 		// Vérifier le signal avant chaque lecture
 		if (g_signal_status == SIGINT)
 		{
-			free(line);
+			our_free(line);
 			return (NULL);
 		}
 		
@@ -77,7 +77,7 @@ static char	*read_line_with_signal_check(void)
 		// Vérifier le signal immédiatement après la lecture
 		if (g_signal_status == SIGINT)
 		{
-			free(line);
+			our_free(line);
 			return (NULL);
 		}
 		
@@ -86,7 +86,7 @@ static char	*read_line_with_signal_check(void)
 			// EOF détecté - retourner la ligne vide si on n'a rien lu
 			if (i == 0)
 			{
-				free(line);
+				our_free(line);
 				return (NULL);
 			}
 			break;
@@ -115,7 +115,7 @@ char	*read_heredoc_line_input(void)
 		if (g_signal_status == SIGINT)
 		{
 			if (line)
-				free(line);
+				our_free(line);
 			return (NULL);
 		}
 	}

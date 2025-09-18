@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc_expand.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*append_to_result(char *result, char *temp)
 	char	*new_result;
 
 	new_result = ft_strjoin(result, temp);
-	free(result);
-	free(temp);
+	our_free(result);
+	our_free(temp);
 	return (new_result);
 }
 
@@ -48,7 +48,7 @@ char	*expand_var_in_heredoc(const char *line, int i, int *new_i,
 	if (!temp)
 		return (NULL);
 	var_value = get_env_value(data->env, temp);
-	free(temp);
+	our_free(temp);
 	*new_i = j;
 	if (!var_value)
 		return (ft_strdup(""));

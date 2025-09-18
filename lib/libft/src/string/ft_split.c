@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:40:15 by mobullad          #+#    #+#             */
-/*   Updated: 2025/02/25 18:59:18 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static int	ft_split_2(const char *s, int len, int *k, char **tab)
 		while (*k > 0)
 		{
 			(*k)--;
-			free(tab[*k]);
+			our_free(tab[*k]);
 		}
-		free(tab);
+		our_free(tab);
 		return (0);
 	}
 	(*k)++;
@@ -60,7 +60,7 @@ char	**ft_split(char const *s, char c)
 	k = 0;
 	i = 0;
 	j = 0;
-	tab = malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
+	tab = our_malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
 	if (!tab)
 		return (NULL);
 	while (s[i])

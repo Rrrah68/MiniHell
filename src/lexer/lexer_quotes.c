@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:05 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:06 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ t_token	*handle_numeric_variable(t_token *dollar, t_token *next, t_data *data)
 		var_value = "";
 	remaining = ft_strdup(next->str + 1);
 	final_value = ft_strjoin(var_value, remaining);
-	free(dollar->str);
+	our_free(dollar->str);
 	dollar->str = final_value;
 	dollar->type = WORD;
 	dollar->c = 0;
 	dollar->next = next->next;
-	free(next->str);
-	free(next);
-	free(remaining);
+	our_free(next->str);
+	our_free(next);
+	our_free(remaining);
 	return (dollar->next);
 }

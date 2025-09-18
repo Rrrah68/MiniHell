@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils_4.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 18:04:21 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:07:37 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,7 @@ static void	print_error_message(char *cmd_name, int error_type,
 
 static void	cleanup_and_exit(t_cleanup_params *params, int exit_code)
 {
-	if (params->program_path)
-		free(params->program_path);
-	if (params->env_array)
-		ft_free_tab(params->env_array);
-	if (params->data)
-	{
-		cleanup_data(params->data);  // Utiliser la nouvelle fonction de nettoyage
-		if (params->data->prompt)
-			free(params->data->prompt);
-		if (params->data->env)
-			free_environment(params->data->env);
-	}
-	// Note: params->cmd est maintenant libéré dans cleanup_data() via data->cmds
+	cleanup_data(params->data);
 	exit(exit_code);
 }
 

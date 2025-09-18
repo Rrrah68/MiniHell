@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils_backup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:37 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:38 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	free_environment(t_env *env)
 	while (current)
 	{
 		next = current->next;
-		free(current->key);
-		free(current->value);
-		free(current);
+		our_free(current->key);
+		our_free(current->value);
+		our_free(current);
 		current = next;
 	}
 }
@@ -58,7 +58,7 @@ void	add_env_var(t_env **env, const char *key, const char *value)
 		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0
 			&& ft_strlen(current->key) == ft_strlen(key))
 		{
-			free(current->value);
+			our_free(current->value);
 			current->value = ft_strdup(value);
 			return ;
 		}
@@ -89,9 +89,9 @@ void	remove_env_var(t_env **env, char *key)
 				prev->next = current->next;
 			else
 				*env = current->next;
-			free(current->key);
-			free(current->value);
-			free(current);
+			our_free(current->key);
+			our_free(current->value);
+			our_free(current);
 			return ;
 		}
 		prev = current;

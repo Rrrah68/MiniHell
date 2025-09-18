@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/15 00:00:00 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*get_variable_value(char *dollar_pos, int *var_len, t_data *data)
 		return (NULL);
 	var_name = ft_substr(var_start, 0, *var_len);
 	value = get_env_value(data->env, var_name);
-	free(var_name);
+	our_free(var_name);
 	if (!value)
 		return (ft_strdup(""));
 	return (ft_strdup(value));
@@ -101,7 +101,7 @@ int	update_word_content(t_token *word, char *new_str)
 {
 	if (!new_str)
 		return (0);
-	free(word->str);
+	our_free(word->str);
 	word->str = new_str;
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils_3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 17:21:39 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:01:12 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	setup_and_fork(t_fork_params *params, t_data *data)
 		if (params->cmd->next)
 			close(params->p[0]);
 		exec_child(data, params->cmd, params->in_fd, *params->out_fd);
+		cleanup_data(data);
 		exit(127);
 	}
 	return (0);

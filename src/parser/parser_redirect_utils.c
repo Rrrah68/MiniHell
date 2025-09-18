@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:24 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:25 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ms_replace_str(char **dst, const char *src)
 	if (!dup)
 		return (0);
 	if (*dst)
-		free(*dst);
+		our_free(*dst);
 	*dst = dup;
 	return (1);
 }
@@ -72,7 +72,7 @@ int	cmd_set_infile(t_cmd *cur, const char *str)
 		return (0);
 	if (cur->heredoc_limiter)
 	{
-		free(cur->heredoc_limiter);
+		our_free(cur->heredoc_limiter);
 		cur->heredoc_limiter = NULL;
 	}
 	return (1);

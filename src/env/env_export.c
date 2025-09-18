@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:34 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:55:35 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_env	**create_env_array(t_env *env_list, int count)
 	t_env	*current;
 	int		i;
 
-	env_array = malloc(sizeof(t_env *) * count);
+	env_array = our_malloc(sizeof(t_env *) * count);
 	if (!env_array)
 		return (NULL);
 	i = 0;
@@ -96,5 +96,5 @@ void	print_exported_vars(t_env *env_list)
 		return ;
 	sort_env_array(env_array, count);
 	print_env_array(env_array, count);
-	free(env_array);
+	our_free(env_array);
 }

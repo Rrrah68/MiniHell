@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_cpy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:31 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:55:32 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env	*create_env_node(const char *key, const char *value)
 	new_node->key = ft_strdup(key);
 	if (!new_node->key)
 	{
-		free(new_node);
+		our_free(new_node);
 		return (NULL);
 	}
 	if (value)
@@ -31,8 +31,8 @@ t_env	*create_env_node(const char *key, const char *value)
 		new_node->value = NULL;
 	if (value && !new_node->value)
 	{
-		free(new_node->key);
-		free(new_node);
+		our_free(new_node->key);
+		our_free(new_node);
 		return (NULL);
 	}
 	new_node->next = NULL;
@@ -56,7 +56,7 @@ static void	parse_env_string(char *env_str, char **key, char **value)
 		*value = ft_strdup(delimiter + 1);
 		if (!*value)
 		{
-			free(*key);
+			our_free(*key);
 			*key = NULL;
 		}
 	}
@@ -77,9 +77,9 @@ static t_env	*process_env_entry(char *env_str)
 	if (!key)
 		return (NULL);
 	new_node = create_env_node(key, value);
-	free(key);
+	our_free(key);
 	if (value)
-		free(value);
+		our_free(value);
 	return (new_node);
 }
 

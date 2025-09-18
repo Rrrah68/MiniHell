@@ -6,7 +6,7 @@
 /*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:13 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 14:38:06 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*build_quoted_content(t_token *start, t_token *end)
 			char_str[1] = '\0';
 			temp = content;
 			content = ft_strjoin(content, char_str);
-			free(temp);
+			our_free(temp);
 			if (!content)
 				return (NULL);
 		}
@@ -51,8 +51,8 @@ void	cleanup_intermediate_tokens(t_token *start, t_token *end)
 	{
 		next = to_delete->next;
 		if (to_delete->str)
-			free(to_delete->str);
-		free(to_delete);
+			our_free(to_delete->str);
+		our_free(to_delete);
 		to_delete = next;
 	}
 	start->next = end;
@@ -85,7 +85,7 @@ t_token	*create_word_token_with_content(char *content, t_token *end_quote)
 	word_token = create_token(0, WORD);
 	if (!word_token)
 	{
-		free(content);
+		our_free(content);
 		return (NULL);
 	}
 	word_token->str = content;

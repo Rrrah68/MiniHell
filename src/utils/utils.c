@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:31 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:32 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_data(t_data *data, char **envp)
 		shlvl_value = 1;
 	new_shlvl_str = ft_itoa(shlvl_value);
 	add_env_var(&data->env, "SHLVL", new_shlvl_str);
-	free(new_shlvl_str);
+	our_free(new_shlvl_str);
 }
 
 void	reset_heredoc_interrupt(t_data *data)
@@ -79,6 +79,6 @@ char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 	if (!temp)
 		return (NULL);
 	result = ft_strjoin(temp, s3);
-	free(temp);
+	our_free(temp);
 	return (result);
 }

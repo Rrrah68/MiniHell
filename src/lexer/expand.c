@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:54:44 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:54:45 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	replace_with_expansion(t_token *dollar, t_token *word, char *value,
 	else
 		new_content = ft_strdup(remaining);
 	if (dollar->str)
-		free(dollar->str);
+		our_free(dollar->str);
 	dollar->str = new_content;
 	dollar->type = WORD;
 	dollar->c = 0;
 	dollar->next = word->next;
 	if (word->str)
-		free(word->str);
-	free(word);
+		our_free(word->str);
+	our_free(word);
 }
 
 void	replace_and_remove_next(t_token *current, t_token *to_remove,
@@ -53,12 +53,12 @@ void	replace_and_remove_next(t_token *current, t_token *to_remove,
 	else
 		new_content = ft_strdup(old_content);
 	if (current->str)
-		free(current->str);
+		our_free(current->str);
 	current->str = new_content;
 	current->type = WORD;
 	current->c = 0;
 	current->next = to_remove->next;
 	if (to_remove->str)
-		free(to_remove->str);
-	free(to_remove);
+		our_free(to_remove->str);
+	our_free(to_remove);
 }

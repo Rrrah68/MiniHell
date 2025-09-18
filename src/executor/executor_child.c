@@ -6,7 +6,7 @@
 /*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 16:27:03 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:25:09 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // 		return ;
 // 	if (data->prompt)
 // 	{
-// 		free(data->prompt);
+// 		our_free(data->prompt);
 // 		data->prompt = NULL;
 // 	}
 // 	if (data->env)
@@ -33,12 +33,14 @@ int	handle_builtin_execution(t_cmd *cmd, t_data *data)
 	t_builtin	bi;
 	int			ret;
 
-	if (!cmd || !cmd->argv || !cmd->argv[0])
+	if (!cmd || !cmd->argv || !cmd->argv[0]) {
+		cleanup_data(data);
 		exit(127);
+	}
 	bi = get_builtin(cmd->argv[0]);
 	if (bi != BI_NONE)
 	{
-		ret = exec_builtin(bi, cmd->argv, data);
+		ret = exec_builtin(bi, cmd->argv, data); // safe
 		cleanup_data(data);
 		exit(ret);
 	}

@@ -6,7 +6,7 @@
 /*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:23 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 16:23:31 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:08:23 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	process_immediate_heredoc(const char *delimiter, int quoted)
 			break ;
 		if (is_delimiter(line, delimiter))
 		{
-			free(line);
+			our_free(line);
 			break ;
 		}
-		free(line);
+		our_free(line);
 	}
 }
 
@@ -36,7 +36,7 @@ int	cmd_set_heredoc_limiter(t_cmd *cur, const char *str, int quoted)
 	if (cur->heredoc_limiter)
 	{
 		process_immediate_heredoc(cur->heredoc_limiter, cur->heredoc_quoted);
-		free(cur->heredoc_limiter);
+		our_free(cur->heredoc_limiter);
 		cur->heredoc_limiter = NULL;
 	}
 	if (!ms_replace_str(&cur->heredoc_limiter, str))
@@ -44,7 +44,7 @@ int	cmd_set_heredoc_limiter(t_cmd *cur, const char *str, int quoted)
 	cur->heredoc_quoted = quoted;
 	if (cur->infile)
 	{
-		free(cur->infile);
+		our_free(cur->infile);
 		cur->infile = NULL;
 	}
 	return (1);
@@ -75,47 +75,30 @@ void	free_cmd_list(t_cmd *cmd)
 		{
 			i = 0;
 			while (cmd->argv[i])
-				free(cmd->argv[i++]);
-			free(cmd->argv);
+				our_free(cmd->argv[i++]);
+			our_free(cmd->argv);
 		}
-		free(cmd->infile);
-		free(cmd->outfile);
-		free(cmd->heredoc_limiter);
-		free(cmd->heredoc_content);
+		our_free(cmd->infile);
+		our_free(cmd->outfile);
+		our_free(cmd->heredoc_limiter);
+		our_free(cmd->heredoc_content);
 		if (cmd->heredoc_fd >= 0)
 			close(cmd->heredoc_fd);
-		free(cmd->in_precheck_target);
-		free(cmd->out_precheck_target);
-		free(cmd);
+		our_free(cmd->in_precheck_target);
+		our_free(cmd->out_precheck_target);
+		our_free(cmd);
 		cmd = next;
 	}
 }
 
 void	cleanup_data(t_data *data)
 {
-	if (data->input)
-	{
-		free(data->input);
+	safe_as_fuck_malloc(0, 0, SAFE_MALLOC_FREE_ALL);
+	if (data != NULL) {
 		data->input = NULL;
-	}
-	if (data->prompt)
-	{
-		free(data->prompt);
 		data->prompt = NULL;
-	}
-	if (data->lexer)
-	{
-		free_tokens(data->lexer);
 		data->lexer = NULL;
-	}
-	if (data->cmds)
-	{
-		free_cmd_list(data->cmds);
 		data->cmds = NULL;
-	}
-	if (data->env)
-	{
-		free_environment(data->env);
 		data->env = NULL;
 	}
 }
@@ -128,7 +111,7 @@ int	handle_heredoc_parser(t_token **tok, t_cmd *cur)
 	if (!next || next->type != WORD)
 		return (0);
 	if (cur->heredoc_limiter)
-		free(cur->heredoc_limiter);
+		our_free(cur->heredoc_limiter);
 	cur->heredoc_limiter = ft_strdup(next->str);
 	if (!cur->heredoc_limiter)
 		return (0);

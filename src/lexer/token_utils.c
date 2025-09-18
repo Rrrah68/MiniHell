@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:16 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:17 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	free_tokens(t_token *head)
 		tmp = head;
 		head = head->next;
 		if (tmp->str)
-			free(tmp->str);
-		free(tmp);
+			our_free(tmp->str);
+		our_free(tmp);
 	}
 }

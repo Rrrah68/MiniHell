@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:50:32 by mobullad          #+#    #+#             */
-/*   Updated: 2025/08/20 19:25:12 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*handle_exit_status(t_token *dollar, t_token *next, t_data *data)
 
 	var_value = ft_itoa(data->exit_status);
 	replace_and_remove_next(dollar, next, var_value);
-	free(var_value);
+	our_free(var_value);
 	return (dollar->next);
 }
 
@@ -54,9 +54,9 @@ int	find_valid_var_length(char *str, t_data *data)
 	len = ft_strlen(full_name);
 	if (get_env_value(data->env, full_name))
 	{
-		free(full_name);
+		our_free(full_name);
 		return (len);
 	}
-	free(full_name);
+	our_free(full_name);
 	return (len);
 }

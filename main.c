@@ -6,7 +6,7 @@
 /*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:45:34 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 16:16:52 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:46:31 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	get_prompt(t_data *data)
 	if (!cwd)
 	{
 		perror("getcwd");
-		exit(EXIT_FAILURE);
+		return ;
 	}
 	if (data->prompt)
-		free(data->prompt);
+		our_free(data->prompt);
 	data->prompt = ft_strjoin(cwd, "$ ");
-	free(cwd);
+	our_free(cwd);
 }
 
 char	*get_type(t_token_type type)
@@ -76,8 +76,8 @@ static int	handle_continuation_input(char **complete_input)
 	if (g_signal_status == SIGINT)
 	{
 		if (line)
-			free(line);
-		free(*complete_input);
+			our_free(line);
+		our_free(*complete_input);
 		*complete_input = ft_strdup("");
 		g_signal_status = 0;
 		// Ne rien afficher ici, laisser la boucle principale s'en charger
@@ -87,17 +87,17 @@ static int	handle_continuation_input(char **complete_input)
 	// Si readline retourne NULL (EOF avec Ctrl+D)
 	if (!line)
 	{
-		free(*complete_input);
+		our_free(*complete_input);
 		write(1, "exit\n", 5);
 		return (-1);  // Sortir du programme
 	}
 	
 	// Ajouter la ligne à l'input complet
 	temp = ft_strjoin(*complete_input, " ");
-	free(*complete_input);
+	our_free(*complete_input);
 	*complete_input = ft_strjoin(temp, line);
-	free(temp);
-	free(line);
+	our_free(temp);
+	our_free(line);
 	
 	return (1);  // Continuer
 }
@@ -116,7 +116,7 @@ static int	handle_input(t_data *data)
 	}
 	
 	complete_input = ft_strdup(data->input);
-	free(data->input);
+	our_free(data->input);
 	
 	// Continuer à lire si l'input est incomplet (se termine par un pipe)
 	while (is_incomplete_input(complete_input))
@@ -127,7 +127,7 @@ static int	handle_input(t_data *data)
 		if (result == 0)
 		{
 			// Ctrl+C - nettoyer et retourner 2 pour indiquer une interruption
-			free(complete_input);
+			our_free(complete_input);
 			return (2);  // Signal d'interruption
 		}
 	}
@@ -137,7 +137,7 @@ static int	handle_input(t_data *data)
 		add_history(data->input);
 	if (ft_strncmp(data->input, "exit", 5) == 0)
 	{
-		free(data->input);
+		our_free(data->input);
 		return (0);
 	}
 	return (1);
@@ -161,7 +161,7 @@ static int	process_and_execute(t_data *data)
 		cmds = NULL;
 	if (data->input)
 	{
-		free(data->input);
+		our_free(data->input);
 		data->input = NULL;
 	}
 	if (cmds)
@@ -196,6 +196,7 @@ int	main(int ac, char **av, char **envp)
 	if (!data.env)
 	{
 		ft_putstr_fd("Error: environment init failed\n", STDERR_FILENO);
+		cleanup_data(&data);
 		exit(1);
 	}
 	while (1)

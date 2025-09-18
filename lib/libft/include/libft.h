@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:09:39 by mobullad          #+#    #+#             */
-/*   Updated: 2025/05/19 20:51:51 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:08:23 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,21 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+
+#define SAFE_MALLOC_ALLOC 1
+#define SAFE_MALLOC_FREE 0
+#define SAFE_MALLOC_FREE_ALL -1
+
+typedef struct s_mem_mng{
+    void                *addr;
+    struct s_mem_mng    *next;
+
+}t_mem_mng;
+
+void	*our_malloc(size_t bytes);
+void	our_free(void *address);
+void	*safe_as_fuck_malloc(size_t bytes, void *address, int action);
+
 
 int		ft_printf(const char *string, ...);
 int		ft_print_ptr(unsigned long nb);
@@ -95,5 +110,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+
 
 #endif

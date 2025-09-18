@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 00:00:00 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/17 15:54:13 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	process_heredoc_line(char *line, int quoted, t_data *data,
 	{
 		expanded = expand_heredoc_line(line, data);
 		write_heredoc_line(write_fd, expanded);
-		free(expanded);
+		our_free(expanded);
 	}
 	else
 		write_heredoc_line(write_fd, line);
@@ -89,11 +89,11 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 		}
 		if (is_delimiter(line, delimiter))
 		{
-			free(line);
+			our_free(line);
 			break ;
 		}
 		process_heredoc_line(line, quoted, data, pipefd[1]);
-		free(line);
+		our_free(line);
 	}
 	close(pipefd[1]);
 	restore_signal_handler(&old_action);  // Restaurer l'ancien gestionnaire

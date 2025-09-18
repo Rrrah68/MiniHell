@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+         #
+#    By: radahman <radahman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 21:21:25 by mobullad          #+#    #+#              #
-#    Updated: 2025/08/19 19:57:10 by mobullad         ###   ########.fr        #
+#    Updated: 2025/09/18 17:16:08 by radahman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ LIST =		src/lst/ft_lstnew.c \
 			src/lst/ft_lstclear.c \
 			src/lst/ft_lstiter.c \
 			src/lst/ft_lstmap.c \
-
+			
 MEMORY =	src/memory/ft_memset.c \
 			src/memory/ft_bzero.c \
 			src/memory/ft_memcpy.c \
@@ -69,6 +69,7 @@ MEMORY =	src/memory/ft_memset.c \
 			src/memory/ft_memchr.c \
 			src/memory/ft_memcmp.c \
 			src/memory/ft_calloc.c \
+			src/garbage_collector.c
 
 FREE =		src/free/ft_free_tab.c
 
@@ -80,7 +81,7 @@ BUILD = build/
 OBJS = $(SRC:%.c=$(BUILD)%.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I include
+CFLAGS = -Wall -Wextra -Werror -I include -g3
 
 COUNTER = 0
 TOTAL = $(words $(SRC))

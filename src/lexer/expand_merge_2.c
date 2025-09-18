@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_merge_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:59 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:00 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static void	merge_two_tokens(t_token *current, t_token *next)
 	if (!next->str)
 		next->str = ft_strdup("");
 	merged_str = ft_strjoin(current->str, next->str);
-	free(current->str);
+	our_free(current->str);
 	current->str = merged_str;
 	current->next = next->next;
-	free(next->str);
-	free(next);
+	our_free(next->str);
+	our_free(next);
 }
 
 void	merge_adjacent_word_tokens(t_data *data)

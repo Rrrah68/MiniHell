@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_merge.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:55:58 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:55:59 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static void	process_token_replacement(t_token **lexer, t_token *current,
 	else
 		*lexer = new_tokens;
 	last_new->next = current->next;
-	free(current->str);
-	free(current);
+	our_free(current->str);
+	our_free(current);
 }
 
 static void	handle_word_with_spaces(t_data *data, t_token **current,

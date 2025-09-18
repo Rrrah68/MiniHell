@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 13:35:45 by mobullad          #+#    #+#             */
-/*   Updated: 2025/04/20 03:04:02 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ char	*join_lines(char *line, char *temp)
 	if (!line)
 		line = ft_strdup("");
 	new_line = ft_strjoin(line, temp);
-	free(line);
-	free(temp);
+	our_free(line);
+	our_free(temp);
 	return (new_line);
 }
 
@@ -65,7 +65,7 @@ char	*get_next_line_exec(int fd, char *line, char *reserv)
 			{
 				if (nbytes == 0)
 					break ;
-				return (free(line), NULL);
+				return (our_free(line), NULL);
 			}
 			reserv[nbytes] = '\0';
 		}

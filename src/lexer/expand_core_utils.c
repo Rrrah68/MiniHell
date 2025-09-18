@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_core_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:54:55 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:54:56 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ t_token	*process_variable_expansion(t_token **dollar, t_token *word_token,
 	if (!var_value)
 		var_value = "";
 	perform_variable_expansion(*dollar, word_token, var_name, var_value);
-	free(var_name);
+	our_free(var_name);
 	return ((*dollar)->next);
 }

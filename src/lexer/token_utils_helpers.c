@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils_helpers.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:18 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:19 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ char	*process_merge_char_tokens(t_token *start)
 		char_str[0] = next->c;
 		temp = word;
 		word = ft_strjoin(word, char_str);
-		free(temp);
+		our_free(temp);
 		if (!word)
 			return (NULL);
 		start->next = next->next;
-		free(next);
+		our_free(next);
 		next = start->next;
 	}
 	return (word);
@@ -48,7 +48,7 @@ void	handle_space_token(t_token **current, t_token **prev)
 		(*prev)->next = (*current)->next;
 	temp = *current;
 	*current = (*current)->next;
-	free(temp);
+	our_free(temp);
 }
 
 void	handle_char_token(t_token **current, t_token **prev)

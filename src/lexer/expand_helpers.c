@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:54:57 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:54:58 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static char	*build_expanded_word(char *word_str, char *dollar_pos,
 	after = ft_strdup(dollar_pos + 1 + var_len);
 	temp = ft_strjoin(before, var_value);
 	result = ft_strjoin(temp, after);
-	free(before);
-	free(after);
-	free(temp);
+	our_free(before);
+	our_free(after);
+	our_free(temp);
 	return (result);
 }
 
@@ -99,12 +99,12 @@ void	perform_variable_expansion(t_token *dollar, t_token *word_token,
 	remaining = ft_strdup(word_token->str + ft_strlen(var_name));
 	result = ft_strjoin(var_value, remaining);
 	if (dollar->str)
-		free(dollar->str);
+		our_free(dollar->str);
 	dollar->str = result;
 	dollar->type = WORD;
 	dollar->c = 0;
 	dollar->next = word_token->next;
-	free(word_token->str);
-	free(word_token);
-	free(remaining);
+	our_free(word_token->str);
+	our_free(word_token);
+	our_free(remaining);
 }

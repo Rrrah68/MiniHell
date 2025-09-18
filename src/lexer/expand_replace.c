@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_replace.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobullad <mobullad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:02 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:56:04 by mobullad         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ void	replace_variable_tokens(t_token *dollar, char *var_name,
 		to_remove = current;
 		current = current->next;
 		if (to_remove->str)
-			free(to_remove->str);
-		free(to_remove);
+			our_free(to_remove->str);
+		our_free(to_remove);
 		i++;
 	}
 	dollar->next = current;
 	if (dollar->str)
-		free(dollar->str);
+		our_free(dollar->str);
 	dollar->str = new_content;
 	dollar->type = WORD;
 	dollar->c = 0;
@@ -54,15 +54,15 @@ void	replace_variable_tokens_partial(t_token *dollar, char *var_name,
 	{
 		remaining = ft_strdup(word_token->str + var_len);
 		final_result = ft_strjoin(new_content, remaining);
-		free(remaining);
-		free(new_content);
+		our_free(remaining);
+		our_free(new_content);
 		new_content = final_result;
 		dollar->next = word_token->next;
-		free(word_token->str);
-		free(word_token);
+		our_free(word_token->str);
+		our_free(word_token);
 	}
 	if (dollar->str)
-		free(dollar->str);
+		our_free(dollar->str);
 	dollar->str = new_content;
 	dollar->type = WORD;
 	dollar->c = 0;

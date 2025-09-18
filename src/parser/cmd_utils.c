@@ -6,7 +6,7 @@
 /*   By: radahman <radahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 15:56:19 by mobullad          #+#    #+#             */
-/*   Updated: 2025/09/18 15:58:59 by radahman         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:34:39 by radahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ char	**append_to_argv(char **argv, char *word)
 	while (i < len)
 	{
 		new_argv[i] = ft_strdup(argv[i]);
-		free(argv[i]);
+		our_free(argv[i]);
 		i++;
 	}
 	new_argv[i++] = ft_strdup(word);
 	new_argv[i] = NULL;
-	free(argv);
+	our_free(argv);
 	return (new_argv);
 }
 
