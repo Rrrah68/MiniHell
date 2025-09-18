@@ -63,17 +63,13 @@ static void	cleanup_and_exit(t_cleanup_params *params, int exit_code)
 		ft_free_tab(params->env_array);
 	if (params->data)
 	{
+		cleanup_data(params->data);  // Utiliser la nouvelle fonction de nettoyage
 		if (params->data->prompt)
 			free(params->data->prompt);
 		if (params->data->env)
 			free_environment(params->data->env);
-		if (params->data->input)
-			free(params->data->input);
-		if (params->data->lexer)
-			free_tokens(params->data->lexer);
 	}
-	if (params->cmd)
-		free_cmd_list(params->cmd);
+	// Note: params->cmd est maintenant libéré dans cleanup_data() via data->cmds
 	exit(exit_code);
 }
 

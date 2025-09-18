@@ -92,6 +92,25 @@ void	*free_cmd_list(t_cmd *cmd)
 	return (NULL);
 }
 
+void	cleanup_data(t_data *data)
+{
+	if (data->input)
+	{
+		free(data->input);
+		data->input = NULL;
+	}
+	if (data->lexer)
+	{
+		free_tokens(data->lexer);
+		data->lexer = NULL;
+	}
+	if (data->cmds)
+	{
+		free_cmd_list(data->cmds);
+		data->cmds = NULL;
+	}
+}
+
 int	handle_heredoc_parser(t_token **tok, t_cmd *cur)
 {
 	t_token	*next;

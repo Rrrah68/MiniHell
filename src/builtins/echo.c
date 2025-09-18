@@ -12,13 +12,28 @@
 
 #include "minishell.h"
 
+static int	is_valid_n_option(char *str)
+{
+	int	i;
+
+	if (!str || str[0] != '-' || str[1] != 'n')
+		return (0);
+	i = 2;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static int	has_newline_option(char **argv)
 {
 	int	i;
 
 	i = 1;
-	while (argv[i] && argv[i][0] == '-' && argv[i][1] == 'n'
-		&& argv[i][2] == '\0')
+	while (argv[i] && is_valid_n_option(argv[i]))
 		i++;
 	return (i > 1);
 }
@@ -28,8 +43,7 @@ static int	skip_options(char **argv)
 	int	i;
 
 	i = 1;
-	while (argv[i] && argv[i][0] == '-' && argv[i][1] == 'n'
-		&& argv[i][2] == '\0')
+	while (argv[i] && is_valid_n_option(argv[i]))
 		i++;
 	return (i);
 }

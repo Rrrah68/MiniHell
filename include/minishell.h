@@ -149,6 +149,8 @@ extern volatile sig_atomic_t	g_signal_status;
 
 /************** INITIALIZATION & MAIN **************/
 void							init_data(t_data *data, char **envp);
+void							reset_heredoc_interrupt(t_data *data);
+int								is_incomplete_input(const char *input);
 void							get_prompt(t_data *data);
 
 /************** LEXER **************/
@@ -270,6 +272,10 @@ void							print_exported_vars(t_env *env_list);
 
 /************** SIGNALS **************/
 void							signal_handler(int sig);
+void							continuation_signal_handler(int sig);
+void							heredoc_signal_handler(int sig);
+int								setup_heredoc_signal_handler(struct sigaction *old_action);
+int								restore_signal_handler(struct sigaction *old_action);
 int								wait_child_with_signals(pid_t pid);
 void							update_exit_status(t_data *data);
 
@@ -286,6 +292,7 @@ t_cmd							*parse_token(t_token *lexer);
 
 void							add_cmd(t_cmd **list, t_cmd *new_cmd);
 void							*free_cmd_list(t_cmd *cmd);
+void							cleanup_data(t_data *data);
 
 char							**append_to_argv(char **argv, char *word);
 

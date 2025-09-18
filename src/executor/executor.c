@@ -15,13 +15,23 @@
 static int	handle_redirection_and_check_args(t_cmd *cmd, t_data *data,
 		int *in_backup, int *out_backup)
 {
+	int	result;
+
 	backup_fds(in_backup, out_backup);
-	if (setup_redirections(cmd, data) == -1)
+	result = setup_redirections(cmd, data);
+	if (result == -1)
 	{
 		restore_fds(*in_backup, *out_backup);
 		if (data)
 			data->exit_status = 1;
 		return (-1);
+	}
+	if (result == -2)  // Heredoc interrompu par signal
+	{
+		restore_fds(*in_backup, *out_backup);
+		if (data)
+			data->exit_status = 130;  // Code de sortie standard pour interruption par SIGINT
+		return (-2);
 	}
 	if (!cmd->argv || !cmd->argv[0] || !cmd->argv[0][0])
 		return (0);
@@ -44,6 +54,8 @@ int	execute_simple_cmd(t_cmd *cmd, t_data *data)
 			&in_backup, &out_backup);
 	if (redirect_result == -1)
 		return (1);
+	if (redirect_result == -2)  // Heredoc interrompu par signal
+		return (130);
 	if (redirect_result == 0)
 	{
 		restore_fds(in_backup, out_backup);

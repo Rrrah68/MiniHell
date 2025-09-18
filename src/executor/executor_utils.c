@@ -62,13 +62,18 @@ char	*find_program_path(char *program, t_env *env)
 static void	child_setup_io_and_redirs(t_cmd *cmd, int in_fd, int out_fd,
 				t_data *data)
 {
+	int	result;
+
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGPIPE, SIG_DFL);
 	redirect_and_close(in_fd, STDIN_FILENO);
 	redirect_and_close(out_fd, STDOUT_FILENO);
-	if (setup_redirections(cmd, data) == -1)
+	result = setup_redirections(cmd, data);
+	if (result == -1)
 		exit(1);
+	if (result == -2)  // Heredoc interrompu par signal
+		exit(130);
 }
 
 void	exec_child(t_data *data, t_cmd *cmd, int in_fd, int out_fd)

@@ -24,6 +24,46 @@ void	signal_handler(int sig)
 	}
 }
 
+void	continuation_signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_signal_status = sig;
+		write(STDOUT_FILENO, "\n", 1);
+		rl_done = 1;
+	}
+}
+
+void	heredoc_signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_signal_status = sig;
+		write(STDOUT_FILENO, "\n", 1);
+		// Signal reçu, la boucle de lecture va s'arrêter
+	}
+}
+
+int	setup_heredoc_signal_handler(struct sigaction *old_action)
+{
+	struct sigaction	new_action;
+
+	sigemptyset(&new_action.sa_mask);
+	new_action.sa_handler = heredoc_signal_handler;
+	new_action.sa_flags = 0;
+	
+	if (sigaction(SIGINT, &new_action, old_action) == -1)
+		return (-1);
+	return (0);
+}
+
+int	restore_signal_handler(struct sigaction *old_action)
+{
+	if (sigaction(SIGINT, old_action, NULL) == -1)
+		return (-1);
+	return (0);
+}
+
 int	wait_child_with_signals(pid_t pid)
 {
 	int	status;

@@ -26,9 +26,11 @@ void	init_data(t_data *data, char **envp)
 
 	data->input = NULL;
 	data->lexer = NULL;
+	data->cmds = NULL;
 	data->prompt = NULL;
 	data->env = copy_environment(envp);
 	data->exit_status = 0;
+	data->heredoc_interrupted = 0;
 	shlvl_str = get_env_value(data->env, "SHLVL");
 	if (shlvl_str)
 		shlvl_value = ft_atoi(shlvl_str) + 1;
@@ -37,6 +39,33 @@ void	init_data(t_data *data, char **envp)
 	new_shlvl_str = ft_itoa(shlvl_value);
 	add_env_var(&data->env, "SHLVL", new_shlvl_str);
 	free(new_shlvl_str);
+}
+
+void	reset_heredoc_interrupt(t_data *data)
+{
+	data->heredoc_interrupted = 0;
+}
+
+int	is_incomplete_input(const char *input)
+{
+	int	len;
+	int	i;
+
+	if (!input)
+		return (0);
+	len = ft_strlen(input);
+	if (len == 0)
+		return (0);
+	
+	// Chercher le dernier caractère non-espace
+	i = len - 1;
+	while (i >= 0 && ft_isspace(input[i]))
+		i--;
+	
+	// Vérifier si la ligne se termine par un pipe
+	if (i >= 0 && input[i] == '|')
+		return (1);
+	return (0);
 }
 
 char	*ft_strjoin_three(char *s1, char *s2, char *s3)

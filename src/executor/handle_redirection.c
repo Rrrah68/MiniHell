@@ -61,14 +61,19 @@ int	handle_outfile(char *outfile, int append)
 
 int	setup_redirections(t_cmd *cmd, t_data *data)
 {
+	int	heredoc_result;
+
 	if (cmd->out_precheck_failed && cmd->out_precheck_target)
 		return (ms_print_file_error(cmd->out_precheck_target,
 				cmd->out_precheck_errno));
 	if (cmd->in_precheck_failed && cmd->in_precheck_target)
 		return (ms_print_file_error(cmd->in_precheck_target,
 				cmd->in_precheck_errno));
-	if (setup_heredoc(cmd, data) == -1)
+	heredoc_result = setup_heredoc(cmd, data);
+	if (heredoc_result == -1)
 		return (-1);
+	if (heredoc_result == -2)  // Heredoc interrompu par signal
+		return (-2);
 	if (cmd->infile != NULL && !cmd->heredoc_limiter)
 	{
 		if (handle_infile(cmd->infile) == -1)

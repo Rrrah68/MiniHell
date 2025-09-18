@@ -50,6 +50,56 @@ int	handle_heredoc_with_content(const char *content)
 	return (pipefd[0]);
 }
 
+static char	*read_line_with_signal_check(void)
+{
+	char	*line;
+	char	buffer[1];
+	int		bytes_read;
+	int		i;
+
+	line = malloc(1024);
+	if (!line)
+		return (NULL);
+	i = 0;
+	write(STDOUT_FILENO, "> ", 2);
+	
+	while (i < 1023)
+	{
+		// Vérifier le signal avant chaque lecture
+		if (g_signal_status == SIGINT)
+		{
+			free(line);
+			return (NULL);
+		}
+		
+		bytes_read = read(STDIN_FILENO, buffer, 1);
+		
+		// Vérifier le signal immédiatement après la lecture
+		if (g_signal_status == SIGINT)
+		{
+			free(line);
+			return (NULL);
+		}
+		
+		if (bytes_read <= 0)
+		{
+			// EOF détecté - retourner la ligne vide si on n'a rien lu
+			if (i == 0)
+			{
+				free(line);
+				return (NULL);
+			}
+			break;
+		}
+		if (buffer[0] == '\n')
+			break;
+		line[i] = buffer[0];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
 char	*read_heredoc_line_input(void)
 {
 	char	*line;
@@ -57,7 +107,18 @@ char	*read_heredoc_line_input(void)
 
 	len = 0;
 	if (isatty(STDIN_FILENO))
-		line = readline("> ");
+	{
+		// Pour les heredocs, on utilise une lecture caractère par caractère
+		// pour pouvoir vérifier les signaux entre chaque caractère
+		line = read_line_with_signal_check();
+		// Vérifier si un signal SIGINT a été reçu
+		if (g_signal_status == SIGINT)
+		{
+			if (line)
+				free(line);
+			return (NULL);
+		}
+	}
 	else
 	{
 		line = get_next_line(STDIN_FILENO);

@@ -49,12 +49,20 @@ static void	process_heredoc_line(char *line, int quoted, t_data *data,
 
 int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 {
-	int		pipefd[2];
-	char	*line;
+	int				pipefd[2];
+	char			*line;
+	struct sigaction	old_action;
 
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
+		return (-1);
+	}
+	// Installer le gestionnaire de signal spécifique pour heredoc
+	if (setup_heredoc_signal_handler(&old_action) == -1)
+	{
+		close(pipefd[1]);
+		close(pipefd[0]);
 		return (-1);
 	}
 	while (1)
@@ -62,8 +70,22 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 		line = read_heredoc_line_input();
 		if (!line)
 		{
-			handle_heredoc_eof_warning(delimiter);
-			break ;
+			// Afficher le warning uniquement si ce n'est PAS une interruption par signal
+			if (g_signal_status == SIGINT)
+			{
+				close(pipefd[1]);
+				close(pipefd[0]);
+				data->heredoc_interrupted = 1;
+				g_signal_status = 0;  // Réinitialiser le signal après traitement
+				restore_signal_handler(&old_action);  // Restaurer l'ancien gestionnaire
+				return (-1);
+			}
+			else
+			{
+				// Ne pas afficher le warning en mode interactif
+				// Le warning n'apparaît que lors d'EOF inattendu dans des scripts
+				break ;
+			}
 		}
 		if (is_delimiter(line, delimiter))
 		{
@@ -74,6 +96,7 @@ int	handle_heredoc(const char *delimiter, int quoted, t_data *data)
 		free(line);
 	}
 	close(pipefd[1]);
+	restore_signal_handler(&old_action);  // Restaurer l'ancien gestionnaire
 	return (pipefd[0]);
 }
 
@@ -87,7 +110,12 @@ int	setup_heredoc(t_cmd *cmd, t_data *data)
 		cmd->heredoc_fd = handle_heredoc(cmd->heredoc_limiter,
 				cmd->heredoc_quoted, data);
 	if (cmd->heredoc_fd == -1)
+	{
+		// Si le heredoc a été interrompu par un signal, on retourne une erreur spécifique
+		if (data->heredoc_interrupted)
+			return (-2);
 		return (-1);
+	}
 	if (dup2(cmd->heredoc_fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2 heredoc");
